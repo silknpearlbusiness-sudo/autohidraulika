@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:bontascentrum.hu)",
+      "Bash(python -c \"import sys,json; p=json.load\\(sys.stdin\\); print\\(p.get\\('scripts', {}\\)\\)\")",
+      "Bash(npm run *)",
+      "Bash(git checkout *)",
+      "Bash(Start-Sleep -Seconds 5)",
+      "Bash(Get-Content \"C:\\\\Users\\\\ILIKEN~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-ilikenyash-Downloads-autohidraulikav1\\\\7c3b3ef1-960a-4d10-93a6-9890324acb9f\\\\tasks\\\\bfl2s2bpm.output\" -Tail 20)",
+      "Bash(node -e ' *)",
+      "WebFetch(domain:kardanjavitas.hu)",
+      "Bash('.gallery-card-in')"
+    ]
+  }
+}
