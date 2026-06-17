@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build && node scripts/vercel-patch.mjs",
+  "buildCommand": "npm run build",
   "installCommand": "npm install --legacy-peer-deps",
   "framework": null
 }
