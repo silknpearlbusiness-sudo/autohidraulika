@@ -1,26 +1,57 @@
-import { existsSync, writeFileSync, readdirSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync, cpSync } from "fs";
 
-const dir = ".vercel/output/functions/__server.func";
+const out = ".vercel/output";
+const funcDir = `${out}/functions/__server.func`;
+const staticDir = `${out}/static`;
 
-if (!existsSync(dir)) {
-  console.log("vercel-patch: no .vercel/output found, skipping");
+if (!existsSync("dist/server/server.js")) {
+  console.log("vercel-patch: dist/server/server.js not found, skipping");
   process.exit(0);
 }
 
-console.log("vercel-patch: files in func dir:", readdirSync(dir).join(", "));
+mkdirSync(funcDir, { recursive: true });
+mkdirSync(staticDir, { recursive: true });
 
-const entry = `${dir}/vercel.web.mjs`;
-const shim = `${dir}/index.mjs`;
-
-if (existsSync(shim)) {
-  console.log("vercel-patch: index.mjs already exists, done");
-  process.exit(0);
+// Static: client assets + public
+if (existsSync("dist/client")) {
+  cpSync("dist/client", staticDir, { recursive: true });
+  console.log("vercel-patch: copied dist/client -> static");
+}
+if (existsSync("public")) {
+  cpSync("public", staticDir, { recursive: true });
+  console.log("vercel-patch: copied public -> static");
 }
 
-if (!existsSync(entry)) {
-  console.log("vercel-patch: vercel.web.mjs not found, nothing to shim");
-  process.exit(0);
-}
+// Function: entire server bundle
+cpSync("dist/server", funcDir, { recursive: true });
+console.log("vercel-patch: copied dist/server -> function");
 
-writeFileSync(shim, 'export { default } from "./vercel.web.mjs";\n');
-console.log("vercel-patch: created index.mjs shim -> vercel.web.mjs");
+// Entry point - re-export the fetch handler as default
+writeFileSync(`${funcDir}/index.mjs`,
+  'export { default } from "./server.js";\n'
+);
+
+// Function config
+writeFileSync(`${funcDir}/.vc-config.json`, JSON.stringify({
+  handler: "index.mjs",
+  launcherType: "Nodejs",
+  shouldAddHelpers: false,
+  supportsResponseStreaming: true,
+  runtime: "nodejs20.x"
+}, null, 2));
+
+// Routing config
+writeFileSync(`${out}/config.json`, JSON.stringify({
+  version: 3,
+  routes: [
+    {
+      src: "/assets/(.*)",
+      headers: { "cache-control": "public, max-age=31536000, immutable" },
+      continue: true
+    },
+    { handle: "filesystem" },
+    { src: "/(.*)", dest: "/__server" }
+  ]
+}, null, 2));
+
+console.log("vercel-patch: Vercel Build Output API structure created");
