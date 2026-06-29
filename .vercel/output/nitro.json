@@ -1,14 +1,14 @@
 {
-  "date": "2026-06-17T15:17:55.753Z",
+  "date": "2026-06-29T13:53:13.238Z",
   "preset": "vercel",
   "framework": {
     "name": "nitro",
-    "version": "3.0.260429-beta"
+    "version": "3.0.260603-beta"
   },
   "versions": {
-    "nitro": "3.0.260429-beta"
+    "nitro": "3.0.260603-beta"
   },
-  "serverEntry": "functions/__server.func/vercel.web.mjs",
+  "serverEntry": "functions/__server.func/index.mjs",
   "publicDir": "static",
   "commands": {
     "preview": "npx srvx --static ../../static ./functions/__server.func/index.mjs",

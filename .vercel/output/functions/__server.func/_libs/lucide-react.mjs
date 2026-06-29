@@ -75,23 +75,33 @@ const createLucideIcon = (iconName, iconNode) => {
   Component.displayName = toPascalCase(iconName);
   return Component;
 };
-const __iconNode$n = [
+const __iconNode$p = [
+  ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
+  ["path", { d: "M19 12H5", key: "x3x0zl" }]
+];
+const ArrowLeft = createLucideIcon("arrow-left", __iconNode$p);
+const __iconNode$o = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$n);
-const __iconNode$m = [
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$o);
+const __iconNode$n = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$m);
-const __iconNode$l = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$n);
+const __iconNode$m = [
   ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
   ["path", { d: "M12 19V5", key: "x0mq9r" }]
 ];
-const ArrowUp = createLucideIcon("arrow-up", __iconNode$l);
-const __iconNode$k = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$k);
+const ArrowUp = createLucideIcon("arrow-up", __iconNode$m);
+const __iconNode$l = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$l);
+const __iconNode$k = [
+  ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
+  ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
+];
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$k);
 const __iconNode$j = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
@@ -277,8 +287,8 @@ const __iconNode = [
 ];
 const Zap = createLucideIcon("zap", __iconNode);
 export {
-  ArrowUpRight as A,
-  Cog as C,
+  ArrowLeft as A,
+  CircleCheckBig as C,
   Gauge as G,
   Menu as M,
   Phone as P,
@@ -287,18 +297,20 @@ export {
   Wrench as W,
   X,
   Zap as Z,
-  ChevronRight as a,
-  ShieldCheck as b,
-  CircleCheck as c,
-  PackageCheck as d,
-  PhoneCall as e,
-  Mail as f,
-  MapPin as g,
-  Clock as h,
-  ClipboardCheck as i,
-  ArrowRight as j,
-  Star as k,
-  Search as l,
-  CircleQuestionMark as m,
-  ArrowUp as n
+  Cog as a,
+  ChevronRight as b,
+  ShieldCheck as c,
+  CircleCheck as d,
+  ArrowUpRight as e,
+  PackageCheck as f,
+  PhoneCall as g,
+  Mail as h,
+  MapPin as i,
+  Clock as j,
+  ClipboardCheck as k,
+  ArrowRight as l,
+  Star as m,
+  Search as n,
+  CircleQuestionMark as o,
+  ArrowUp as p
 };
