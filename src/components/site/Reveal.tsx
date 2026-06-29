@@ -1,66 +1,72 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-// Strong ease-out (expo-like) — built-in CSS easings are too weak.
-const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
-
 export function Reveal({
   children,
-  delay = 0,
   className = "",
+  delay = 0,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [reduced, setReduced] = useState(false);
+  // Start fully visible (SSR-safe). IO fires after first paint to hide off-screen elements.
+  const [phase, setPhase] = useState<"visible" | "hidden" | "animating">("visible");
 
   useEffect(() => {
-    // Respect reduced motion: show instantly, no movement or blur.
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      setReduced(true);
-      setVisible(true);
-      return;
-    }
-
     const el = ref.current;
     if (!el) return;
+    let initial = true;
+
     const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
+      ([e]) => {
+        if (initial) {
+          initial = false;
           if (e.isIntersecting) {
-            setVisible(true);
-            obs.unobserve(e.target);
+            obs.disconnect(); // already visible at mount, nothing to do
+          } else {
+            setPhase("hidden"); // below fold — hide it and wait
           }
-        });
+          return;
+        }
+        // Scrolled into view
+        if (e.isIntersecting) {
+          obs.disconnect();
+          if (delay > 0) {
+            setTimeout(() => setPhase("animating"), delay);
+          } else {
+            setPhase("animating");
+          }
+        }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0, rootMargin: "0px 0px -20px 0px" }
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [delay]);
+
+  // After animation finishes, clean up will-change to free the GPU compositing layer
+  useEffect(() => {
+    if (phase !== "animating") return;
+    const t = setTimeout(() => setPhase("visible"), 700);
+    return () => clearTimeout(t);
+  }, [phase]);
+
+  let style: React.CSSProperties | undefined;
+  if (phase === "hidden") {
+    style = { opacity: 0, transform: "translateY(14px)", willChange: "opacity, transform" };
+  } else if (phase === "animating") {
+    style = {
+      opacity: 1,
+      transform: "translateY(0)",
+      transition: "opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1)",
+      willChange: "opacity, transform",
+    };
+  }
+  // "visible": style = undefined — no CSS overhead, element fully rendered
 
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={
-        reduced
-          ? undefined
-          : {
-              opacity: visible ? 1 : 0,
-              transform: visible ? "translateY(0)" : "translateY(16px)",
-              filter: visible ? "blur(0)" : "blur(3px)",
-              // Drop the compositing hint once the element has landed.
-              willChange: visible ? "auto" : "opacity, transform",
-              transition: `opacity 0.6s ${EASE} ${delay}ms, transform 0.6s ${EASE} ${delay}ms, filter 0.6s ${EASE} ${delay}ms`,
-            }
-      }
-    >
+    <div ref={ref} className={className} style={style}>
       {children}
     </div>
   );

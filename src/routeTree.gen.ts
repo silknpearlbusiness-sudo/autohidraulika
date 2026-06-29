@@ -9,8 +9,51 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SutiSzabalyzatRouteImport } from './routes/suti-szabalyzat'
+import { Route as KoszonjukRouteImport } from './routes/koszonjuk'
+import { Route as ImpresszumRouteImport } from './routes/impresszum'
+import { Route as HidraulikaSzivattyuHidromotorMunkahengerRouteImport } from './routes/hidraulika-szivattyu-hidromotor-munkahenger'
+import { Route as HidraulikaHibaRouteImport } from './routes/hidraulika-hiba'
+import { Route as AszfRouteImport } from './routes/aszf'
+import { Route as AdatkezelesRouteImport } from './routes/adatkezeles'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SutiSzabalyzatRoute = SutiSzabalyzatRouteImport.update({
+  id: '/suti-szabalyzat',
+  path: '/suti-szabalyzat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KoszonjukRoute = KoszonjukRouteImport.update({
+  id: '/koszonjuk',
+  path: '/koszonjuk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpresszumRoute = ImpresszumRouteImport.update({
+  id: '/impresszum',
+  path: '/impresszum',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HidraulikaSzivattyuHidromotorMunkahengerRoute =
+  HidraulikaSzivattyuHidromotorMunkahengerRouteImport.update({
+    id: '/hidraulika-szivattyu-hidromotor-munkahenger',
+    path: '/hidraulika-szivattyu-hidromotor-munkahenger',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const HidraulikaHibaRoute = HidraulikaHibaRouteImport.update({
+  id: '/hidraulika-hiba',
+  path: '/hidraulika-hiba',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AszfRoute = AszfRouteImport.update({
+  id: '/aszf',
+  path: '/aszf',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdatkezelesRoute = AdatkezelesRouteImport.update({
+  id: '/adatkezeles',
+  path: '/adatkezeles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +62,130 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/adatkezeles': typeof AdatkezelesRoute
+  '/aszf': typeof AszfRoute
+  '/hidraulika-hiba': typeof HidraulikaHibaRoute
+  '/hidraulika-szivattyu-hidromotor-munkahenger': typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
+  '/impresszum': typeof ImpresszumRoute
+  '/koszonjuk': typeof KoszonjukRoute
+  '/suti-szabalyzat': typeof SutiSzabalyzatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/adatkezeles': typeof AdatkezelesRoute
+  '/aszf': typeof AszfRoute
+  '/hidraulika-hiba': typeof HidraulikaHibaRoute
+  '/hidraulika-szivattyu-hidromotor-munkahenger': typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
+  '/impresszum': typeof ImpresszumRoute
+  '/koszonjuk': typeof KoszonjukRoute
+  '/suti-szabalyzat': typeof SutiSzabalyzatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/adatkezeles': typeof AdatkezelesRoute
+  '/aszf': typeof AszfRoute
+  '/hidraulika-hiba': typeof HidraulikaHibaRoute
+  '/hidraulika-szivattyu-hidromotor-munkahenger': typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
+  '/impresszum': typeof ImpresszumRoute
+  '/koszonjuk': typeof KoszonjukRoute
+  '/suti-szabalyzat': typeof SutiSzabalyzatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/adatkezeles'
+    | '/aszf'
+    | '/hidraulika-hiba'
+    | '/hidraulika-szivattyu-hidromotor-munkahenger'
+    | '/impresszum'
+    | '/koszonjuk'
+    | '/suti-szabalyzat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/adatkezeles'
+    | '/aszf'
+    | '/hidraulika-hiba'
+    | '/hidraulika-szivattyu-hidromotor-munkahenger'
+    | '/impresszum'
+    | '/koszonjuk'
+    | '/suti-szabalyzat'
+  id:
+    | '__root__'
+    | '/'
+    | '/adatkezeles'
+    | '/aszf'
+    | '/hidraulika-hiba'
+    | '/hidraulika-szivattyu-hidromotor-munkahenger'
+    | '/impresszum'
+    | '/koszonjuk'
+    | '/suti-szabalyzat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdatkezelesRoute: typeof AdatkezelesRoute
+  AszfRoute: typeof AszfRoute
+  HidraulikaHibaRoute: typeof HidraulikaHibaRoute
+  HidraulikaSzivattyuHidromotorMunkahengerRoute: typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
+  ImpresszumRoute: typeof ImpresszumRoute
+  KoszonjukRoute: typeof KoszonjukRoute
+  SutiSzabalyzatRoute: typeof SutiSzabalyzatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/suti-szabalyzat': {
+      id: '/suti-szabalyzat'
+      path: '/suti-szabalyzat'
+      fullPath: '/suti-szabalyzat'
+      preLoaderRoute: typeof SutiSzabalyzatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/koszonjuk': {
+      id: '/koszonjuk'
+      path: '/koszonjuk'
+      fullPath: '/koszonjuk'
+      preLoaderRoute: typeof KoszonjukRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impresszum': {
+      id: '/impresszum'
+      path: '/impresszum'
+      fullPath: '/impresszum'
+      preLoaderRoute: typeof ImpresszumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hidraulika-szivattyu-hidromotor-munkahenger': {
+      id: '/hidraulika-szivattyu-hidromotor-munkahenger'
+      path: '/hidraulika-szivattyu-hidromotor-munkahenger'
+      fullPath: '/hidraulika-szivattyu-hidromotor-munkahenger'
+      preLoaderRoute: typeof HidraulikaSzivattyuHidromotorMunkahengerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hidraulika-hiba': {
+      id: '/hidraulika-hiba'
+      path: '/hidraulika-hiba'
+      fullPath: '/hidraulika-hiba'
+      preLoaderRoute: typeof HidraulikaHibaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aszf': {
+      id: '/aszf'
+      path: '/aszf'
+      fullPath: '/aszf'
+      preLoaderRoute: typeof AszfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/adatkezeles': {
+      id: '/adatkezeles'
+      path: '/adatkezeles'
+      fullPath: '/adatkezeles'
+      preLoaderRoute: typeof AdatkezelesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +198,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdatkezelesRoute: AdatkezelesRoute,
+  AszfRoute: AszfRoute,
+  HidraulikaHibaRoute: HidraulikaHibaRoute,
+  HidraulikaSzivattyuHidromotorMunkahengerRoute:
+    HidraulikaSzivattyuHidromotorMunkahengerRoute,
+  ImpresszumRoute: ImpresszumRoute,
+  KoszonjukRoute: KoszonjukRoute,
+  SutiSzabalyzatRoute: SutiSzabalyzatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

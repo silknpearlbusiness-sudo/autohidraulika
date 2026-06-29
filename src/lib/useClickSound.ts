@@ -13,9 +13,23 @@ export function useClickSound(volume = 0.35) {
 
   useEffect(() => {
     const a = new Audio(SRC);
-    a.preload = "auto";
+    a.preload = "none";
     a.volume = volume;
     baseRef.current = a;
+
+    // Preload on first user touch/click so the file is cached before the first button click
+    const warm = () => {
+      a.preload = "auto";
+      a.load();
+      document.removeEventListener("touchstart", warm, { capture: true });
+      document.removeEventListener("mousedown", warm, { capture: true });
+    };
+    document.addEventListener("touchstart", warm, { capture: true, once: true, passive: true });
+    document.addEventListener("mousedown", warm, { capture: true, once: true });
+    return () => {
+      document.removeEventListener("touchstart", warm, { capture: true });
+      document.removeEventListener("mousedown", warm, { capture: true });
+    };
   }, [volume]);
 
   return useCallback(() => {

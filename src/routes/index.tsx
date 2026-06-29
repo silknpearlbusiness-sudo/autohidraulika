@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { useClickSound } from "@/lib/useClickSound";
+import { submitContact } from "@/lib/api/contact.functions";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
@@ -74,7 +75,11 @@ const PX = (id: string) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop`;
 
 const IMGS = {
-  // hydraulic / industrial
+  // real business photos (downloaded from wp)
+  workshop1:  "/images/workshop-1.jpg",
+  workshop2:  "/images/workshop-2.jpg",
+  courier:    "/images/courier.jpg",
+  // hydraulic / industrial (stock fallbacks)
   pump:      PX("3807319"),
   motor:     PX("10733800"),
   cylinder:  PX("5964745"),
@@ -100,14 +105,14 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
     const obs = new IntersectionObserver((entries) => {
       if (!entries[0].isIntersecting) return;
       obs.disconnect();
-      const dur = 1800, start = performance.now();
+      const dur = 1400, start = performance.now();
       const tick = (now: number) => {
         const p = Math.min((now - start) / dur, 1);
         setVal(Math.round((1 - Math.pow(1 - p, 3)) * to));
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
-    }, { threshold: 0.3 });
+    }, { threshold: 0, rootMargin: "0px 0px -20px 0px" });
     obs.observe(el);
     return () => obs.disconnect();
   }, [to]);
@@ -192,6 +197,7 @@ const whyUs = [
 const brands = [
   "Komatsu", "Caterpillar", "Bosch Rexroth", "Parker", "Kawasaki",
   "ZF", "Liebherr", "Linde", "Sauer-Danfoss", "Vickers", "Eaton", "Hydromatik",
+  "Leslie Hidraulika", "Ponar",
 ];
 
 const processSteps = [
@@ -271,8 +277,10 @@ function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showMobileCTA, setShowMobileCTA] = useState(false);
   const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navInnerRef = useRef<HTMLDivElement>(null);
+  const countyInfoRef = useRef<HTMLDivElement>(null);
   const [selectedCounty, setSelectedCounty] = useState<string|null>(null);
   const [countySearch, setCountySearch] = useState("");
   const [openFaq, setOpenFaq] = useState<number|null>(null);
@@ -299,6 +307,7 @@ function Home() {
       // setState bails out when the boolean is unchanged → these flip once, not per frame.
       setScrolled(y > 12);
       setShowScrollTop(y > 500);
+      setShowMobileCTA(y > 300);
       // The nav "squish" is driven straight on the DOM so scrolling never re-renders the page.
       const el = navInnerRef.current;
       if (el) {
@@ -328,32 +337,157 @@ function Home() {
   return (
     <div id="top" className="min-h-screen overflow-x-hidden" style={{ background: BG, color: "hsl(40 20% 97%)" }}>
 
-      {/* JSON-LD — LocalBusiness */}
+      {/* JSON-LD — @graph: WebSite + LocalBusiness + FAQPage */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context":"https://schema.org","@type":["LocalBusiness","AutoRepair"],
-        "@id":"https://www.hidraulikajavitas.com/#business",
-        "name":"Hidraulika Service TEAM Kft.",
-        "alternateName":"Hidraulika Javítás",
-        "url":"https://www.hidraulikajavitas.com",
-        "telephone":"+36309111474","email":"info@hidraulikajavitas.com","vatID":"32267509-2-43",
-        "priceRange":"$$","currenciesAccepted":"HUF","paymentAccepted":"Készpénz, Banki átutalás",
-        "image":"https://www.hidraulikajavitas.com/og-image.jpg",
-        "logo":"https://www.hidraulikajavitas.com/logo.png",
-        "address":{"@type":"PostalAddress","streetAddress":"Soroksári út 48, Malom Udvar, 8. épület, földszint","addressLocality":"Budapest","postalCode":"1095","addressRegion":"Budapest","addressCountry":"HU"},
-        "geo":{"@type":"GeoCoordinates","latitude":47.4669,"longitude":19.0744},
-        "areaServed":[{"@type":"Country","name":"Magyarország"}, ...counties.map(c => ({"@type":"AdministrativeArea","name":c}))],
-        "description":"Hidraulikus szivattyúk, motorok, hengerek, orbit motorok és vezérlőblokkok márkafüggetlen javítása. 24–48 órás átfutás, 6 hónap garancia, ingyenes országos futárszolgálat.",
-        "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"17:00"}],
-        "aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":String(testimonials.length),"bestRating":"5","worstRating":"1"},
-        "review":testimonials.map(t => ({"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":"5","bestRating":"5"},"author":{"@type":"Person","name":t.name},"reviewBody":t.text})),
-        "makesOffer":services.map(s => ({"@type":"Offer","itemOffered":{"@type":"Service","name":s.title,"description":s.desc}})),
-        "hasOfferCatalog":{"@type":"OfferCatalog","name":"Hidraulika javítási szolgáltatások","itemListElement":services.map(s => ({"@type":"OfferCatalog","name":s.title}))},
-      })}} />
-
-      {/* JSON-LD — FAQPage (rich result eligible) */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context":"https://schema.org","@type":"FAQPage",
-        "mainEntity":faq.map(f => ({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}})),
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://www.hidraulikajavitas.com/#website",
+            "url": "https://www.hidraulikajavitas.com",
+            "name": "Hidraulika Javítás — Hidraulika Service TEAM Kft.",
+            "description": "Hidraulikus szivattyúk, motorok, hengerek, orbit motorok és vezérlőblokkok márkafüggetlen javítása. 24–48 órás átfutás, 6 hónap garancia, ingyenes országos futárszolgálat.",
+            "inLanguage": "hu-HU",
+            "publisher": { "@id": "https://www.hidraulikajavitas.com/#business" },
+          },
+          {
+            "@type": ["LocalBusiness", "AutoRepair"],
+            "@id": "https://www.hidraulikajavitas.com/#business",
+            "name": "Hidraulika Service TEAM Kft.",
+            "legalName": "Hidraulika Service TEAM Korlátolt Felelősségű Társaság",
+            "alternateName": ["Hidraulika Javítás", "Hidraulika Service TEAM"],
+            "url": "https://www.hidraulikajavitas.com",
+            "telephone": "+36309111474",
+            "email": "info@hidraulikajavitas.com",
+            "vatID": "32267509-2-43",
+            "taxID": "32267509-2-43",
+            "priceRange": "$$",
+            "currenciesAccepted": "HUF",
+            "paymentAccepted": "Készpénz, Banki átutalás",
+            "image": {
+              "@type": "ImageObject",
+              "url": "https://www.hidraulikajavitas.com/images/workshop-1.jpg",
+              "width": 1200,
+              "height": 800,
+            },
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://www.hidraulikajavitas.com/images/workshop-1.jpg",
+              "width": 512,
+              "height": 512,
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Soroksári út 48, Malom Udvar, 8. épület, földszint",
+              "addressLocality": "Budapest",
+              "postalCode": "1095",
+              "addressRegion": "Budapest",
+              "addressCountry": "HU",
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 47.4669,
+              "longitude": 19.0744,
+            },
+            "hasMap": "https://maps.google.com/maps?q=Soroks%C3%A1ri+%C3%BAt+48+Budapest+1095",
+            "openingHoursSpecification": [{
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+              "opens": "08:00",
+              "closes": "17:00",
+            }],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+36309111474",
+              "contactType": "customer service",
+              "availableLanguage": { "@type": "Language", "name": "Hungarian" },
+              "areaServed": "HU",
+              "hoursAvailable": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+                "opens": "08:00",
+                "closes": "17:00",
+              },
+            },
+            "employee": [
+              {
+                "@type": "Person",
+                "@id": "https://www.hidraulikajavitas.com/#person-pos-gabor",
+                "name": "Poós Gábor",
+                "jobTitle": "Alapító & Műszaki Vezető",
+              },
+              {
+                "@type": "Person",
+                "@id": "https://www.hidraulikajavitas.com/#person-andreka-ferenc",
+                "name": "Andréka Ferenc",
+                "jobTitle": "Vezető Hidraulika Szerelő",
+              },
+            ],
+            "founder": [{ "@id": "https://www.hidraulikajavitas.com/#person-pos-gabor" }],
+            "numberOfEmployees": { "@type": "QuantitativeValue", "value": 2 },
+            "areaServed": [
+              { "@type": "Country", "name": "Magyarország" },
+              ...counties.map(c => ({ "@type": "AdministrativeArea", "name": c })),
+            ],
+            "description": "Hidraulikus szivattyúk, motorok, hengerek, orbit motorok és vezérlőblokkok márkafüggetlen javítása. 24–48 órás átfutás, 6 hónap garancia, ingyenes országos futárszolgálat.",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "5.0",
+              "ratingCount": String(testimonials.length),
+              "reviewCount": String(testimonials.length),
+              "bestRating": "5",
+              "worstRating": "1",
+            },
+            "review": testimonials.map(t => ({
+              "@type": "Review",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1",
+              },
+              "author": { "@type": "Person", "name": t.name },
+              "reviewBody": t.text,
+              "inLanguage": "hu-HU",
+              "publisher": { "@id": "https://www.hidraulikajavitas.com/#business" },
+            })),
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Hidraulika javítási szolgáltatások",
+              "itemListElement": services.map((s, idx) => ({
+                "@type": "Offer",
+                "position": idx + 1,
+                "itemOffered": {
+                  "@type": "Service",
+                  "@id": `https://www.hidraulikajavitas.com/#service-${idx + 1}`,
+                  "name": s.title,
+                  "description": s.desc,
+                  "provider": { "@id": "https://www.hidraulikajavitas.com/#business" },
+                  "areaServed": { "@type": "Country", "name": "Magyarország" },
+                  "availableChannel": {
+                    "@type": "ServiceChannel",
+                    "serviceUrl": "https://www.hidraulikajavitas.com",
+                    "servicePhone": "+36309111474",
+                    "availableLanguage": { "@type": "Language", "name": "Hungarian" },
+                  },
+                },
+              })),
+            },
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://www.hidraulikajavitas.com/#faq",
+            "mainEntity": faq.map(f => ({
+              "@type": "Question",
+              "name": f.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f.a,
+                "inLanguage": "hu-HU",
+              },
+            })),
+          },
+        ],
       })}} />
 
       {/* ══════════════════════════════════════════════════
@@ -364,8 +498,8 @@ function Home() {
           <div ref={navInnerRef} className="flex items-center justify-between px-3 pr-3" style={{
             height: 58,
             background: scrolled ? "rgba(4,20,14,0.97)" : "rgba(4,20,14,0.85)",
-            backdropFilter: "blur(48px) saturate(2.2)",
-            WebkitBackdropFilter: "blur(48px) saturate(2.2)",
+            backdropFilter: "blur(20px) saturate(1.8)",
+            WebkitBackdropFilter: "blur(20px) saturate(1.8)",
             border: "1px solid rgba(255,255,255,0.075)",
             borderRadius: 999,
             boxShadow: scrolled
@@ -381,7 +515,7 @@ function Home() {
                 style={{ background: "linear-gradient(135deg, hsl(43 98% 54%), #10b981)", boxShadow: "0 0 22px rgba(253,185,39,0.45)" }}>
                 <span style={{ color: "white", fontWeight: 900, fontSize: "1rem", lineHeight: 1 }}>H</span>
               </div>
-              <span className="hidden sm:block text-[1.05rem] font-bold tracking-wider" style={{ color: "hsl(40 20% 97%)" }}>
+              <span className="text-[0.95rem] sm:text-[1.05rem] font-bold tracking-wider" style={{ color: "hsl(40 20% 97%)" }}>
                 hidraulika<span style={{ color: ORANGE }}>javítás.hu</span>
               </span>
             </a>
@@ -407,6 +541,12 @@ function Home() {
                 }}>
                 <Phone size={13} /> +36 30 911 1474
               </a>
+              {/* Mobile-only compact call button */}
+              <a href="tel:+36309111474" aria-label="Hívjon most"
+                className="sm:hidden w-10 h-10 rounded-full flex items-center justify-center no-underline"
+                style={{ background: "rgba(253,185,39,0.15)", border: "1px solid rgba(253,185,39,0.4)", color: ORANGE }}>
+                <Phone size={15} />
+              </a>
               <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Menü"
                 className="md:hidden w-10 h-10 rounded-full flex items-center justify-center cursor-pointer"
                 style={{ background: "rgba(255,255,255,0.06)", color: "hsl(158 16% 60%)", border: "none" }}>
@@ -417,13 +557,24 @@ function Home() {
 
           {/* Mobile drawer */}
           <div className="rounded-3xl overflow-hidden" style={{
-            background: "rgba(4,20,14,0.97)", backdropFilter: "blur(48px) saturate(2)",
+            background: "rgba(4,20,14,0.97)", backdropFilter: "blur(16px) saturate(1.6)",
             border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
-            maxHeight: menuOpen ? 400 : 0, opacity: menuOpen ? 1 : 0,
+            maxHeight: menuOpen ? 520 : 0, opacity: menuOpen ? 1 : 0,
             marginTop: menuOpen ? "0.5rem" : 0, pointerEvents: menuOpen ? "auto" : "none",
             transition: "max-height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease, margin-top 0.35s ease",
           }}>
             <div className="p-4 flex flex-col gap-1">
+              {/* Logo centered at top of drawer */}
+              <div className="flex flex-col items-center gap-1.5 py-3 mb-1">
+                <div className="w-11 h-11 rounded-full flex items-center justify-center"
+                  style={{ background: "linear-gradient(135deg, hsl(43 98% 54%), #10b981)", boxShadow: "0 0 22px rgba(253,185,39,0.45)" }}>
+                  <span style={{ color: "white", fontWeight: 900, fontSize: "1.1rem", lineHeight: 1 }}>H</span>
+                </div>
+                <span className="text-sm font-bold tracking-wider" style={{ color: "hsl(40 20% 97%)" }}>
+                  hidraulika<span style={{ color: ORANGE }}>javítás.hu</span>
+                </span>
+              </div>
+              <div className="mb-1" style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
               {navLinks.map((l) => (
                 <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
                   className="text-left px-4 py-3 rounded-xl text-sm font-medium no-underline block"
@@ -455,6 +606,13 @@ function Home() {
           style={{ width: 700, height: 700, background: "radial-gradient(circle, rgba(253,185,39,0.14), transparent 70%)", filter: "blur(90px)" }} />
         <div className="absolute top-0 right-0 rounded-full pointer-events-none"
           style={{ width: 500, height: 500, background: "radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)", filter: "blur(100px)", animation: "blob 20s ease-in-out infinite reverse" }} />
+
+        {/* Film grain — SVG feTurbulence at very low opacity for tactile texture */}
+        <div className="absolute inset-0 pointer-events-none z-0 select-none" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          opacity: 0.028,
+          mixBlendMode: "overlay",
+        }} />
 
         <div className="grid lg:grid-cols-[1fr_0.9fr] min-h-screen relative z-10">
 
@@ -496,13 +654,13 @@ function Home() {
             <Reveal delay={220}>
               <div className="flex flex-col sm:flex-row gap-3 mb-10">
                 <a href="#kapcsolat"
-                  className="group glint cta-pulse relative inline-flex items-center justify-center gap-2 h-14 px-10 rounded-full text-base font-semibold text-white no-underline"
+                  className="group glint cta-pulse relative inline-flex items-center justify-center gap-2 h-14 px-10 rounded-full text-base font-semibold text-white no-underline w-full sm:w-auto"
                   style={{ background: ORANGE }}>
                   Kérek árajánlatot
                   <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
                 </a>
                 <a href="tel:+36309111474"
-                  className="btn-hover inline-flex items-center justify-center gap-2 h-14 px-10 rounded-full text-base font-semibold glass no-underline"
+                  className="btn-hover inline-flex items-center justify-center gap-2 h-14 px-10 rounded-full text-base font-semibold glass no-underline w-full sm:w-auto"
                   style={{ color: "hsl(40 20% 97%)" }}>
                   <Phone size={16} /> +36 30 911 1474
                 </a>
@@ -530,7 +688,7 @@ function Home() {
           <div className="hidden lg:flex flex-col justify-center gap-4 p-8 pr-12 pt-28 pb-28">
             <Reveal delay={100}>
               <div className="relative rounded-3xl overflow-hidden" style={{ height: 280, border: "1px solid rgba(255,255,255,0.07)" }}>
-                <img src={IMGS.excavator} alt="Kotrógép hidraulika" className="w-full h-full object-cover"
+                <img src={IMGS.workshop1} alt="Hidraulika javítás műhely" className="w-full h-full object-cover"
                   style={{ filter: "saturate(0.75) contrast(1.1) brightness(0.85)" }} />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.5), transparent)" }} />
                 {/* Floating stat */}
@@ -543,7 +701,7 @@ function Home() {
             <div className="grid grid-cols-2 gap-4">
               <Reveal delay={160}>
                 <div className="relative rounded-3xl overflow-hidden" style={{ height: 180, border: "1px solid rgba(255,255,255,0.07)" }}>
-                  <img src={IMGS.pump} alt="Hidraulikus szivattyú" className="w-full h-full object-cover"
+                  <img src={IMGS.workshop2} alt="Hidraulikus alkatrészek javítása" className="w-full h-full object-cover"
                     style={{ filter: "saturate(0.7) contrast(1.15) brightness(0.8)" }} />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent)" }} />
                   <div className="absolute bottom-3 left-3 text-xs font-bold uppercase tracking-wider"
@@ -572,14 +730,14 @@ function Home() {
           {[
             { to: 20,   suffix: "+",  label: "Év tapasztalat" },
             { to: 5000, suffix: "+",  label: "Sikeres javítás" },
-            { to: 100,  suffix: "%",  label: "Minőség garancia" },
+            { to: 100,  suffix: "%",  label: "100% minőség" },
           ].map(({ to, suffix, label }, i) => (
-            <div key={label} className="flex flex-col items-center py-6 px-4"
+            <div key={label} className="flex flex-col items-center py-4 sm:py-6 px-2 sm:px-4"
               style={{ borderRight: i < 2 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
-              <span className="text-3xl md:text-4xl font-black stat-glow" style={{ color: ORANGE, fontWeight: 900 }}>
+              <span className="text-2xl sm:text-3xl md:text-4xl font-black stat-glow" style={{ color: ORANGE, fontWeight: 900 }}>
                 <Counter to={to} suffix={suffix} />
               </span>
-              <span className="text-[10px] uppercase tracking-widest mt-1 text-center" style={{ color: "hsl(158 16% 50%)" }}>{label}</span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wide sm:tracking-widest mt-1 text-center" style={{ color: "hsl(158 16% 50%)" }}>{label}</span>
             </div>
           ))}
         </div>
@@ -624,11 +782,12 @@ function Home() {
               const isEven = i % 2 === 0;
               return (
                 <Reveal key={s.title} delay={i * 60}>
-                  <div className={`flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} rounded-3xl overflow-hidden`}
+                  <div className="relative flex flex-col lg:block rounded-3xl overflow-hidden"
                     style={{ background: "hsl(158 58% 9%)", border: "1px solid rgba(255,255,255,0.06)", minHeight: 320 }}>
 
-                    {/* Image */}
-                    <div className="relative lg:w-5/12 shrink-0 overflow-hidden" style={{ minHeight: 260 }}>
+                    {/* Image — absolute on desktop (no flex-child boundary), relative in flow on mobile */}
+                    <div className={`relative overflow-hidden lg:absolute lg:inset-y-0 lg:w-5/12 ${isEven ? "lg:right-0" : "lg:left-0"}`}
+                      style={{ minHeight: 260 }}>
                       <img src={s.img} alt={s.title} loading="lazy"
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                         style={{ filter: "saturate(0.72) contrast(1.12) brightness(0.85)" }} />
@@ -637,7 +796,6 @@ function Home() {
                           ? "linear-gradient(to right, transparent, hsl(158 58% 9%) 95%)"
                           : "linear-gradient(to left, transparent, hsl(158 58% 9%) 95%)",
                       }} />
-                      {/* Number watermark */}
                       <div className="absolute top-5 left-5 font-black leading-none select-none"
                         style={{ fontSize: "5rem", color: "rgba(255,255,255,0.08)", fontWeight: 900 }}>
                         {s.num}
@@ -645,7 +803,8 @@ function Home() {
                     </div>
 
                     {/* Text */}
-                    <div className="flex flex-col justify-center p-8 lg:p-12 lg:w-7/12">
+                    <div className={`relative z-10 flex flex-col justify-center p-8 lg:p-12 ${isEven ? "lg:w-7/12" : "lg:w-7/12 lg:ml-[41.667%]"}`}
+                      style={{ minHeight: 320 }}>
                       <div className="flex items-center gap-3 mb-5">
                         <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
                           style={{ background: "rgba(253,185,39,0.12)", border: "1px solid rgba(253,185,39,0.25)", color: ORANGE }}>
@@ -873,15 +1032,34 @@ function Home() {
                     <h3 className="text-xl font-bold mb-1">Kérjen ingyenes visszahívást</h3>
                     <p className="text-sm mb-7" style={{ color: "hsl(158 16% 55%)" }}>24 órán belül felvesszük Önnel a kapcsolatot.</p>
                     <form className="space-y-4"
-                      onSubmit={(e) => { e.preventDefault(); setFormState("loading"); setTimeout(() => setFormState("success"), 1600); }}>
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        setFormState("loading");
+                        const fd = new FormData(e.currentTarget);
+                        try {
+                          await submitContact({
+                            data: {
+                              name: fd.get("name") as string,
+                              phone: fd.get("phone") as string,
+                              email: (fd.get("email") as string) || "",
+                              partType: (fd.get("partType") as string) || "",
+                              description: (fd.get("description") as string) || "",
+                            },
+                          });
+                          setFormState("success");
+                        } catch (err) {
+                          console.error("[contact form]", err);
+                          setFormState("idle");
+                        }
+                      }}>
                       <div className="grid sm:grid-cols-2 gap-4">
                         {[
-                          { label: "Név",         type: "text", placeholder: "Adja meg nevét",     required: true },
-                          { label: "Telefonszám", type: "tel",  placeholder: "+36 30 000 0000",    required: true },
-                        ].map(({ label, type, placeholder, required }) => (
+                          { label: "Név",         type: "text", name: "name",  placeholder: "Adja meg nevét",     required: true },
+                          { label: "Telefonszám", type: "tel",  name: "phone", placeholder: "+36 30 000 0000",    required: true },
+                        ].map(({ label, type, name, placeholder, required }) => (
                           <div key={label}>
                             <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>{label}</label>
-                            <input type={type} placeholder={placeholder} required={required}
+                            <input type={type} name={name} placeholder={placeholder} required={required}
                               className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
                               style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
                               onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
@@ -892,7 +1070,7 @@ function Home() {
                       </div>
                       <div>
                         <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Email (opcionális)</label>
-                        <input type="email" placeholder="pelda@email.hu"
+                        <input type="email" name="email" placeholder="pelda@email.hu"
                           className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
                           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
                           onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
@@ -901,7 +1079,7 @@ function Home() {
                       </div>
                       <div>
                         <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Alkatrész típusa</label>
-                        <select defaultValue=""
+                        <select name="partType" defaultValue=""
                           className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
                           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)", appearance: "none" }}
                           onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; }}
@@ -914,7 +1092,7 @@ function Home() {
                       </div>
                       <div>
                         <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Hiba leírása</label>
-                        <textarea rows={4} placeholder="Röviden írja le a hibát és a gép típusát..."
+                        <textarea name="description" rows={4} placeholder="Röviden írja le a hibát és a gép típusát..."
                           className="w-full resize-none rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
                           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
                           onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
@@ -1014,6 +1192,24 @@ function Home() {
           <p className="text-center mt-6 text-xs font-semibold uppercase tracking-widest" style={{ color: "hsl(158 16% 38%)" }}>
             + Minden egyéb gyártó hidraulikus rendszerei
           </p>
+
+          {/* Strategic partners */}
+          <div className="mt-14 pt-10" style={{ borderTop: "1px solid rgba(253,185,39,0.12)" }}>
+            <p className="text-center text-[10px] font-bold uppercase tracking-[0.24em] mb-8" style={{ color: "hsl(158 16% 42%)" }}>
+              Hidraulika elemekben stratégiai partnerünk
+            </p>
+            <div className="flex flex-wrap justify-center items-center gap-6">
+              {[
+                { src: "/images/brand-leslie.jpg", alt: "Leslie Hidraulika" },
+                { src: "/images/brand-ponar.jpg",  alt: "Ponar Wadowice" },
+              ].map(({ src, alt }) => (
+                <div key={alt} className="rounded-2xl overflow-hidden flex items-center justify-center px-6 py-4"
+                  style={{ background: "rgba(255,255,255,0.92)", boxShadow: "0 0 0 1px rgba(253,185,39,0.2), 0 8px 32px rgba(0,0,0,0.35)" }}>
+                  <img src={src} alt={alt} className="h-12 w-auto object-contain" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1265,6 +1461,186 @@ function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════
+          TEAM — editorial layout
+      ══════════════════════════════════════════════════ */}
+      <section id="csapat" className="py-28 relative overflow-hidden">
+        {/* Ambient glow */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none"
+          style={{ background: "radial-gradient(ellipse 70% 60% at 30% 50%, rgba(16,185,129,0.12), transparent 65%)" }} />
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-[0.05] blur-[110px] pointer-events-none"
+          style={{ background: `radial-gradient(circle, ${ORANGE}, transparent 60%)` }} />
+
+        <div className="container mx-auto px-6 relative z-10">
+
+          <Reveal>
+            <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div>
+                <Chip>A csapat</Chip>
+                <h2 className="mt-4 font-black leading-none" style={{ fontSize: "clamp(2.6rem,6vw,4.5rem)" }}>
+                  A szakemberek,<br />
+                  <span style={{ color: ORANGE }}>akik megoldják.</span>
+                </h2>
+              </div>
+              <p className="max-w-xs text-base leading-relaxed" style={{ color: "hsl(158 16% 55%)" }}>
+                20 év tapasztalat és 5000+ sikeres javítás — és minden mögött egy személyes felelősségvállalás áll.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-5 mb-5">
+
+            {/* Left: logo card */}
+            <Reveal>
+              <div className="rounded-3xl flex flex-col p-7 md:p-8" style={{ minHeight: 440, border: "1px solid rgba(255,255,255,0.07)", background: "hsl(158 58% 9%)" }}>
+                {/* Ambient glow */}
+                <div className="absolute inset-0 pointer-events-none rounded-3xl"
+                  style={{ background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(253,185,39,0.06), transparent 70%)" }} />
+
+                {/* Badge */}
+                <div>
+                  <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest"
+                    style={{ background: "rgba(253,185,39,0.13)", border: "1px solid rgba(253,185,39,0.32)", color: ORANGE }}>
+                    <OrangeDot /> Hidraulika Service TEAM Kft.
+                  </span>
+                </div>
+
+                {/* Logo centered */}
+                <div className="flex-1 flex items-center justify-center py-8">
+                  <img src="/images/logo.svg" alt="Hidraulika Service TEAM" className="w-full max-w-[260px] opacity-95" />
+                </div>
+
+                {/* Bottom text */}
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-black mb-2 tracking-tight">
+                    Poós Gábor & Andréka Ferenc
+                  </h3>
+                  <p className="text-sm leading-relaxed mb-6 max-w-sm" style={{ color: "hsl(158 16% 62%)" }}>
+                    Két évtized alatt felépítettük Magyarország egyik legmegbízhatóbb hidraulika szervizét. Minden javítás mögött személyes felelősségvállalás áll — ez nem marketing szöveg, ez a garancia.
+                  </p>
+                  <div className="flex gap-6">
+                    {[
+                      { val: "20+", label: "év tapasztalat" },
+                      { val: "5000+", label: "sikeres javítás" },
+                      { val: "6 hó", label: "garancia" },
+                    ].map(({ val, label }) => (
+                      <div key={label}>
+                        <div className="text-xl font-black" style={{ color: ORANGE }}>{val}</div>
+                        <div className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "hsl(158 16% 44%)" }}>{label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Right: two founder bio cards */}
+            <div className="flex flex-col gap-4">
+              {[
+                {
+                  name: "Poós Gábor",
+                  role: "Alapító & Műszaki Vezető",
+                  photo: "/images/poos-gabor.png",
+                  years: "20+",
+                  bio: "A vállalkozás megalapítója és műszaki irányítója. Karrierje kezdetétől fogva hidraulikus rendszerekkel foglalkozik — szivattyúktól a komplex vezérlőblokkokig mindent kézbe vett már. A legbonyolultabb esetekben is személyesen avatkozik be.",
+                  tags: ["Szivattyú diagnosztika", "Vezérlőblokk", "Projekttervezés"],
+                },
+                {
+                  name: "Andréka Ferenc",
+                  role: "Vezető Hidraulika Szerelő",
+                  photo: "/images/andreka-ferenc.png",
+                  years: "15+",
+                  bio: "A műhely lelke — napi szinten foglalkozik hidraulikus alkatrészek szétszedésével, javításával és összerakásával. Pontossága és tapasztalata garantálja, hogy az átvett alkatrész hibátlanul kerüljön vissza a gépre.",
+                  tags: ["Motor felújítás", "Henger tömítés", "Minőségellenőrzés"],
+                },
+              ].map((person, i) => (
+                <Reveal key={person.name} delay={i * 100} className="flex-1 flex flex-col">
+                  <div className="group relative rounded-3xl p-7 flex flex-col project-card-hover overflow-hidden h-full"
+                    style={{ background: "hsl(158 58% 9%)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                    <div className="absolute -right-2 -top-2 font-black leading-none select-none pointer-events-none"
+                      style={{ fontSize: "7rem", color: "rgba(253,185,39,0.03)", fontWeight: 900 }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <div className="flex items-start gap-4 mb-5 relative z-10">
+                      <div className="w-20 h-20 rounded-full shrink-0 overflow-hidden"
+                        style={{ boxShadow: "0 0 24px rgba(253,185,39,0.35)", border: "2.5px solid rgba(253,185,39,0.45)" }}>
+                        <img src={person.photo} alt={person.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-[1.1rem] font-extrabold tracking-tight mb-1 transition-colors duration-200 group-hover:text-[hsl(43_98%_65%)]">
+                          {person.name}
+                        </h3>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em]" style={{ color: ORANGE }}>{person.role}</p>
+                      </div>
+                      <div className="shrink-0 text-center px-3 py-2 rounded-xl"
+                        style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.16)" }}>
+                        <div className="text-lg font-black leading-none" style={{ color: ORANGE }}>{person.years}</div>
+                        <div className="text-[9px] uppercase tracking-widest mt-0.5" style={{ color: "hsl(158 16% 43%)" }}>év</div>
+                      </div>
+                    </div>
+                    <p className="text-sm leading-relaxed mb-5 flex-1 relative z-10" style={{ color: "hsl(158 16% 57%)" }}>
+                      {person.bio}
+                    </p>
+                    <div className="flex flex-wrap gap-2 relative z-10">
+                      {person.tags.map((tag) => (
+                        <span key={tag} className="px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider"
+                          style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.14)", color: "hsl(43 98% 62%)" }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"
+                      style={{ background: `linear-gradient(90deg, ${ORANGE}, #10b981, transparent)` }} />
+                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                      style={{ boxShadow: "inset 0 0 0 1px rgba(253,185,39,0.16)" }} />
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          {/* Philosophy quote banner */}
+          <Reveal delay={220}>
+            <div className="relative rounded-3xl overflow-hidden p-8 md:p-12"
+              style={{ background: "hsl(158 58% 9%)", border: "1px solid rgba(255,255,255,0.07)", borderTop: "2px solid rgba(253,185,39,0.35)" }}>
+              {/* Giant decorative quote */}
+              <div className="absolute -top-8 right-8 font-black leading-none select-none pointer-events-none"
+                style={{ fontSize: "12rem", color: "rgba(253,185,39,0.04)", fontWeight: 900 }} aria-hidden>"</div>
+              {/* Subtle diagonal pattern */}
+              <div className="absolute inset-0 pointer-events-none opacity-[0.015]"
+                style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 18px, white 18px, white 19px)" }} />
+
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                <div className="max-w-2xl">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.24em] mb-4" style={{ color: ORANGE }}>A filozófiánk</p>
+                  <p className="text-xl md:text-2xl font-bold leading-relaxed" style={{ color: "rgba(250,244,230,0.9)" }}>
+                    "Nem adjuk ki addig a kezünkből a munkát, amíg nem vagyunk biztosak abban, hogy az alkatrész hibátlanul működik — és ezt 6 hónap garanciával is vállaljuk."
+                  </p>
+                  <div className="flex items-center gap-3 mt-5">
+                    <div className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs text-white"
+                      style={{ background: "linear-gradient(135deg, hsl(43 98% 54%), #10b981)" }}>PG</div>
+                    <p className="text-sm font-semibold" style={{ color: "hsl(158 16% 52%)" }}>Poós Gábor, alapító</p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col gap-3">
+                  <a href="tel:+36309111474"
+                    className="btn-hover glint inline-flex items-center justify-center gap-2.5 rounded-full text-sm font-bold no-underline"
+                    style={{ background: ORANGE, color: "#04111f", boxShadow: "0 0 40px rgba(253,185,39,0.3)", height: "3.25rem", paddingLeft: "2rem", paddingRight: "2rem" }}>
+                    <Phone size={15} /> Hívjon minket
+                  </a>
+                  <a href="#kapcsolat"
+                    className="btn-hover inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold text-white no-underline"
+                    style={{ border: "1.5px solid rgba(253,185,39,0.3)", height: "3.25rem", paddingLeft: "2rem", paddingRight: "2rem" }}>
+                    Árajánlatot kérek <ChevronRight size={14} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
           COVERAGE MAP
       ══════════════════════════════════════════════════ */}
       <section className="py-28 relative overflow-hidden">
@@ -1325,7 +1701,15 @@ function Home() {
                     const isKiemelt = meta?.tier === "kiemelt";
                     const isFiltered = countySearch && !c.toLowerCase().includes(countySearch.toLowerCase());
                     return (
-                      <button key={c} onClick={() => setSelectedCounty(isSelected ? null : c)}
+                      <button key={c} onClick={() => {
+                          const next = isSelected ? null : c;
+                          setSelectedCounty(next);
+                          if (next) {
+                            setTimeout(() => {
+                              countyInfoRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                            }, 60);
+                          }
+                        }}
                         className="rounded-xl px-3 py-2.5 text-center text-xs font-medium transition-[background-color,border-color,color,transform,box-shadow,opacity] duration-200 ease-out cursor-pointer"
                         style={{
                           background: isSelected ? "rgba(253,185,39,0.22)" : isKiemelt ? "rgba(253,185,39,0.1)" : "rgba(255,255,255,0.04)",
@@ -1341,8 +1725,8 @@ function Home() {
                   })}
                 </div>
 
-                <div className="overflow-hidden transition-[max-height,opacity] duration-300 ease-out"
-                  style={{ maxHeight: selectedCounty ? 120 : 0, opacity: selectedCounty ? 1 : 0 }}>
+                <div ref={countyInfoRef} className="overflow-hidden transition-[max-height,opacity] duration-300 ease-out"
+                  style={{ maxHeight: selectedCounty ? 220 : 0, opacity: selectedCounty ? 1 : 0 }}>
                   {selectedCounty && countyMeta[selectedCounty] && (
                     <div className="mt-4 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3"
                       style={{ background: "rgba(253,185,39,0.08)", border: "1px solid rgba(253,185,39,0.2)" }}>
@@ -1465,17 +1849,55 @@ function Home() {
 
       {/* ── Scroll to top ─── */}
       {showScrollTop && (
-        <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Vissza a tetejére"
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer btn-hover"
-          style={{ background: ORANGE, boxShadow: "0 4px 28px rgba(253,185,39,0.45)", border: "none", color: "white", animation: "card-in 0.3s cubic-bezier(0.22,1,0.36,1) both" }}>
+        <button onClick={() => {
+            // Override CSS scroll-behavior:smooth which can make this take 5+ seconds on long pages
+            document.documentElement.style.scrollBehavior = "auto";
+            document.body.style.scrollBehavior = "auto";
+            window.scrollTo(0, 0);
+            requestAnimationFrame(() => {
+              document.documentElement.style.scrollBehavior = "";
+              document.body.style.scrollBehavior = "";
+            });
+          }} aria-label="Vissza a tetejére"
+          className="fixed right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer btn-hover"
+          style={{ bottom: showMobileCTA ? 88 : 24, transition: "bottom 0.3s cubic-bezier(0.22,1,0.36,1)", background: ORANGE, boxShadow: "0 4px 28px rgba(253,185,39,0.45)", border: "none", color: "white", animation: "card-in 0.3s cubic-bezier(0.22,1,0.36,1) both" }}>
           <ArrowUp size={20} />
         </button>
       )}
 
+      {/* ── Mobile bottom CTA bar ─── */}
+      {showMobileCTA && (
+        <div className="md:hidden fixed left-0 right-0 z-40"
+          style={{
+            bottom: 0,
+            transition: "bottom 0.3s cubic-bezier(0.22,1,0.36,1)",
+            animation: "slide-up 0.35s cubic-bezier(0.22,1,0.36,1) both",
+            background: "rgba(3,16,11,0.97)",
+            backdropFilter: "blur(12px) saturate(1.5)",
+            WebkitBackdropFilter: "blur(12px) saturate(1.5)",
+            borderTop: "1px solid rgba(255,255,255,0.07)",
+            boxShadow: "0 -8px 30px rgba(0,0,0,0.4)",
+          }}>
+          <div className="flex gap-3 p-3" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
+            <a href="tel:+36309111474"
+              className="btn-hover flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl text-sm font-bold no-underline"
+              style={{ background: ORANGE, color: "#04111f" }}>
+              <Phone size={15} /> Hívjon most
+            </a>
+            <a href="#kapcsolat"
+              className="btn-hover flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl text-sm font-semibold text-white no-underline"
+              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}>
+              Árajánlatot kérek
+            </a>
+          </div>
+        </div>
+      )}
+
+
       {/* ══════════════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════════════ */}
-      <footer className="py-16 relative" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", background: "hsl(158 65% 3%)" }}>
+      <footer className="py-16 relative" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", background: "hsl(158 65% 3%)", paddingBottom: showMobileCTA ? "88px" : undefined }}>
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-14">
 
@@ -1497,15 +1919,40 @@ function Home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-14 gap-y-3">
-              {navLinks.map((l) => (
-                <a key={l.href} href={l.href} className="text-sm no-underline transition-colors"
-                  style={{ color: "hsl(158 16% 48%)" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "hsl(40 20% 97%)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "hsl(158 16% 48%)")}>
-                  {l.label}
-                </a>
-              ))}
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: "hsl(158 16% 36%)" }}>Navigáció</p>
+              <div className="flex flex-col gap-2">
+                {navLinks.map((l) => (
+                  <a key={l.href} href={l.href} className="text-sm no-underline transition-colors"
+                    style={{ color: "hsl(158 16% 48%)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "hsl(40 20% 97%)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "hsl(158 16% 48%)")}>
+                    {l.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: "hsl(158 16% 36%)" }}>Szolgáltatásaink</p>
+              <div className="flex flex-col gap-2">
+                {[
+                  { label: "Hidraulika hiba",             href: "/hidraulika-hiba" },
+                  { label: "Hidraulika javítás",          href: "/#szolgaltatasok" },
+                  { label: "Hidraulika szivattyú",        href: "/hidraulika-szivattyu-hidromotor-munkahenger" },
+                  { label: "Hidromotor",                  href: "/hidraulika-szivattyu-hidromotor-munkahenger" },
+                  { label: "Hidraulikus munkahenger",     href: "/hidraulika-szivattyu-hidromotor-munkahenger" },
+                  { label: "Ingyenes tanácsadás",         href: "/#kapcsolat" },
+                  { label: "Országos futárszolgálat",     href: "/#folyamat" },
+                ].map((l) => (
+                  <a key={l.label} href={l.href} className="text-sm no-underline transition-colors"
+                    style={{ color: "hsl(158 16% 48%)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "hsl(40 20% 97%)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "hsl(158 16% 48%)")}>
+                    {l.label}
+                  </a>
+                ))}
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -1527,8 +1974,12 @@ function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>
             <div>© {new Date().getFullYear()} Hidraulika Service TEAM Kft. — hidraulikajavitas.com</div>
             <div className="flex gap-6">
-              {["Adatvédelmi tájékoztató", "ÁSZF"].map((label) => (
-                <a key={label} href="#" className="no-underline transition-colors" style={{ color: "rgba(255,255,255,0.2)" }}
+              {[
+                { label: "Adatvédelmi tájékoztató", href: "/adatkezeles" },
+                { label: "ÁSZF",                    href: "/aszf" },
+                { label: "Impresszum",              href: "/impresszum" },
+              ].map(({ label, href }) => (
+                <a key={label} href={href} className="no-underline transition-colors" style={{ color: "rgba(255,255,255,0.2)" }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = ORANGE)}
                   onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.2)")}>
                   {label}

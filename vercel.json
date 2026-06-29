@@ -1,5 +1,27 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "npm install --legacy-peer-deps",
-  "framework": null
+  "framework": null,
+  "redirects": [
+    { "source": "/cookies",                                                              "destination": "/suti-szabalyzat",                              "permanent": true },
+    { "source": "/cookies/",                                                             "destination": "/suti-szabalyzat",                              "permanent": true },
+    { "source": "/hidraulika_szivattyu_hidromotor_hidraulikus_munkahenger",              "destination": "/hidraulika-szivattyu-hidromotor-munkahenger",  "permanent": true },
+    { "source": "/hidraulika_szivattyu_hidromotor_hidraulikus_munkahenger/",             "destination": "/hidraulika-szivattyu-hidromotor-munkahenger",  "permanent": true },
+    { "source": "/hidraulika-szivattyu-hiba_hidromotor-hiba_hidraulikus-munkahenger-hiba",  "destination": "/hidraulika-hiba",                          "permanent": true },
+    { "source": "/hidraulika-szivattyu-hiba_hidromotor-hiba_hidraulikus-munkahenger-hiba/", "destination": "/hidraulika-hiba",                          "permanent": true },
+    { "source": "/hely",                "destination": "/#kapcsolat",      "permanent": true },
+    { "source": "/hely/",               "destination": "/#kapcsolat",      "permanent": true },
+    { "source": "/kapcsolat",           "destination": "/#kapcsolat",      "permanent": true },
+    { "source": "/kapcsolat/",          "destination": "/#kapcsolat",      "permanent": true },
+    { "source": "/mivel-foglalkozunk",  "destination": "/#szolgaltatasok", "permanent": true },
+    { "source": "/mivel-foglalkozunk/", "destination": "/#szolgaltatasok", "permanent": true },
+    { "source": "/futarrendeles",       "destination": "/#folyamat",       "permanent": true },
+    { "source": "/futarrendeles/",      "destination": "/#folyamat",       "permanent": true },
+    { "source": "/ingyenes-tanacsadas", "destination": "/",                "permanent": true },
+    { "source": "/ingyenes-tanacsadas/","destination": "/",                "permanent": true },
+    { "source": "/kezdolap",            "destination": "/",                "permanent": true },
+    { "source": "/kezdolap/",           "destination": "/",                "permanent": true },
+    { "source": "/home",                "destination": "/",                "permanent": true },
+    { "source": "/home/",               "destination": "/",                "permanent": true }
+  ]
 }
