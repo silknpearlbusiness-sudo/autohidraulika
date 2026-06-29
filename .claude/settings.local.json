@@ -9,7 +9,14 @@
       "Bash(Get-Content \"C:\\\\Users\\\\ILIKEN~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-ilikenyash-Downloads-autohidraulikav1\\\\7c3b3ef1-960a-4d10-93a6-9890324acb9f\\\\tasks\\\\bfl2s2bpm.output\" -Tail 20)",
       "Bash(node -e ' *)",
       "WebFetch(domain:kardanjavitas.hu)",
-      "Bash('.gallery-card-in')"
+      "Bash('.gallery-card-in')",
+      "WebFetch(domain:websitedemos.net)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git config *)",
+      "Bash(git remote *)",
+      "Bash(git commit *)"
     ]
   }
 }
