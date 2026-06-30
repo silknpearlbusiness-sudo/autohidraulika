@@ -15,7 +15,7 @@ import "crypto";
 import "async_hooks";
 import "stream";
 import "../_libs/isbot.mjs";
-const appCss = "/assets/styles-B100n9De.css";
+const appCss = "/assets/styles-Cbrqoz_x.css";
 function reportLovableError(error, context = {}) {
   if (typeof window === "undefined") return;
   window.__lovableEvents?.captureException?.(
@@ -368,7 +368,7 @@ const Route$1 = createFileRoute("/adatkezeles")({
   }),
   component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-const $$splitComponentImporter = () => import("./index-D4nsxuhp.mjs");
+const $$splitComponentImporter = () => import("./index-BUk9KuTf.mjs");
 const Route = createFileRoute("/")({
   head: () => ({
     meta: [{
