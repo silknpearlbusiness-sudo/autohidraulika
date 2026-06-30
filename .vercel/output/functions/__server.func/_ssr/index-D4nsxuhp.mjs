@@ -1,5 +1,5 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-0l9P83hY.mjs";
+import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-CCw8z2Ih.mjs";
 import "../_libs/seroval.mjs";
 import { W as Wrench, P as Phone, X, M as Menu, a as ChevronRight, b as Mail, c as MapPin, S as ShieldCheck, T as Truck, d as CircleCheck, e as ClipboardCheck, f as PackageCheck, g as Clock, h as CircleQuestionMark, i as ArrowRight, j as ArrowUp, k as ArrowUpRight } from "../_libs/lucide-react.mjs";
 import { o as objectType, s as stringType, l as literalType } from "../_libs/zod.mjs";
@@ -149,62 +149,31 @@ function Chip({
 function ServiceCard({
   num,
   name,
-  short,
-  img,
-  contain
+  short
 }) {
   const ORANGE = "#FDB927";
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#kapcsolat", className: "group relative rounded-3xl overflow-hidden flex flex-col no-underline w-full h-full block", style: {
-    background: "hsl(158 55% 8%)",
-    border: "1px solid rgba(255,255,255,0.08)",
-    transition: "border-color 0.25s ease, box-shadow 0.25s ease"
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#kapcsolat", className: "group flex items-center gap-5 py-5 no-underline", style: {
+    borderBottom: "1px solid rgba(255,255,255,0.06)",
+    transition: "padding-left 0.2s ease"
   }, onMouseEnter: (e) => {
-    const el = e.currentTarget;
-    el.style.borderColor = "rgba(253,185,39,0.55)";
-    el.style.boxShadow = "0 0 60px rgba(253,185,39,0.18), inset 0 0 0 1px rgba(253,185,39,0.55)";
+    e.currentTarget.style.paddingLeft = "0.75rem";
   }, onMouseLeave: (e) => {
-    const el = e.currentTarget;
-    el.style.borderColor = "rgba(255,255,255,0.08)";
-    el.style.boxShadow = "none";
+    e.currentTarget.style.paddingLeft = "0";
   }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative flex-1 overflow-hidden", style: {
-      background: "hsl(158 40% 11%)"
-    }, children: [
-      img ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: img, alt: name, loading: "lazy", className: `w-full h-full transition-transform duration-500 group-hover:scale-105 ${contain ? "object-contain p-6" : "object-cover"}`, style: {
-          filter: contain ? "drop-shadow(0 8px 24px rgba(0,0,0,0.5))" : "saturate(0.8) contrast(1.1) brightness(0.85)"
-        } }),
-        !contain && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0", style: {
-          background: "linear-gradient(to top, hsl(158 55% 8%) 20%, transparent 70%)"
-        } })
-      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-full flex items-center justify-center select-none", style: {
-        background: "radial-gradient(ellipse at 50% 60%, rgba(253,185,39,0.05), transparent 70%)"
-      }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-black", style: {
-        fontSize: "9rem",
-        color: ORANGE,
-        opacity: 0.07,
-        lineHeight: 1
-      }, children: num }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none", style: {
-        background: "rgba(253,185,39,0.07)"
-      } })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 shrink-0", style: {
-      borderTop: "1px solid rgba(255,255,255,0.06)"
-    }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between mb-1.5", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black tracking-widest", style: {
-          color: ORANGE
-        }, children: num }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 14, className: "opacity-0 group-hover:opacity-100 transition-opacity duration-200", style: {
-          color: ORANGE
-        } })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-black text-[1.15rem] leading-tight mb-1 transition-colors duration-200 group-hover:text-[hsl(43_98%_68%)]", children: name }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed", style: {
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "shrink-0 font-black tabular-nums w-10 text-right transition-colors duration-200", style: {
+      fontSize: "0.75rem",
+      color: "hsl(158 16% 28%)",
+      letterSpacing: "0.05em"
+    }, children: num }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-black text-lg leading-tight transition-colors duration-200 group-hover:text-[hsl(43,98%,68%)]", children: name }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-0.5 leading-relaxed", style: {
         color: "hsl(158 16% 46%)"
       }, children: short })
-    ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 18, className: "shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-2 group-hover:translate-x-0", style: {
+      color: ORANGE
+    } })
   ] });
 }
 function OrangeDot() {
@@ -298,108 +267,6 @@ const faq = [{
   a: "A javítás ára az alkatrész típusától, a hiba jellegétől és a szükséges anyagoktól függ. Bevizsgálás után pontos, írásos árajánlatot adunk — csak elfogadás után kezdünk."
 }];
 const counties = ["Budapest", "Pest", "Győr-Moson-Sopron", "Vas", "Zala", "Somogy", "Baranya", "Tolna", "Fejér", "Komárom-Esztergom", "Veszprém", "Bács-Kiskun", "Csongrád-Csanád", "Békés", "Hajdú-Bihar", "Szabolcs-Sz-B", "Jász-NK-Sz", "Heves", "Nógrád", "Borsod-A-Z"];
-const countyMeta = {
-  "Budapest": {
-    tier: "kiemelt",
-    eta: "2–4 óra",
-    partners: 5
-  },
-  "Pest": {
-    tier: "aktiv",
-    eta: "3–6 óra",
-    partners: 3
-  },
-  "Győr-Moson-Sopron": {
-    tier: "aktiv",
-    eta: "4–8 óra",
-    partners: 2
-  },
-  "Vas": {
-    tier: "aktiv",
-    eta: "6–10 óra",
-    partners: 1
-  },
-  "Zala": {
-    tier: "aktiv",
-    eta: "6–10 óra",
-    partners: 1
-  },
-  "Somogy": {
-    tier: "aktiv",
-    eta: "5–9 óra",
-    partners: 1
-  },
-  "Baranya": {
-    tier: "aktiv",
-    eta: "6–10 óra",
-    partners: 2
-  },
-  "Tolna": {
-    tier: "kiemelt",
-    eta: "4–7 óra",
-    partners: 2
-  },
-  "Fejér": {
-    tier: "aktiv",
-    eta: "4–7 óra",
-    partners: 2
-  },
-  "Komárom-Esztergom": {
-    tier: "aktiv",
-    eta: "4–7 óra",
-    partners: 2
-  },
-  "Veszprém": {
-    tier: "aktiv",
-    eta: "4–8 óra",
-    partners: 1
-  },
-  "Bács-Kiskun": {
-    tier: "aktiv",
-    eta: "5–9 óra",
-    partners: 2
-  },
-  "Csongrád-Csanád": {
-    tier: "aktiv",
-    eta: "6–10 óra",
-    partners: 2
-  },
-  "Békés": {
-    tier: "aktiv",
-    eta: "7–12 óra",
-    partners: 1
-  },
-  "Hajdú-Bihar": {
-    tier: "kiemelt",
-    eta: "5–9 óra",
-    partners: 3
-  },
-  "Szabolcs-Sz-B": {
-    tier: "aktiv",
-    eta: "7–12 óra",
-    partners: 1
-  },
-  "Jász-NK-Sz": {
-    tier: "aktiv",
-    eta: "5–9 óra",
-    partners: 2
-  },
-  "Heves": {
-    tier: "aktiv",
-    eta: "5–9 óra",
-    partners: 1
-  },
-  "Nógrád": {
-    tier: "aktiv",
-    eta: "5–9 óra",
-    partners: 1
-  },
-  "Borsod-A-Z": {
-    tier: "aktiv",
-    eta: "6–11 óra",
-    partners: 2
-  }
-};
 function Home() {
   const [menuOpen, setMenuOpen] = reactExports.useState(false);
   const [scrolled, setScrolled] = reactExports.useState(false);
@@ -410,6 +277,7 @@ function Home() {
   reactExports.useRef(null);
   const [selectedCounty, setSelectedCounty] = reactExports.useState(null);
   const [countySearch, setCountySearch] = reactExports.useState("");
+  const [hoveredCounty, setHoveredCounty] = reactExports.useState(null);
   const [openFaq, setOpenFaq] = reactExports.useState(null);
   const [formState, setFormState] = reactExports.useState("idle");
   const playClick = useClickSound();
@@ -895,46 +763,261 @@ function Home() {
             " Hívjon most — ingyenes"
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 80, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative rounded-3xl p-6 overflow-hidden", style: {
-          background: "hsl(158 58% 9%)",
-          border: "1px solid rgba(253,185,39,0.12)"
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 right-0 w-40 h-40 rounded-full blur-[60px] opacity-10 pointer-events-none", style: {
-            background: ORANGE
-          } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold uppercase tracking-[0.16em] mb-4", style: {
-            color: "hsl(158 16% 40%)"
-          }, children: "Mind a 20 megye — teljes lefedettség" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: counties.map((c, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium", style: {
-            background: countyMeta[c]?.tier === "kiemelt" ? "rgba(253,185,39,0.15)" : "rgba(255,255,255,0.05)",
-            border: `1px solid ${countyMeta[c]?.tier === "kiemelt" ? "rgba(253,185,39,0.35)" : "rgba(255,255,255,0.08)"}`,
-            color: countyMeta[c]?.tier === "kiemelt" ? "hsl(43 98% 68%)" : "hsl(158 16% 65%)",
-            animationDelay: `${i * 60}ms`
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-              color: countyMeta[c]?.tier === "kiemelt" ? ORANGE : "hsl(158 40% 45%)",
-              fontSize: "0.6rem"
-            }, children: "✓" }),
-            c
-          ] }, c)) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-5 pt-4 flex items-center gap-5 text-xs", style: {
-            borderTop: "1px solid rgba(255,255,255,0.05)",
-            color: "hsl(158 16% 40%)"
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 80, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold uppercase tracking-[0.16em]", style: {
+              color: "hsl(158 16% 38%)"
+            }, children: "Mind a 20 megye — teljes lefedettség" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-semibold transition-all duration-200", style: {
+              color: hoveredCounty ? ["bp", "pest", "tolna", "hb"].includes(hoveredCounty) ? ORANGE : "hsl(158 60% 55%)" : "transparent",
+              minWidth: "8rem",
+              textAlign: "right"
+            }, children: hoveredCounty ? [{
+              id: "gms",
+              name: "Győr-Moson-Sopron"
+            }, {
+              id: "vas",
+              name: "Vas"
+            }, {
+              id: "zala",
+              name: "Zala"
+            }, {
+              id: "ke",
+              name: "Komárom-Esztergom"
+            }, {
+              id: "nograd",
+              name: "Nógrád"
+            }, {
+              id: "veszp",
+              name: "Veszprém"
+            }, {
+              id: "fejer",
+              name: "Fejér"
+            }, {
+              id: "tolna",
+              name: "Tolna"
+            }, {
+              id: "somogy",
+              name: "Somogy"
+            }, {
+              id: "baranya",
+              name: "Baranya"
+            }, {
+              id: "pest",
+              name: "Pest"
+            }, {
+              id: "bp",
+              name: "Budapest"
+            }, {
+              id: "heves",
+              name: "Heves"
+            }, {
+              id: "jnsz",
+              name: "Jász-NK-Sz"
+            }, {
+              id: "bk",
+              name: "Bács-Kiskun"
+            }, {
+              id: "ccs",
+              name: "Csongrád-Csanád"
+            }, {
+              id: "baz",
+              name: "Borsod-A-Z"
+            }, {
+              id: "ssz",
+              name: "Szabolcs-Sz-B"
+            }, {
+              id: "hb",
+              name: "Hajdú-Bihar"
+            }, {
+              id: "bekes",
+              name: "Békés"
+            }].find((c) => c.id === hoveredCounty)?.name ?? "" : "" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 760 400", className: "w-full rounded-2xl overflow-visible", xmlns: "http://www.w3.org/2000/svg", style: {
+            background: "hsl(158 58% 6%)",
+            border: "1px solid rgba(16,185,129,0.1)",
+            borderRadius: "1rem"
+          }, children: [{
+            id: "gms",
+            name: "Győr-Moson-Sopron",
+            k: false,
+            cx: 144,
+            cy: 124,
+            d: "M10,137 10,96 55,68 111,82 155,90 189,117 180,152 144,165 89,178 44,165Z"
+          }, {
+            id: "vas",
+            name: "Vas",
+            k: false,
+            cx: 74,
+            cy: 212,
+            d: "M44,165 89,178 144,165 111,220 111,247 78,288 10,288 10,137Z"
+          }, {
+            id: "zala",
+            name: "Zala",
+            k: false,
+            cx: 78,
+            cy: 308,
+            d: "M10,288 78,288 111,247 144,274 144,315 111,357 55,371 10,371Z"
+          }, {
+            id: "ke",
+            name: "Komárom-Esztergom",
+            k: false,
+            cx: 246,
+            cy: 136,
+            d: "M189,117 222,96 278,82 306,82 306,117 323,137 300,165 222,165 180,152Z"
+          }, {
+            id: "nograd",
+            name: "Nógrád",
+            k: false,
+            cx: 367,
+            cy: 88,
+            d: "M306,82 306,55 389,55 411,82 411,117 389,137 323,137 306,117Z"
+          }, {
+            id: "veszp",
+            name: "Veszprém",
+            k: false,
+            cx: 193,
+            cy: 206,
+            d: "M144,165 180,152 222,165 300,165 278,220 222,233 189,247 144,247 111,220Z"
+          }, {
+            id: "fejer",
+            name: "Fejér",
+            k: false,
+            cx: 298,
+            cy: 206,
+            d: "M300,165 323,137 334,165 334,220 300,247 278,247 278,220Z"
+          }, {
+            id: "tolna",
+            name: "Tolna",
+            k: true,
+            cx: 262,
+            cy: 292,
+            d: "M222,233 278,220 300,247 278,274 278,329 222,329 222,274Z"
+          }, {
+            id: "somogy",
+            name: "Somogy",
+            k: false,
+            cx: 165,
+            cy: 307,
+            d: "M10,371 55,371 111,357 144,315 144,274 222,274 222,329 188,371 155,399 10,399Z"
+          }, {
+            id: "baranya",
+            name: "Baranya",
+            k: false,
+            cx: 224,
+            cy: 367,
+            d: "M155,399 188,371 222,329 278,329 278,357 222,399Z"
+          }, {
+            id: "pest",
+            name: "Pest",
+            k: true,
+            cx: 370,
+            cy: 146,
+            d: "M306,117 389,137 411,117 411,165 389,165 356,185 356,220 334,220 334,165 323,137Z"
+          }, {
+            id: "bp",
+            name: "Budapest",
+            k: true,
+            cx: 341,
+            cy: 175,
+            d: "M334,165 356,165 356,185 334,185Z"
+          }, {
+            id: "heves",
+            name: "Heves",
+            k: false,
+            cx: 441,
+            cy: 137,
+            d: "M389,137 411,117 500,117 500,165 456,192 411,165Z"
+          }, {
+            id: "jnsz",
+            name: "Jász-NK-Sz",
+            k: false,
+            cx: 440,
+            cy: 218,
+            d: "M356,185 389,165 411,165 456,192 500,165 500,247 445,274 389,247 356,220Z"
+          }, {
+            id: "bk",
+            name: "Bács-Kiskun",
+            k: false,
+            cx: 382,
+            cy: 313,
+            d: "M278,274 334,220 356,220 389,247 445,274 445,329 389,371 333,371 278,329Z"
+          }, {
+            id: "ccs",
+            name: "Csongrád-Csanád",
+            k: false,
+            cx: 452,
+            cy: 350,
+            d: "M445,274 500,247 500,399 445,399 389,371Z"
+          }, {
+            id: "baz",
+            name: "Borsod-A-Z",
+            k: false,
+            cx: 548,
+            cy: 107,
+            d: "M411,82 500,55 556,27 611,27 667,55 667,117 611,165 556,165 500,165 500,117Z"
+          }, {
+            id: "ssz",
+            name: "Szabolcs-Sz-B",
+            k: false,
+            cx: 683,
+            cy: 119,
+            d: "M611,27 667,27 722,55 755,82 755,192 722,192 667,165 611,165 667,117 667,55Z"
+          }, {
+            id: "hb",
+            name: "Hajdú-Bihar",
+            k: true,
+            cx: 611,
+            cy: 217,
+            d: "M556,165 611,165 667,165 722,192 722,274 667,315 611,274 556,247 500,247 500,165Z"
+          }, {
+            id: "bekes",
+            name: "Békés",
+            k: false,
+            cx: 575,
+            cy: 300,
+            d: "M500,247 556,247 611,274 667,315 667,357 611,371 556,357 500,329Z"
+          }].map((c) => {
+            const hov = hoveredCounty === c.id;
+            const fillBase = c.k ? "rgba(253,185,39,0.13)" : "rgba(16,185,129,0.09)";
+            const fillHov = c.k ? "rgba(253,185,39,0.32)" : "rgba(16,185,129,0.28)";
+            const strokeBase = c.k ? "rgba(253,185,39,0.22)" : "rgba(16,185,129,0.18)";
+            const strokeHov = c.k ? "rgba(253,185,39,0.7)" : "rgba(16,185,129,0.6)";
+            return /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { style: {
+              transform: hov ? "translate(0,-5px)" : "translate(0,0)",
+              transition: "transform 0.18s ease, filter 0.18s ease",
+              filter: hov ? `drop-shadow(0 6px 18px ${c.k ? "rgba(253,185,39,0.45)" : "rgba(16,185,129,0.38)"})` : "none",
+              cursor: "default"
+            }, onMouseEnter: () => setHoveredCounty(c.id), onMouseLeave: () => setHoveredCounty(null), children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: c.d, fill: hov ? fillHov : fillBase, stroke: hov ? strokeHov : strokeBase, strokeWidth: hov ? "1.8" : "1", strokeLinejoin: "round", style: {
+                transition: "fill 0.18s ease, stroke 0.18s ease, stroke-width 0.18s ease"
+              } }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: c.cx, y: c.cy, textAnchor: "middle", dominantBaseline: "middle", fontSize: c.id === "bp" ? "6" : "8", fontWeight: c.k ? "700" : "500", fill: hov ? c.k ? "rgba(253,185,39,1)" : "rgba(255,255,255,0.85)" : c.k ? "rgba(253,185,39,0.7)" : "rgba(255,255,255,0.3)", fontFamily: "system-ui, sans-serif", style: {
+                transition: "fill 0.18s ease",
+                pointerEvents: "none",
+                userSelect: "none"
+              }, children: c.id === "bp" ? "BP" : c.id === "gms" ? "Győr-M-S" : c.id === "ssz" ? "Szabolcs" : c.id === "baz" ? "Borsod" : c.id === "jnsz" ? "Jász-NK-Sz" : c.id === "ccs" ? "Csongrád" : c.id === "nograd" ? "Nógrád" : c.id === "bekes" ? "Békés" : c.name })
+            ] }, c.id);
+          }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs", style: {
+            color: "hsl(158 16% 38%)"
           }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex items-center gap-1.5", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: {
-                background: ORANGE,
-                boxShadow: `0 0 6px ${ORANGE}`
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-2.5 h-2.5 rounded-sm shrink-0", style: {
+                background: "rgba(253,185,39,0.4)",
+                border: "1px solid rgba(253,185,39,0.6)"
               } }),
               "Kiemelt hálózat"
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex items-center gap-1.5", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: {
-                background: "rgba(255,255,255,0.2)"
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-2.5 h-2.5 rounded-sm shrink-0", style: {
+                background: "rgba(16,185,129,0.25)",
+                border: "1px solid rgba(16,185,129,0.4)"
               } }),
               "Aktív lefedettség"
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-auto font-semibold", style: {
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ml-auto font-bold", style: {
               color: "hsl(43 98% 58%)"
             }, children: "20 / 20 megye ✓" })
           ] })
@@ -964,16 +1047,39 @@ function Home() {
             color: "hsl(158 16% 50%)"
           }, children: "Minden hidraulikus alkatrész — szivattyúktól az orbit motorig. Márkafüggetlenül, gyári minőségű alkatrészekkel, 6 hónap garanciával." })
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 md:grid-cols-4 auto-rows-[260px] gap-4", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 60, className: "md:col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "01", name: "Axiál dugattyús szivattyú", short: "Nagy nyomású, dugattyús — kotrógépek és nehézgépek elengedhetetlen alkatrésze.", img: "/images/Hidraulika_axialdugattyus.jpg" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 100, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "02", name: "Radiál dugattyús szivattyú", short: "Radiális dugattyús, robusztus kialakítás nehézipari alkalmazásokhoz.", img: "/images/Hidraulika_Radialdugattyus_szivattyu.png", contain: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 130, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "03", name: "Lapátos szivattyú", short: "Lamellás betétek, patronok és házak — komplett felújítás.", img: "/images/Hidraulika_lapatos.jpg", contain: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 160, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "04", name: "Fogaskerekes szivattyú", short: "Egyszerű, megbízható — gyors csere, versenyképes ár.", img: "/images/Hidraulika_fogaskerek.jpg", contain: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 190, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "05", name: "Hidromotor", short: "Hidraulikus energiát forgómozgássá alakít — nagy nyomaték, precíz vezérlés.", img: "/images/Hidraulika_ORBIT.jpg", contain: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 220, className: "md:col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "06", name: "Vezérlőtömb", short: "Szelepek, blokkok javítása — a rendszer agyát is megjavítjuk.", img: "/images/Hidraulika_vezerlotomb.jpg", contain: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 250, className: "md:col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "07", name: "Munkahenger", short: "Tömítéscsere, krómozás, henger felújítás — minden méretben, minden nyomástartományban.", img: "/images/Hidraulika_munkahenger.jpg", contain: true }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 280, className: "md:col-span-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { num: "08", name: "Orbit motor", short: "Kompakt, nagy nyomatékú — mezőgazdasági és erdészeti gépekben mindennapos." }) })
-        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid md:grid-cols-2 gap-x-16", children: [{
+          num: "01",
+          name: "Axiál dugattyús szivattyú",
+          short: "Nagy nyomású, dugattyús — kotrógépek és nehézgépek elengedhetetlen alkatrésze."
+        }, {
+          num: "02",
+          name: "Radiál dugattyús szivattyú",
+          short: "Radiális dugattyús, robusztus kialakítás nehézipari alkalmazásokhoz."
+        }, {
+          num: "03",
+          name: "Lapátos szivattyú",
+          short: "Lamellás betétek, patronok és házak — komplett felújítás."
+        }, {
+          num: "04",
+          name: "Fogaskerekes szivattyú",
+          short: "Egyszerű, megbízható — gyors csere, versenyképes ár."
+        }, {
+          num: "05",
+          name: "Hidromotor",
+          short: "Hidraulikus energiát forgómozgássá alakít — nagy nyomaték, precíz vezérlés."
+        }, {
+          num: "06",
+          name: "Vezérlőtömb",
+          short: "Szelepek, blokkok javítása — a rendszer agyát is megjavítjuk."
+        }, {
+          num: "07",
+          name: "Munkahenger",
+          short: "Tömítéscsere, krómozás, henger felújítás — minden méretben, minden nyomástartományban."
+        }, {
+          num: "08",
+          name: "Orbit motor",
+          short: "Kompakt, nagy nyomatékú — mezőgazdasági és erdészeti gépekben mindennapos."
+        }].map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: i * 50, children: /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { ...s }) }, s.num)) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 340, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col sm:flex-row items-center gap-5 rounded-3xl p-7", style: {
           background: "linear-gradient(135deg, rgba(253,185,39,0.08), rgba(16,185,129,0.06))",
           border: "1px solid rgba(253,185,39,0.2)"
