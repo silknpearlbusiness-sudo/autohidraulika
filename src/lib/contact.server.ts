@@ -107,7 +107,7 @@ function confirmationHtml(p: ContactPayload): string {
       <table width="100%" cellpadding="0" cellspacing="0" style="background:#06170e;border-radius:16px 16px 0 0;border-bottom:1px solid rgba(255,255,255,0.07);">
         <tr><td style="padding:24px 32px;">
           <span style="font-size:18px;font-weight:900;color:#e8e0d0;">
-            hidraulika<span style="color:#FDB927;">javítás.hu</span>
+            hidraulika<span style="color:#FDB927;">javitas.com</span>
           </span>
         </td></tr>
       </table>

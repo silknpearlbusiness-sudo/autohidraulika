@@ -16,7 +16,19 @@
       "Bash(git push *)",
       "Bash(git config *)",
       "Bash(git remote *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(npx tsc *)",
+      "Bash(cygpath -w /tmp/newmap.txt)",
+      "Bash(TMPFILE=__CMDSUB_OUTPUT__ node -e ' *)",
+      "Bash(npx playwright *)",
+      "Bash(node .tmp-shot.mjs)",
+      "Bash(sed 's/\\\\x1b\\\\[[0-9;]*m//g' \"C:\\\\Users\\\\rezar\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-rezar-Desktop-weboldalak-autohidraulikav1-autohidraulikav1\\\\f9301197-0e7f-4a85-a1a6-7ff0150276c2\\\\tasks\\\\b5m5c010x.output\" | grep -o \"localhost:[0-9]*\" | head -1)",
+      "Bash(cd \"c:/Users/rezar/Desktop/weboldalak/autohidraulikav1/autohidraulikav1\" && grep -rn \"javítás.hu\\\\|javitas.hu\" src/ | grep -vi \"hidraulikajavitas.com\" | head -5; echo \"=== remaining .hu:\"; grep -c \"\" /dev/null; npm run build 2>&1 | grep -E \"built in|ERROR\" | head -3)",
+      "Read(//dev/**)",
+      "Bash(until sed *)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\rezar\\AppData\\Local\\Temp\\claude\\c--Users-rezar-Desktop-weboldalak-autohidraulikav1-autohidraulikav1\\f9301197-0e7f-4a85-a1a6-7ff0150276c2\\tasks"
     ]
   }
 }

@@ -3,7 +3,6 @@ import {
   ArrowRight,
   Phone,
   Truck,
-  PhoneCall,
   ClipboardCheck,
   Wrench,
   PackageCheck,
@@ -14,19 +13,13 @@ import {
   MapPin,
   CheckCircle2,
   HelpCircle,
-  Gauge,
-  Zap,
   ChevronRight,
   Menu,
   X,
-  Search,
   ArrowUp,
-  Settings,
-  Cog,
   ArrowUpRight,
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
-import { useClickSound } from "@/lib/useClickSound";
 import { submitContact } from "@/lib/api/contact.functions";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -70,30 +63,11 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-// ── Images — verified Pexels CDN (hotlinking allowed) ────
-const PX = (id: string) =>
-  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop`;
-
+// ── Images — real business photos ────────────────────────
 const IMGS = {
-  // real business photos (downloaded from wp)
   workshop1:  "/images/ZW550-6-768x690.webp",
   workshop2:  "/images/workshop-2.jpg",
   timberjack: "/images/3737280468_219458a037_b.jpg",
-  courier:    "/images/courier.jpg",
-  // hydraulic / industrial (stock fallbacks)
-  pump:      PX("3807319"),
-  motor:     PX("10733800"),
-  cylinder:  PX("5964745"),
-  control:   PX("4494653"),
-  // heavy equipment / excavators
-  excavator: PX("5125783"),
-  excavator2:PX("5125782"),
-  excavator3:PX("4523602"),
-  machines:  PX("10421754"),
-  loader:    PX("28663727"),
-  heavy:     PX("30751525"),
-  terrain:   PX("33122153"),
-  yellow:    PX("10451774"),
 };
 
 // ── Shared components ────────────────────────────────────
@@ -129,27 +103,6 @@ function Chip({ children }: { children: ReactNode }) {
   );
 }
 
-function ServiceCard({ num, name, short }: { num: string; name: string; short: string; img?: string; contain?: boolean }) {
-  const ORANGE = "#FDB927";
-  return (
-    <a href="#kapcsolat"
-      className="group flex items-center gap-5 py-5 no-underline"
-      style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", transition: "padding-left 0.2s ease" }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.paddingLeft = "0.75rem"; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.paddingLeft = "0"; }}>
-      <span className="shrink-0 font-black tabular-nums w-10 text-right transition-colors duration-200"
-        style={{ fontSize: "0.75rem", color: "hsl(158 16% 28%)", letterSpacing: "0.05em" }}>
-        {num}
-      </span>
-      <div className="flex-1 min-w-0">
-        <h3 className="font-black text-lg leading-tight transition-colors duration-200 group-hover:text-[hsl(43,98%,68%)]">{name}</h3>
-        <p className="text-sm mt-0.5 leading-relaxed" style={{ color: "hsl(158 16% 46%)" }}>{short}</p>
-      </div>
-      <ArrowUpRight size={18} className="shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-2 group-hover:translate-x-0" style={{ color: ORANGE }} />
-    </a>
-  );
-}
-
 function OrangeDot() {
   return (
     <span className="w-1.5 h-1.5 rounded-full inline-block"
@@ -171,23 +124,26 @@ const marqueeItems = [
   "Orbit", "Vezérlőtömb", "Munkahenger",
 ];
 
+// What we repair — real part photos shown in the szolgáltatások preview panel
+const repairItems = [
+  { num: "01", name: "Axiál dugattyús szivattyú",  short: "Nagy nyomású, dugattyús — kotrógépek és nehézgépek elengedhetetlen alkatrésze.",              img: "/images/Hidraulika_axialdugattyus.jpg" },
+  { num: "02", name: "Radiál dugattyús szivattyú", short: "Radiális dugattyús, robusztus kialakítás nehézipari alkalmazásokhoz.",                        img: "/images/radialszivattyu.gif" },
+  { num: "03", name: "Lapátos szivattyú",          short: "Lamellás betétek, patronok és házak — komplett felújítás.",                                   img: "/images/Hidraulika_lapatos.jpg" },
+  { num: "04", name: "Fogaskerekes szivattyú",     short: "Egyszerű, megbízható — gyors csere, versenyképes ár.",                                        img: "/images/Hidraulika_fogaskerek.jpg" },
+  { num: "05", name: "Hidromotor",                 short: "Hidraulikus energiát forgómozgássá alakít — nagy nyomaték, precíz vezérlés.",                 img: "/images/Hidraulika_hidromotor1.jpg" },
+  { num: "06", name: "Vezérlőtömb",                short: "Szelepek, blokkok javítása — a rendszer agyát is megjavítjuk.",                               img: "/images/Hidraulika_vezerlotomb.jpg" },
+  { num: "07", name: "Munkahenger",                short: "Tömítéscsere, krómozás, henger felújítás — minden méretben, minden nyomástartományban.",      img: "/images/Hidraulika_munkahenger.jpg" },
+  { num: "08", name: "Orbit motor",                short: "Kompakt, nagy nyomatékú — mezőgazdasági és erdészeti gépekben mindennapos.",                  img: "/images/Hidraulika_ORBIT.jpg" },
+];
+
 const services = [
   {
     icon: Wrench,
     num: "01",
     title: "Hidraulika Javítás",
     desc: "Hidraulikus alkatrészek teljes körű diagnózisa, javítása és felújítása — minden típushoz, minden gyártóhoz, gyári minőségű alkatrészekkel. 24–48 órás átfutás, 6 hónap garancia.",
-    img: IMGS.pump,
     tags: ["Axial", "Radial", "Lapátos", "Fogaskerekes", "Hidromotor", "Vezérlőtömb", "Munkahenger", "Orbit"],
   },
-];
-
-const whyUs = [
-  { icon: Zap,          t: "24–48 óra — nem napok",         d: "Amíg a konkurencia heteket vár, mi 24–48 óra alatt visszaadjuk a javított alkatrészt. Minden állásban töltött nap pénzbe kerül Önnek — mi ezt értjük." },
-  { icon: CheckCircle2, t: "Minden gyártó, minden típus",    d: "Komatsu, Caterpillar, Bosch Rexroth, Parker, ZF, Liebherr, Kawasaki és minden más gyártó. Nem küldjük el azzal, hogy 'ezt nem vállaljuk'." },
-  { icon: PackageCheck, t: "Csak gyári minőségű alkatrész",  d: "Kizárólag gyári vagy gyári minőségű tömítéseket és alkatrészeket használunk. Olcsó utángyártott helyett tartós minőség — hogy ne kelljen hamar visszahozni." },
-  { icon: ShieldCheck,  t: "6 hónap írásos garancia",        d: "Minden javításra 6 hónapos teljes körű, írásos garanciát vállalunk. Ha bármi probléma adódna a javított alkatrészen, ingyen és azonnal megoldjuk." },
-  { icon: Truck,        t: "Ingyenes oda-vissza futár",      d: "Egy telefonhívás — és a futárunk megy Önhöz. Nem kell leállítani a munkát, nem kell személyesen leadni. Mi jövünk, mi visszük, mi visszahozzuk." },
 ];
 
 const brands = [
@@ -221,15 +177,6 @@ const processSteps = [
   },
 ];
 
-const equipment = [
-  { t: "Kotrógépek",                img: IMGS.excavator  },
-  { t: "Traktorok & Kombájnok",     img: IMGS.machines   },
-  { t: "Rakodók & Buldózerek",      img: IMGS.loader     },
-  { t: "Dömperek & Grédek",         img: IMGS.heavy      },
-  { t: "Erdészeti Gépek",           img: IMGS.terrain    },
-  { t: "Aszfalt Marók & Tömörítők", img: IMGS.yellow     },
-];
-
 const testimonials = [
   { name: "K. Péter",   role: "Debrecen",  text: "Gyors, precíz munka. A hidraulikus szivattyút 48 óra alatt megjavították és visszaszállították. Kiváló szolgáltatás, melegen ajánlom mindenkinek!" },
   { name: "N. László",  role: "Budapest",  text: "Korrekt kommunikáció, pontos árajánlat, határidőre elkészülő munka. A hidraulikus hengerünket tökéletesen megjavították. Köszönöm a csapatnak!" },
@@ -252,19 +199,6 @@ const counties = [
   "Szabolcs-Sz-B","Jász-NK-Sz","Heves","Nógrád","Borsod-A-Z",
 ];
 
-const countyMeta: Record<string, { tier: "kiemelt"|"aktiv"; eta: string; partners: number }> = {
-  "Budapest":{ tier:"kiemelt",eta:"2–4 óra",partners:5 }, "Pest":{ tier:"aktiv",eta:"3–6 óra",partners:3 },
-  "Győr-Moson-Sopron":{ tier:"aktiv",eta:"4–8 óra",partners:2 }, "Vas":{ tier:"aktiv",eta:"6–10 óra",partners:1 },
-  "Zala":{ tier:"aktiv",eta:"6–10 óra",partners:1 }, "Somogy":{ tier:"aktiv",eta:"5–9 óra",partners:1 },
-  "Baranya":{ tier:"aktiv",eta:"6–10 óra",partners:2 }, "Tolna":{ tier:"kiemelt",eta:"4–7 óra",partners:2 },
-  "Fejér":{ tier:"aktiv",eta:"4–7 óra",partners:2 }, "Komárom-Esztergom":{ tier:"aktiv",eta:"4–7 óra",partners:2 },
-  "Veszprém":{ tier:"aktiv",eta:"4–8 óra",partners:1 }, "Bács-Kiskun":{ tier:"aktiv",eta:"5–9 óra",partners:2 },
-  "Csongrád-Csanád":{ tier:"aktiv",eta:"6–10 óra",partners:2 }, "Békés":{ tier:"aktiv",eta:"7–12 óra",partners:1 },
-  "Hajdú-Bihar":{ tier:"kiemelt",eta:"5–9 óra",partners:3 }, "Szabolcs-Sz-B":{ tier:"aktiv",eta:"7–12 óra",partners:1 },
-  "Jász-NK-Sz":{ tier:"aktiv",eta:"5–9 óra",partners:2 }, "Heves":{ tier:"aktiv",eta:"5–9 óra",partners:1 },
-  "Nógrád":{ tier:"aktiv",eta:"5–9 óra",partners:1 }, "Borsod-A-Z":{ tier:"aktiv",eta:"6–11 óra",partners:2 },
-};
-
 // ── Page ─────────────────────────────────────────────────
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -273,25 +207,9 @@ function Home() {
   const [showMobileCTA, setShowMobileCTA] = useState(false);
   const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navInnerRef = useRef<HTMLDivElement>(null);
-  const countyInfoRef = useRef<HTMLDivElement>(null);
-  const [selectedCounty, setSelectedCounty] = useState<string|null>(null);
-  const [countySearch, setCountySearch] = useState("");
-  const [hoveredCounty, setHoveredCounty] = useState<string|null>(null);
   const [openFaq, setOpenFaq] = useState<number|null>(null);
-  const [formState, setFormState] = useState<"idle"|"loading"|"success">("idle");
-  const playClick = useClickSound();
-
-  // Global click SFX — fires on any interactive element across the page
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      const el = (e.target as HTMLElement | null)?.closest(
-        "a, button, [role='button'], input[type='submit'], select, summary, label"
-      );
-      if (el) playClick();
-    };
-    document.addEventListener("click", handler);
-    return () => document.removeEventListener("click", handler);
-  }, [playClick]);
+  const [formState, setFormState] = useState<"idle"|"loading"|"success"|"error">("idle");
+  const [activeService, setActiveService] = useState(0);
 
   useEffect(() => {
     let raf = 0;
@@ -505,7 +423,8 @@ function Home() {
             transition: "transform 0.55s cubic-bezier(0.22,1,0.36,1), background 0.4s ease, box-shadow 0.4s ease",
           }}>
             <a href="#top" className="flex items-center gap-2.5 group pl-1 no-underline">
-              <img src="/images/logo.svg" alt="Hidraulikajavítás.hu" className="h-9 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105" />
+              <img src="/images/logo-dark.png" alt="Hidraulikajavítás.com" className="h-8 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105"
+                style={{ filter: "drop-shadow(0 1px 6px rgba(0,0,0,0.4))" }} />
             </a>
 
             <div className="hidden md:flex items-center gap-6">
@@ -554,7 +473,7 @@ function Home() {
             <div className="p-4 flex flex-col gap-1">
               {/* Logo centered at top of drawer */}
               <div className="flex flex-col items-center gap-1.5 py-3 mb-1">
-                <img src="/images/logo.svg" alt="Hidraulikajavítás.hu" className="h-10 w-auto" />
+                <img src="/images/logo-dark.png" alt="Hidraulikajavítás.com" className="h-9 w-auto" />
               </div>
               <div className="mb-1" style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
               {navLinks.map((l) => (
@@ -568,7 +487,7 @@ function Home() {
               ))}
               <a href="tel:+36309111474"
                 className="mt-2 flex items-center justify-center gap-2 h-11 rounded-full text-sm font-semibold text-white no-underline"
-                style={{ background: ORANGE, boxShadow: "0 0 30px rgba(253,185,39,0.3)" }}>
+                style={{ background: ORANGE, boxShadow: "0 6px 20px rgba(253,185,39,0.25)" }}>
                 <Phone size={13} /> +36 30 911 1474
               </a>
             </div>
@@ -577,32 +496,32 @@ function Home() {
       </nav>
 
       {/* ══════════════════════════════════════════════════
-          HERO — image mosaic right, text left
+          HERO — full-bleed photo bg, text left, photos right
       ══════════════════════════════════════════════════ */}
       <section className="relative min-h-screen overflow-hidden">
-        {/* bg dot grid */}
-        <div className="absolute inset-0 pointer-events-none z-0"
-          style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)", backgroundSize: "36px 36px" }} />
-        {/* ambient blobs */}
-        <div className="absolute -top-40 -left-32 rounded-full pointer-events-none animate-blob"
-          style={{ width: 700, height: 700, background: "radial-gradient(circle, rgba(253,185,39,0.14), transparent 70%)", filter: "blur(90px)" }} />
-        <div className="absolute top-0 right-0 rounded-full pointer-events-none"
-          style={{ width: 500, height: 500, background: "radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%)", filter: "blur(100px)", animation: "blob 20s ease-in-out infinite reverse" }} />
+        {/* Full-bleed background photo */}
+        <div className="absolute inset-0 z-0">
+          <img src={IMGS.workshop2} alt="" aria-hidden="true"
+            className="w-full h-full object-cover"
+            style={{ filter: "saturate(0.65) brightness(0.5)", objectPosition: "70% 50%" }} />
+          {/* Dark green wash — heavy on the left for text, fades to the photo on the right */}
+          <div className="absolute inset-0" style={{
+            background: "linear-gradient(100deg, hsla(158,62%,6%,0.985) 0%, hsla(158,62%,6%,0.95) 38%, hsla(158,62%,6%,0.72) 68%, hsla(158,62%,7%,0.5) 100%)",
+          }} />
+          {/* Fade to page background at the bottom for a seamless hand-off */}
+          <div className="absolute inset-x-0 bottom-0 h-48" style={{
+            background: "linear-gradient(to top, hsl(158 62% 7%), transparent)",
+          }} />
+        </div>
 
-        {/* Film grain — SVG feTurbulence at very low opacity for tactile texture */}
-        <div className="absolute inset-0 pointer-events-none z-0 select-none" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-          opacity: 0.028,
-          mixBlendMode: "overlay",
-        }} />
-
-        <div className="grid lg:grid-cols-[1fr_0.9fr] min-h-screen relative z-10">
+        <div className="mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10">
+        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 xl:gap-24 min-h-screen">
 
           {/* LEFT — text */}
-          <div className="flex flex-col justify-center pt-32 pb-16 px-6 md:px-10 lg:px-16 xl:px-20">
+          <div className="flex flex-col justify-center pt-32 pb-16 lg:pt-24 lg:pb-10">
 
             <Reveal>
-              <div className="mb-7">
+              <div className="mb-6">
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]"
                   style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.25)", color: "hsl(43 98% 68%)" }}>
                   <OrangeDot /> Márkafüggetlen szakszerviz · Budapest
@@ -611,64 +530,89 @@ function Home() {
             </Reveal>
 
             <Reveal delay={70}>
-              <h1 className="mb-6" style={{ fontWeight: 900, lineHeight: 1, letterSpacing: "-0.025em" }}>
-                <span className="block hero-gradient-text" style={{ fontSize: "clamp(3rem,9vw,7.5rem)" }}>HIDRAULIKA</span>
-                <span className="block hero-gradient-text" style={{ fontSize: "clamp(2rem,6vw,5rem)" }}>JAVÍTÁS</span>
-                <span className="block mt-2" style={{ fontSize: "clamp(1.1rem,3vw,2.2rem)", color: "rgba(250,244,230,0.55)", fontWeight: 800, letterSpacing: "0.06em" }}>
-                  <span style={{ fontSize: "1.5em", fontWeight: 900, lineHeight: 0.85, background: `linear-gradient(135deg, ${ORANGE}, #fff176)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>H</span>idraulika{" "}
-                  <span style={{ fontSize: "1.5em", fontWeight: 900, lineHeight: 0.85, background: `linear-gradient(135deg, ${ORANGE}, #fff176)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>S</span>ervice{" "}
-                  <span style={{ fontSize: "1.5em", fontWeight: 900, lineHeight: 0.85, background: `linear-gradient(135deg, ${ORANGE}, #fff176)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>T</span>eam
-                </span>
+              <h1 className="mb-5" style={{ fontWeight: 800, lineHeight: 0.95, letterSpacing: "0.015em" }}>
+                <span className="block hero-gradient-text" style={{ fontSize: "clamp(3.25rem,8vw,7rem)" }}>HIDRAULIKA</span>
+                <span className="block hero-gradient-text" style={{ fontSize: "clamp(3.25rem,8vw,7rem)" }}>JAVÍTÁS</span>
               </h1>
+              <p className="mb-6 text-sm font-bold uppercase" style={{ letterSpacing: "0.28em", color: "hsl(158 16% 55%)" }}>
+                Hidraulika Service Team Kft.
+              </p>
             </Reveal>
 
-            <Reveal delay={140}>
-              <div className="mb-10 h-0.5 w-14 rounded-full" style={{ background: "linear-gradient(90deg, hsl(43 98% 54%), transparent)" }} />
+            <Reveal delay={130}>
+              <p className="mb-8 max-w-lg text-base md:text-lg leading-relaxed" style={{ color: "hsl(158 14% 68%)" }}>
+                Szivattyúk, hidromotorok, munkahengerek és vezérlőtömbök javítása minden gyártóhoz.
+                Futárunk az ország bármely pontjáról elhozza az alkatrészt — <strong style={{ color: "hsl(40 20% 95%)" }}>24–48 óra</strong> alatt
+                megjavítjuk, és visszük is vissza.
+              </p>
             </Reveal>
 
             <Reveal delay={180}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="tel:+36309111474"
                   className="group glint cta-pulse relative inline-flex items-center justify-center gap-3 rounded-full font-black text-white no-underline w-full sm:w-auto"
-                  style={{ background: ORANGE, height: "4.5rem", paddingLeft: "2.5rem", paddingRight: "2.5rem", fontSize: "1.25rem", boxShadow: "0 0 60px rgba(253,185,39,0.55), 0 8px 32px rgba(253,185,39,0.35)" }}>
-                  <Phone size={22} /> Hívjon most!
+                  style={{ background: ORANGE, height: "4rem", paddingLeft: "2.5rem", paddingRight: "2.5rem", fontSize: "1.15rem", boxShadow: "0 10px 32px rgba(253,185,39,0.3)" }}>
+                  <Phone size={20} /> Hívjon most!
                 </a>
                 <a href="#kapcsolat"
                   className="btn-hover inline-flex items-center justify-center gap-3 rounded-full font-bold no-underline w-full sm:w-auto"
-                  style={{ height: "4.5rem", paddingLeft: "2.5rem", paddingRight: "2.5rem", fontSize: "1.1rem", color: "hsl(40 20% 97%)", border: "2px solid rgba(253,185,39,0.45)", background: "rgba(253,185,39,0.07)" }}>
+                  style={{ height: "4rem", paddingLeft: "2.5rem", paddingRight: "2.5rem", fontSize: "1.05rem", color: "hsl(40 20% 97%)", border: "2px solid rgba(253,185,39,0.45)", background: "rgba(4,20,14,0.45)" }}>
                   Kérek visszahívást
                   <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </a>
               </div>
             </Reveal>
+
+            {/* Trust stats */}
+            <Reveal delay={240}>
+              <div className="mt-10 flex items-center gap-8 md:gap-10">
+                {[
+                  { to: 5000, suffix: "+", label: "Sikeres javítás" },
+                  { to: 48,   suffix: " óra", label: "Max. átfutás" },
+                  { to: 6,    suffix: " hónap", label: "Írásos garancia" },
+                ].map((s, i) => (
+                  <div key={s.label} className="flex items-center gap-8 md:gap-10">
+                    {i > 0 && <div className="w-px h-10" style={{ background: "rgba(255,255,255,0.1)" }} />}
+                    <div>
+                      <p className="text-2xl md:text-3xl font-black" style={{ color: ORANGE }}>
+                        <Counter to={s.to} suffix={s.suffix} />
+                      </p>
+                      <p className="text-[11px] uppercase tracking-widest mt-1 font-semibold" style={{ color: "hsl(158 16% 50%)" }}>{s.label}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </div>
 
-          {/* RIGHT — image mosaic */}
-          <div className="hidden lg:flex flex-col justify-center gap-4 p-8 pr-12 pt-28 pb-28">
-            <Reveal delay={100}>
-              <div className="relative rounded-3xl overflow-hidden" style={{ height: 280, border: "1px solid rgba(255,255,255,0.07)" }}>
-                <img src={IMGS.workshop1} alt="Hidraulika javítás műhely" className="w-full h-full object-cover"
-                  style={{ filter: "saturate(0.75) contrast(1.1) brightness(0.85)" }} />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.5), transparent)" }} />
-                {/* Floating stat */}
-                <div className="glass absolute bottom-4 left-4 rounded-2xl px-4 py-3 animate-float">
-                  <p className="text-[10px] uppercase tracking-widest" style={{ color: "hsl(158 16% 50%)" }}>Garancia</p>
-                  <p className="text-lg font-black">6 hónap</p>
+          {/* RIGHT — photo stack, proportioned instead of stretched */}
+          <div className="hidden lg:flex flex-col justify-center gap-4 pt-28 pb-12">
+            <Reveal delay={120}>
+              <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/10]" style={{ maxHeight: "46vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
+                <img src={IMGS.workshop1} alt="Hitachi ZW550 rakodógép hidraulika javítás" className="absolute inset-0 w-full h-full object-cover"
+                  style={{ filter: "saturate(0.85) contrast(1.05) brightness(0.9)", objectPosition: "50% 60%" }} />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)" }} />
+                <div className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2"
+                  style={{ background: "rgba(4,20,14,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(253,185,39,0.25)" }}>
+                  <ShieldCheck size={14} style={{ color: ORANGE }} />
+                  <span className="text-xs font-bold">6 hónap írásos garancia</span>
                 </div>
               </div>
             </Reveal>
-            <Reveal delay={200}>
-              <div className="relative rounded-3xl overflow-hidden" style={{ height: 180, border: "1px solid rgba(255,255,255,0.07)" }}>
-                <img src={IMGS.timberjack} alt="Erdészeti munkagép hidraulika" className="w-full h-full object-cover"
-                  style={{ filter: "saturate(0.7) contrast(1.15) brightness(0.8)" }} />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent)" }} />
-                <div className="glass absolute bottom-3 left-3 rounded-xl px-3 py-2 animate-float" style={{ animationDelay: "-3s" }}>
-                  <p className="text-[9px] uppercase tracking-widest" style={{ color: "hsl(158 16% 50%)" }}>Javítás</p>
-                  <p className="text-sm font-black">5000+</p>
+            <Reveal delay={220}>
+              <div className="relative rounded-2xl overflow-hidden w-full aspect-[21/9]" style={{ maxHeight: "28vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
+                <img src={IMGS.timberjack} alt="Mezőgazdasági munkagép hidraulika" className="absolute inset-0 w-full h-full object-cover"
+                  style={{ filter: "saturate(0.8) contrast(1.05) brightness(0.85)", objectPosition: "50% 68%" }} />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)" }} />
+                <div className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2"
+                  style={{ background: "rgba(4,20,14,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(253,185,39,0.25)" }}>
+                  <Truck size={14} style={{ color: ORANGE }} />
+                  <span className="text-xs font-bold">Ingyenes országos futár</span>
                 </div>
               </div>
             </Reveal>
           </div>
+        </div>
         </div>
 
       </section>
@@ -679,189 +623,13 @@ function Home() {
       <div className="overflow-hidden" style={{ background: ORANGE, borderTop: "1px solid rgba(0,0,0,0.1)", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
         <div className="marquee-track py-3.5">
           {[...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="inline-flex items-center gap-5 font-bold tracking-[0.12em] uppercase text-[13px] px-5 text-white">
+            <span key={i} className="inline-flex items-center gap-5 font-bold tracking-[0.12em] uppercase text-[13px] px-5" style={{ color: "#0b1a12" }}>
               {item}
-              <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "8px" }}>◆</span>
+              <span style={{ color: "rgba(11,26,18,0.35)", fontSize: "8px" }}>◆</span>
             </span>
           ))}
         </div>
       </div>
-
-      {/* ══════════════════════════════════════════════════
-          COVERAGE
-      ══════════════════════════════════════════════════ */}
-      <section className="py-28 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 70% 60% at 60% 50%, rgba(253,185,39,0.04), transparent 70%)" }} />
-        <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <Reveal>
-              <Chip>Lefedettség</Chip>
-              <h2 className="text-4xl md:text-5xl mt-5 mb-5 font-black" style={{ lineHeight: 0.95 }}>
-                Bárhová megyünk<br />az országban.
-              </h2>
-              <div className="mb-6 h-0.5 w-12 rounded-full" style={{ background: `linear-gradient(90deg, ${ORANGE}, transparent)` }} />
-              <p className="leading-relaxed text-[15px] max-w-sm mb-8" style={{ color: "hsl(158 16% 55%)" }}>
-                Nem számít, hol van a gépe — futárunk elmegy Önhöz, átveszi az alkatrészt, és visszahozza megjavítva. Egész Magyarország területét lefedjük.
-              </p>
-              <a href="tel:+36309111474"
-                className="btn-hover glint inline-flex items-center gap-2.5 h-12 px-8 rounded-full text-base font-black no-underline"
-                style={{ background: ORANGE, color: "#04111f", boxShadow: "0 0 40px rgba(253,185,39,0.35)" }}>
-                <Phone size={16} /> Hívjon most — ingyenes
-              </a>
-            </Reveal>
-
-            <Reveal delay={80}>
-              {(() => {
-                /* ── Hungary outer border (46-point accurate trace) ── */
-                const HU = "M31,287 65,302 83,312 121,329 149,367 193,383 237,366 286,367 323,366 384,349 448,339 485,339 551,323 562,291 602,228 619,222 641,152 690,124 721,68 725,43 724,26 677,25 616,27 591,3 563,31 524,42 493,45 454,62 424,58 382,82 347,85 307,100 248,120 224,120 186,102 129,99 110,81 81,86 46,90 43,127 30,153 47,170 36,192 37,231 48,262 40,275Z";
-                /* ── Mask: full rect with Hungary hole (evenodd) ── */
-                const MASK = `M-10,-10 770,-10 770,410 -10,410Z ${HU}`;
-                /* ── County border lines ── */
-                const LINES = "M10,137 44,165 89,178 144,165 111,220 111,247 78,288 M144,165 180,152 189,117 M180,152 222,165 300,165 M278,220 222,233 189,247 144,247 111,220 M278,220 300,165 M278,220 278,247 300,247 M306,82 306,117 323,137 M323,137 389,137 411,117 411,82 M411,117 500,117 500,165 456,192 411,165 411,117 M389,165 356,185 356,220 334,220 323,137 334,165 334,220 M389,165 389,137 M611,27 611,165 667,165 722,192 722,274 667,315 M611,165 611,274 667,315 M556,165 556,247 611,274 M667,55 667,117 611,165 M500,165 500,247 500,329 M556,247 500,247 M445,274 389,247 356,220 M445,274 445,329 389,371 333,371 M278,274 144,274 144,315 111,357 M222,274 278,274 278,329 278,357 M222,274 222,233 M222,274 222,329 278,329 M222,329 188,371 M667,315 667,357 611,371";
-                const BG = "hsl(158 58% 6%)";
-                const cData = [
-                  { id:"gms",  name:"Győr-Moson-Sopron", lbl:"Győr-M-S",      k:false, cx:134, cy:124, fs:9,
-                    d:"M10,137 10,96 55,68 111,82 155,90 189,117 180,152 144,165 89,178 44,165Z" },
-                  { id:"vas",  name:"Vas",                lbl:"Vas",            k:false, cx: 68, cy:212, fs:10,
-                    d:"M44,165 89,178 144,165 111,220 111,247 78,288 10,288 10,137Z" },
-                  { id:"zala", name:"Zala",               lbl:"Zala",           k:false, cx: 72, cy:310, fs:10,
-                    d:"M10,288 78,288 111,247 144,274 144,315 111,357 55,371 10,371Z" },
-                  { id:"ke",   name:"Komárom-Esztergom",  lbl:"Komárom-E",      k:false, cx:246, cy:136, fs:9,
-                    d:"M189,117 222,96 278,82 306,82 306,117 323,137 300,165 222,165 180,152Z" },
-                  { id:"nograd",name:"Nógrád",            lbl:"Nógrád",         k:false, cx:360, cy: 93, fs:9,
-                    d:"M306,82 306,55 389,55 411,82 411,117 389,137 323,137 306,117Z" },
-                  { id:"veszp",name:"Veszprém",           lbl:"Veszprém",       k:false, cx:193, cy:208, fs:10,
-                    d:"M144,165 180,152 222,165 300,165 278,220 222,233 189,247 144,247 111,220Z" },
-                  { id:"fejer",name:"Fejér",              lbl:"Fejér",          k:false, cx:305, cy:205, fs:10,
-                    d:"M300,165 323,137 334,165 334,220 300,247 278,247 278,220Z" },
-                  { id:"tolna",name:"Tolna",              lbl:"Tolna",          k:true,  cx:255, cy:292, fs:11,
-                    d:"M222,233 278,220 300,247 278,274 278,329 222,329 222,274Z" },
-                  { id:"somogy",name:"Somogy",            lbl:"Somogy",         k:false, cx:158, cy:308, fs:11,
-                    d:"M10,371 55,371 111,357 144,315 144,274 222,274 222,329 188,371 155,399 10,399Z" },
-                  { id:"baranya",name:"Baranya",          lbl:"Baranya",        k:false, cx:218, cy:367, fs:9,
-                    d:"M155,399 188,371 222,329 278,329 278,357 222,399Z" },
-                  { id:"pest", name:"Pest",               lbl:"Pest",           k:true,  cx:370, cy:144, fs:12,
-                    d:"M306,117 389,137 411,117 411,165 389,165 356,185 356,220 334,220 334,165 323,137Z" },
-                  { id:"bp",   name:"Budapest",           lbl:"",               k:true,  cx:341, cy:175, fs:7,
-                    d:"M334,165 356,165 356,185 334,185Z" },
-                  { id:"heves",name:"Heves",              lbl:"Heves",          k:false, cx:447, cy:138, fs:10,
-                    d:"M389,137 411,117 500,117 500,165 456,192 411,165Z" },
-                  { id:"jnsz", name:"Jász-NK-Sz",         lbl:"Jász-NK-Sz",     k:false, cx:436, cy:222, fs:10,
-                    d:"M356,185 389,165 411,165 456,192 500,165 500,247 445,274 389,247 356,220Z" },
-                  { id:"bk",   name:"Bács-Kiskun",        lbl:"Bács-Kiskun",    k:false, cx:384, cy:318, fs:10,
-                    d:"M278,274 334,220 356,220 389,247 445,274 445,329 389,371 333,371 278,329Z" },
-                  { id:"ccs",  name:"Csongrád-Csanád",    lbl:"Csongrád",       k:false, cx:454, cy:352, fs:9,
-                    d:"M445,274 500,247 500,399 445,399 389,371Z" },
-                  { id:"baz",  name:"Borsod-A-Z",         lbl:"Borsod-A-Z",     k:false, cx:550, cy:110, fs:11,
-                    d:"M411,82 500,55 556,27 611,27 667,55 667,117 611,165 556,165 500,165 500,117Z" },
-                  { id:"ssz",  name:"Szabolcs-Sz-B",      lbl:"Szabolcs",       k:false, cx:685, cy:122, fs:10,
-                    d:"M611,27 667,27 722,55 755,82 755,192 722,192 667,165 611,165 667,117 667,55Z" },
-                  { id:"hb",   name:"Hajdú-Bihar",        lbl:"Hajdú-Bihar",    k:true,  cx:613, cy:220, fs:11,
-                    d:"M556,165 611,165 667,165 722,192 722,274 667,315 611,274 556,247 500,247 500,165Z" },
-                  { id:"bekes",name:"Békés",              lbl:"Békés",          k:false, cx:577, cy:303, fs:10,
-                    d:"M500,247 556,247 611,274 667,315 667,357 611,371 556,357 500,329Z" },
-                ] as { id:string; name:string; lbl:string; k:boolean; cx:number; cy:number; fs:number; d:string }[];
-                const hovName = cData.find(c => c.id === hoveredCounty);
-                return (
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-3">
-                      <p className="text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: "hsl(158 16% 38%)" }}>
-                        Mind a 20 megye — teljes lefedettség
-                      </p>
-                      <span className="text-xs font-semibold" style={{
-                        color: hoveredCounty ? (hovName?.k ? ORANGE : "hsl(158 60% 55%)") : "transparent",
-                        minWidth: "9rem", textAlign: "right", transition: "color 0.15s"
-                      }}>{hovName?.name ?? ""}</span>
-                    </div>
-
-                    <svg viewBox="0 0 760 400" className="w-full" xmlns="http://www.w3.org/2000/svg"
-                      style={{ background: BG, borderRadius: "1rem", border: "1px solid rgba(16,185,129,0.12)" }}>
-
-                      {/* 1. Hungary interior base fill */}
-                      <path d={HU} fill="hsl(158 52% 9%)" />
-
-                      {/* 2. County fills — translateY on hover, mask clips overflow */}
-                      {cData.map(c => {
-                        const hov = hoveredCounty === c.id;
-                        return (
-                          <path key={c.id} d={c.d}
-                            fill={hov
-                              ? (c.k ? "rgba(253,185,39,0.38)" : "rgba(16,185,129,0.30)")
-                              : (c.k ? "rgba(253,185,39,0.10)" : "rgba(16,185,129,0.06)")}
-                            style={{
-                              transition: "fill 0.15s ease, filter 0.15s ease",
-                              filter: hov
-                                ? `drop-shadow(0 0 14px ${c.k ? "rgba(253,185,39,0.55)" : "rgba(16,185,129,0.5)"})`
-                                : "none",
-                              transform: hov ? "translateY(-5px)" : "translateY(0)",
-                              cursor: "default",
-                            }}
-                            onMouseEnter={() => setHoveredCounty(c.id)}
-                            onMouseLeave={() => setHoveredCounty(null)}
-                          />
-                        );
-                      })}
-
-                      {/* 3. County dividing lines */}
-                      <path d={LINES} fill="none"
-                        stroke="rgba(255,255,255,0.10)" strokeWidth="0.9" strokeLinejoin="round"
-                        style={{ pointerEvents: "none" }} />
-
-                      {/* 4. Inverted mask — covers everything outside Hungary shape */}
-                      <path d={MASK} fill={BG} fillRule="evenodd" style={{ pointerEvents: "none" }} />
-
-                      {/* 5. Hungary outer border stroke */}
-                      <path d={HU} fill="none"
-                        stroke="rgba(16,185,129,0.55)" strokeWidth="1.8" strokeLinejoin="round"
-                        style={{ pointerEvents: "none" }} />
-
-                      {/* 6. County labels (on top, outside mask) */}
-                      {cData.map(c => {
-                        const hov = hoveredCounty === c.id;
-                        if (c.id === "bp") {
-                          return (
-                            <g key="bp-g" style={{ pointerEvents: "none" }}>
-                              <circle cx={c.cx} cy={c.cy} r="4.5" fill={ORANGE}
-                                style={{ filter: `drop-shadow(0 0 5px ${ORANGE})` }} />
-                              <text x={c.cx} y={c.cy - 9} textAnchor="middle"
-                                fontSize="8" fontWeight="700" fill={hov ? ORANGE : "rgba(253,185,39,0.85)"}
-                                fontFamily="system-ui,sans-serif">BP</text>
-                            </g>
-                          );
-                        }
-                        return (
-                          <text key={c.id + "t"} x={c.cx} y={c.cy}
-                            textAnchor="middle" dominantBaseline="middle"
-                            fontSize={c.fs} fontWeight={c.k ? "700" : "500"}
-                            fill={hov
-                              ? (c.k ? "rgba(253,185,39,1)" : "rgba(255,255,255,0.92)")
-                              : (c.k ? "rgba(253,185,39,0.82)" : "rgba(255,255,255,0.42)")}
-                            fontFamily="system-ui,sans-serif"
-                            style={{ transition: "fill 0.15s ease", pointerEvents: "none", userSelect: "none" }}
-                          >{c.lbl}</text>
-                        );
-                      })}
-                    </svg>
-
-                    <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs" style={{ color: "hsl(158 16% 38%)" }}>
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: "rgba(253,185,39,0.4)", border: "1px solid rgba(253,185,39,0.6)" }} />
-                        Kiemelt hálózat
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: "rgba(16,185,129,0.25)", border: "1px solid rgba(16,185,129,0.4)" }} />
-                        Aktív lefedettség
-                      </span>
-                      <span className="ml-auto font-bold" style={{ color: "hsl(43 98% 58%)" }}>20 / 20 megye ✓</span>
-                    </div>
-                  </div>
-                );
-              })()}
-            </Reveal>
-          </div>
-        </div>
-      </section>
 
       {/* ══════════════════════════════════════════════════
           SERVICES — bento image grid
@@ -878,7 +646,7 @@ function Home() {
             <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
               <div>
                 <Chip>Javítási területek</Chip>
-                <h2 className="mt-4 font-black leading-[0.9]" style={{ fontSize: "clamp(3.2rem,8vw,6.5rem)", letterSpacing: "-0.03em" }}>
+                <h2 className="mt-4 font-black leading-[0.9]" style={{ fontSize: "clamp(3.5rem,8vw,7rem)", letterSpacing: "0.015em" }}>
                   MIT<br /><span style={{ color: ORANGE }}>JAVÍTUNK?</span>
                 </h2>
               </div>
@@ -888,22 +656,71 @@ function Home() {
             </div>
           </Reveal>
 
-          {/* Service list — 2 columns */}
-          <div className="grid md:grid-cols-2 gap-x-16">
-            {[
-              { num: "01", name: "Axiál dugattyús szivattyú",   short: "Nagy nyomású, dugattyús — kotrógépek és nehézgépek elengedhetetlen alkatrésze." },
-              { num: "02", name: "Radiál dugattyús szivattyú",  short: "Radiális dugattyús, robusztus kialakítás nehézipari alkalmazásokhoz." },
-              { num: "03", name: "Lapátos szivattyú",           short: "Lamellás betétek, patronok és házak — komplett felújítás." },
-              { num: "04", name: "Fogaskerekes szivattyú",      short: "Egyszerű, megbízható — gyors csere, versenyképes ár." },
-              { num: "05", name: "Hidromotor",                  short: "Hidraulikus energiát forgómozgássá alakít — nagy nyomaték, precíz vezérlés." },
-              { num: "06", name: "Vezérlőtömb",                 short: "Szelepek, blokkok javítása — a rendszer agyát is megjavítjuk." },
-              { num: "07", name: "Munkahenger",                 short: "Tömítéscsere, krómozás, henger felújítás — minden méretben, minden nyomástartományban." },
-              { num: "08", name: "Orbit motor",                 short: "Kompakt, nagy nyomatékú — mezőgazdasági és erdészeti gépekben mindennapos." },
-            ].map((s, i) => (
-              <Reveal key={s.num} delay={i * 50}>
-                <ServiceCard {...s} />
-              </Reveal>
-            ))}
+          {/* Service list + live preview panel */}
+          <div className="grid lg:grid-cols-[1fr_420px] gap-12 items-start">
+            <div>
+              {repairItems.map((s, i) => (
+                <Reveal key={s.num} delay={i * 40}>
+                  <a href="#kapcsolat"
+                    className="group service-row flex items-center gap-4 md:gap-5 py-4 no-underline"
+                    style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+                    onMouseEnter={() => setActiveService(i)}
+                    onFocus={() => setActiveService(i)}>
+                    {/* Mobile/tablet: thumbnail in the row (desktop uses the side panel) */}
+                    <span className="lg:hidden shrink-0 w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center"
+                      style={{ background: "rgba(255,255,255,0.94)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                      <img src={s.img} alt={s.name} loading="lazy" decoding="async" className="w-full h-full object-contain p-1" />
+                    </span>
+                    <span className="service-shift hidden lg:block shrink-0 font-black tabular-nums w-10 text-right"
+                      style={{ fontSize: "0.75rem", color: activeService === i ? ORANGE : "hsl(158 16% 28%)", letterSpacing: "0.05em", transition: "color 0.2s ease" }}>
+                      {s.num}
+                    </span>
+                    <div className="service-shift flex-1 min-w-0">
+                      <h3 className="font-black text-lg leading-tight"
+                        style={{ color: activeService === i ? "hsl(43 98% 68%)" : undefined, transition: "color 0.2s ease" }}>
+                        {s.name}
+                      </h3>
+                      <p className="text-sm mt-0.5 leading-relaxed" style={{ color: "hsl(158 16% 46%)" }}>{s.short}</p>
+                    </div>
+                    <ArrowUpRight size={18} className="shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-2 group-hover:translate-x-0" style={{ color: ORANGE }} />
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+
+            {/* Preview panel — crossfades as you move over the list */}
+            <Reveal delay={120} className="hidden lg:block">
+              <div className="sticky top-28">
+                <div className="relative rounded-3xl overflow-hidden" style={{
+                  background: "rgba(255,255,255,0.96)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(253,185,39,0.12)",
+                  aspectRatio: "4 / 3.4",
+                }}>
+                  {repairItems.map((s, i) => (
+                    <img key={s.num} src={s.img} alt={s.name} decoding="async"
+                      className="absolute inset-0 w-full h-full object-contain"
+                      style={{
+                        padding: "2rem 2rem 4.5rem",
+                        opacity: activeService === i ? 1 : 0,
+                        transform: activeService === i ? "scale(1)" : "scale(0.95)",
+                        transition: "opacity 0.3s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)",
+                      }} />
+                  ))}
+                  {/* Caption bar */}
+                  <div className="absolute bottom-0 left-0 right-0 px-6 py-4 flex items-center justify-between"
+                    style={{ background: "linear-gradient(to top, rgba(4,20,14,0.95), rgba(4,20,14,0.8) 60%, transparent)" }}>
+                    <p className="font-black text-base text-white">{repairItems[activeService].name}</p>
+                    <span className="font-black text-sm tabular-nums" style={{ color: ORANGE }}>
+                      {repairItems[activeService].num} / 08
+                    </span>
+                  </div>
+                </div>
+                <p className="mt-4 text-xs text-center font-semibold uppercase tracking-widest" style={{ color: "hsl(158 16% 40%)" }}>
+                  Mindegyiket javítjuk — 6 hónap garanciával
+                </p>
+              </div>
+            </Reveal>
           </div>
 
           {/* Bottom CTA */}
@@ -916,386 +733,11 @@ function Home() {
               </div>
               <a href="tel:+36309111474"
                 className="glint cta-pulse shrink-0 inline-flex items-center gap-2.5 rounded-full font-black no-underline"
-                style={{ background: ORANGE, color: "#04111f", height: "3.5rem", paddingLeft: "2.25rem", paddingRight: "2.25rem", fontSize: "1.05rem", boxShadow: "0 0 50px rgba(253,185,39,0.4)" }}>
+                style={{ background: ORANGE, color: "#04111f", height: "3.5rem", paddingLeft: "2.25rem", paddingRight: "2.25rem", fontSize: "1.05rem", boxShadow: "0 8px 24px rgba(253,185,39,0.25)" }}>
                 <Phone size={17} /> +36 30 911 1474
               </a>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
-          WHY US — conversion-focused
-      ══════════════════════════════════════════════════ */}
-      {false && <section className="py-28 relative overflow-hidden" style={{ background: BG2 }}>
-        {/* purple glow bg */}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16,185,129,0.18), transparent 70%)" }} />
-
-        <div className="container mx-auto px-6 relative z-10">
-
-          {/* Top: headline + urgent phone CTA */}
-          <Reveal>
-            <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-              <div className="max-w-2xl">
-                <Chip>Előnyeink</Chip>
-                <h2 className="mt-5 font-black leading-none" style={{ fontSize: "clamp(2.6rem,6vw,4.5rem)" }}>
-                  Leállt a hidraulika?<br />
-                  <span style={{ color: ORANGE }}>Ma megoldjuk.</span>
-                </h2>
-                <p className="mt-5 text-base leading-relaxed max-w-xl" style={{ color: "hsl(158 16% 60%)" }}>
-                  Nem kell napokat várni, nem kell furikázni a városban. Egy telefonhívás — és az Ön gépje ismét dolgozik. 20 éves tapasztalat, 5000+ sikeres javítás, írásos garancia.
-                </p>
-              </div>
-
-              {/* Phone CTA block */}
-              <div className="shrink-0 rounded-3xl p-6 text-center min-w-60"
-                style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.35), rgba(16,185,129,0.12))", border: "1px solid rgba(253,185,39,0.3)", boxShadow: "0 0 60px rgba(16,185,129,0.25)" }}>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: "hsl(158 16% 55%)" }}>
-                  Hívjon most — ingyen!
-                </p>
-                <a href="tel:+36309111474"
-                  className="glint cta-pulse block rounded-2xl py-4 px-6 text-center no-underline mb-3"
-                  style={{ background: ORANGE, color: "#04111f" }}>
-                  <Phone size={18} className="inline mr-2 mb-0.5" style={{ color: "#04111f" }} />
-                  <span className="text-xl font-black">+36 30 911 1474</span>
-                </a>
-                <div className="flex items-center justify-center gap-2 text-xs" style={{ color: "hsl(158 16% 50%)" }}>
-                  <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#4ade80", animation: "pulse-glow 2s ease-in-out infinite" }} />
-                  Hétfő–Péntek 08:00–15:30
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Feature cards — 3×2 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            {whyUs.map((f, i) => (
-              <Reveal key={f.t} delay={i * 55}>
-                <div className="group relative rounded-3xl p-7 h-full flex flex-col project-card-hover cursor-default"
-                  style={{ background: "hsl(158 58% 10%)", border: "1px solid rgba(255,255,255,0.07)" }}>
-
-                  <div className="flex items-start justify-between mb-5">
-                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-110"
-                      style={{ background: "linear-gradient(135deg, rgba(253,185,39,0.18), rgba(16,185,129,0.18))", border: "1px solid rgba(253,185,39,0.25)", color: ORANGE }}>
-                      <f.icon size={22} strokeWidth={1.4} />
-                    </div>
-                    <CheckCircle2 size={15} className="mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      style={{ color: ORANGE }} />
-                  </div>
-
-                  <h3 className="text-[1.05rem] font-extrabold mb-2 transition-colors duration-200 group-hover:text-[hsl(43_98%_65%)]">{f.t}</h3>
-                  <p className="text-sm leading-relaxed flex-1" style={{ color: "hsl(158 16% 58%)" }}>{f.d}</p>
-
-                  <div className="mt-5 h-px w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out rounded-full"
-                    style={{ background: `linear-gradient(90deg, ${ORANGE}, #10b981, transparent)` }} />
-
-                  <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                    style={{ boxShadow: "inset 0 0 0 1px rgba(253,185,39,0.18)" }} />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Bottom CTA banner */}
-          <Reveal delay={300}>
-            <div className="rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden"
-              style={{ background: "linear-gradient(135deg, #10b981, hsl(158 65% 8%))", border: "1px solid rgba(253,185,39,0.22)" }}>
-              <div className="absolute inset-0 pointer-events-none"
-                style={{ backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(0,0,0,0.06) 18px,rgba(0,0,0,0.06) 19px)" }} />
-              <div className="relative z-10">
-                <p className="text-xs font-bold uppercase tracking-[0.22em] mb-2" style={{ color: "rgba(253,185,39,0.7)" }}>Ne várjon tovább!</p>
-                <p className="text-xl md:text-2xl font-black text-white">Kérjen ingyenes telefonos tanácsadást — most, azonnal.</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 shrink-0 relative z-10">
-                <a href="tel:+36309111474"
-                  className="btn-hover glint inline-flex items-center justify-center gap-2.5 h-12 px-8 rounded-full text-base font-black no-underline"
-                  style={{ background: ORANGE, color: "#04111f", boxShadow: "0 0 40px rgba(253,185,39,0.4)" }}>
-                  <Phone size={16} /> +36 30 911 1474
-                </a>
-                <a href="#kapcsolat"
-                  className="btn-hover inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full text-sm font-semibold text-white no-underline"
-                  style={{ border: "1.5px solid rgba(253,185,39,0.4)" }}>
-                  Árajánlatot kérek <ChevronRight size={14} />
-                </a>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>}
-
-      {/* ══════════════════════════════════════════════════
-          CONTACT — top pills + 2-col below
-      ══════════════════════════════════════════════════ */}
-      <section id="kapcsolat" className="py-28 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 opacity-[0.05] blur-[120px] pointer-events-none"
-          style={{ background: `radial-gradient(circle, ${ORANGE}, transparent 60%)` }} />
-
-        <div className="container mx-auto px-6 relative z-10">
-          <Reveal>
-            <div className="mb-16">
-              <Chip>Kapcsolat</Chip>
-              <h2 className="text-5xl md:text-6xl mt-4 mb-10 font-black">Rendelje meg<br />a javítást!</h2>
-              <div className="flex flex-wrap gap-4">
-                {[
-                  { icon: Phone,  label: "+36 (30) 9111-474",              sub: "Telefonszám", href: "tel:+36309111474" },
-                  { icon: Mail,   label: "info@hidraulikajavitas.com",      sub: "Email",       href: "mailto:info@hidraulikajavitas.com" },
-                  { icon: MapPin, label: "1095 Budapest, Soroksári út 48",  sub: "Telephely",   href: "#" },
-                ].map(({ icon: Icon, label, sub, href }) => (
-                  <a key={sub} href={href}
-                    className="group flex items-center gap-4 px-6 py-4 rounded-2xl no-underline btn-hover"
-                    style={{ background: "hsl(158 58% 11%)", border: "1px solid rgba(255,255,255,0.07)", color: "inherit" }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.3)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                      style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.2)", color: ORANGE }}>
-                      <Icon size={17} strokeWidth={1.5} />
-                    </div>
-                    <div>
-                      <p className="text-[10px] uppercase tracking-widest font-semibold mb-0.5" style={{ color: "hsl(158 16% 45%)" }}>{sub}</p>
-                      <p className="text-sm font-semibold">{label}</p>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-
-          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-14 items-start">
-            <Reveal>
-              <div>
-                <h3 className="text-xl font-bold mb-6">Miért válasszon minket?</h3>
-                <div className="space-y-4 mb-10">
-                  {[
-                    { icon: ShieldCheck, t: "Garancia",                d: "6 hónap garancia javításra és 12 hónap garancia új értékesítés esetén." },
-                    { icon: Truck,       t: "Országos futárszolgálat", d: "Egész országra kiterjedő, kedvező oda-visszaszállítás, tanácsadás." },
-                    { icon: CheckCircle2,t: "100% minőség",            d: "A hidraulika felújítás után az Ön hidraulikus egysége gyakorlatilag úgy működik, mint az új!" },
-                  ].map(({ icon: Icon, t, d }) => (
-                    <div key={t} className="flex items-start gap-4">
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
-                        style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.18)", color: ORANGE }}>
-                        <Icon size={15} strokeWidth={1.5} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold">{t}</p>
-                        <p className="text-xs mt-0.5" style={{ color: "hsl(158 16% 52%)" }}>{d}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="rounded-2xl p-5 text-xs space-y-1.5"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  <p className="font-bold text-sm mb-3" style={{ color: "hsl(40 20% 90%)" }}>Hidraulika Service TEAM Kft.</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>Adószám: 32267509-2-43</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>Cégjegyzékszám: 01-09-376445</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>1095 Budapest, Soroksári út 48, Malom Udvar</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>8. épület, földszint</p>
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal delay={100}>
-              <div className="glass-strong rounded-3xl p-8 md:p-10"
-                style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
-                {formState === "success" ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center" style={{ animation: "card-in 0.4s ease both" }}>
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
-                      style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.3)" }}>
-                      <CheckCircle2 size={30} style={{ color: ORANGE }} />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">Köszönjük!</h3>
-                    <p className="text-sm max-w-xs" style={{ color: "hsl(158 16% 55%)" }}>
-                      Hamarosan felvesszük Önnel a kapcsolatot — általában 24 órán belül.
-                    </p>
-                    <button onClick={() => setFormState("idle")}
-                      className="mt-8 text-xs cursor-pointer underline"
-                      style={{ background: "none", border: "none", color: "hsl(158 16% 50%)" }}>
-                      Új üzenet küldése
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <h3 className="text-xl font-bold mb-1">Kérjen ingyenes visszahívást</h3>
-                    <p className="text-sm mb-7" style={{ color: "hsl(158 16% 55%)" }}>24 órán belül felvesszük Önnel a kapcsolatot.</p>
-                    <form className="space-y-4"
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        setFormState("loading");
-                        const fd = new FormData(e.currentTarget);
-                        try {
-                          await submitContact({
-                            data: {
-                              name: fd.get("name") as string,
-                              phone: fd.get("phone") as string,
-                              email: (fd.get("email") as string) || "",
-                              partType: (fd.get("partType") as string) || "",
-                              description: (fd.get("description") as string) || "",
-                            },
-                          });
-                          setFormState("success");
-                        } catch (err) {
-                          console.error("[contact form]", err);
-                          setFormState("idle");
-                        }
-                      }}>
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        {[
-                          { label: "Név",         type: "text", name: "name",  placeholder: "Adja meg nevét",     required: true },
-                          { label: "Telefonszám", type: "tel",  name: "phone", placeholder: "+36 30 000 0000",    required: true },
-                        ].map(({ label, type, name, placeholder, required }) => (
-                          <div key={label}>
-                            <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>{label}</label>
-                            <input type={type} name={name} placeholder={placeholder} required={required}
-                              className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
-                              onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
-                              onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Email (opcionális)</label>
-                        <input type="email" name="email" placeholder="pelda@email.hu"
-                          className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
-                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Alkatrész típusa</label>
-                        <select name="partType" defaultValue=""
-                          className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)", appearance: "none" }}
-                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; }}>
-                          <option value="" disabled style={{ background: "hsl(158 52% 13%)" }}>Válasszon típust...</option>
-                          {["Hidraulikus szivattyú","Hidraulikus motor","Hidraulikus henger","Orbit motor","Vezérlőblokk","Egyéb"].map(o => (
-                            <option key={o} value={o.toLowerCase()} style={{ background: "hsl(158 52% 13%)" }}>{o}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Hiba leírása</label>
-                        <textarea name="description" rows={4} placeholder="Röviden írja le a hibát és a gép típusát..."
-                          className="w-full resize-none rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
-                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-                        />
-                      </div>
-                      <button type="submit" disabled={formState === "loading"}
-                        className="btn-hover w-full rounded-full text-base font-semibold text-white py-4 cursor-pointer"
-                        style={{
-                          background: ORANGE,
-                          boxShadow: "0 0 40px rgba(253,185,39,0.25), inset 0 1px 0 rgba(255,255,255,0.15)",
-                          border: "none",
-                          opacity: formState === "loading" ? 0.7 : 1,
-                          transition: "opacity 0.2s ease",
-                        }}>
-                        {formState === "loading" ? "Küldés..." : "Kérek visszahívást"}
-                      </button>
-                    </form>
-                  </>
-                )}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════
-          BRANDS — full statement section
-      ══════════════════════════════════════════════════ */}
-      <section className="py-24 relative overflow-hidden"
-        style={{ background: "hsl(158 65% 5%)", borderTop: "1px solid rgba(253,185,39,0.12)", borderBottom: "1px solid rgba(253,185,39,0.12)" }}>
-
-        {/* Ambient glow */}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 70% 80% at 50% 50%, rgba(16,185,129,0.22), transparent 70%)" }} />
-
-        <div className="container mx-auto px-6 relative z-10 mb-12">
-          <Reveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div>
-                <Chip>Márkafüggetlen szerviz</Chip>
-                <h2 className="mt-4 font-black leading-none" style={{ fontSize: "clamp(2.4rem,5.5vw,4rem)" }}>
-                  26 vezető gyártó.<br />
-                  <span style={{ color: ORANGE }}>Egy megbízható szerviz.</span>
-                </h2>
-              </div>
-              <div className="max-w-sm">
-                <p className="text-base leading-relaxed" style={{ color: "hsl(158 16% 55%)" }}>
-                </p>
-                <a href="tel:+36309111474"
-                  className="btn-hover mt-5 inline-flex items-center gap-2 h-11 px-6 rounded-full text-sm font-bold no-underline"
-                  style={{ background: ORANGE, color: "#04111f" }}>
-                  <Phone size={14} /> Kérdezzen ingyenesen
-                </a>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-
-        {/* Marquee row 1 — left */}
-        <div className="overflow-hidden mb-3">
-          <div className="marquee-track" style={{ animationDuration: "22s" }}>
-            {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
-              <span key={i} className="inline-flex items-center gap-4 px-6"
-                style={{ fontSize: "clamp(1.5rem,3.5vw,2.4rem)", fontWeight: 900, color: i % 2 === 0 ? ORANGE : "rgba(255,255,255,0.07)", letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
-                {b}
-                <span style={{ color: "rgba(253,185,39,0.2)", fontSize: "0.5em" }}>◆</span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Marquee row 2 — right (reverse direction) */}
-        <div className="overflow-hidden">
-          <div className="marquee-track" style={{ animationDuration: "28s", animationDirection: "reverse" }}>
-            {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
-              <span key={i} className="inline-flex items-center gap-4 px-6"
-                style={{ fontSize: "clamp(1.5rem,3.5vw,2.4rem)", fontWeight: 900, color: i % 2 === 0 ? "rgba(255,255,255,0.06)" : ORANGE, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
-                {b}
-                <span style={{ color: "rgba(253,185,39,0.2)", fontSize: "0.5em" }}>◆</span>
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Brand badge grid */}
-        <div className="container mx-auto px-6 relative z-10 mt-12">
-          <div className="flex flex-wrap justify-center gap-3">
-            {brands.map((b) => (
-              <span key={b} className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
-                style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)", color: "hsl(43 98% 72%)" }}>
-                {b}
-              </span>
-            ))}
-          </div>
-          <p className="text-center mt-6 text-xs font-semibold uppercase tracking-widest" style={{ color: "hsl(158 16% 38%)" }}>
-            + Minden egyéb gyártó hidraulikus rendszerei
-          </p>
-
-          {/* Strategic partners */}
-          <div className="mt-14 pt-10" style={{ borderTop: "1px solid rgba(253,185,39,0.12)" }}>
-            <p className="text-center text-[10px] font-bold uppercase tracking-[0.24em] mb-8" style={{ color: "hsl(158 16% 42%)" }}>
-              Hidraulika elemekben stratégiai partnerünk
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-6">
-              {[
-                { src: "/images/brand-leslie.jpg", alt: "Leslie Hidraulika" },
-                { src: "/images/brand-ponar.jpg",  alt: "Ponar Wadowice" },
-              ].map(({ src, alt }) => (
-                <a key={alt} href="https://hidraulikaelem.hu/" target="_blank" rel="noopener noreferrer"
-                  className="rounded-2xl overflow-hidden flex items-center justify-center px-6 py-4 no-underline"
-                  style={{ background: "rgba(255,255,255,0.92)", boxShadow: "0 0 0 1px rgba(253,185,39,0.2), 0 8px 32px rgba(0,0,0,0.35)" }}>
-                  <img src={src} alt={alt} className="h-12 w-auto object-contain" />
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -1389,26 +831,6 @@ function Home() {
             })}
           </div>
 
-          {/* Bottom CTA */}
-          <Reveal delay={550}>
-            <div className="mt-14 text-center">
-              <p className="text-base mb-6" style={{ color: "hsl(158 16% 55%)" }}>
-                Az első lépés <strong style={{ color: "hsl(40 20% 97%)" }}>ingyenes</strong> és <strong style={{ color: "hsl(40 20% 97%)" }}>kötelezettségmentes</strong>.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="tel:+36309111474"
-                  className="btn-hover glint cta-pulse inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-base font-black no-underline"
-                  style={{ background: ORANGE, color: "#04111f", boxShadow: "0 0 50px rgba(253,185,39,0.35)" }}>
-                  <Phone size={17} /> Hívjon most: +36 30 911 1474
-                </a>
-                <a href="#kapcsolat"
-                  className="btn-hover inline-flex items-center justify-center gap-2 h-14 px-8 rounded-full text-sm font-semibold glass no-underline"
-                  style={{ color: "hsl(40 20% 97%)" }}>
-                  Inkább üzenetet küldök <ChevronRight size={14} />
-                </a>
-              </div>
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -1419,35 +841,292 @@ function Home() {
           CTA BAND
       ══════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden py-20"
-        style={{ background: "linear-gradient(135deg, hsl(43 98% 52%), hsl(158 65% 38%))" }}>
+        style={{ background: "hsl(158 65% 4.5%)", borderTop: "1px solid rgba(253,185,39,0.28)", borderBottom: "1px solid rgba(253,185,39,0.28)" }}>
+        {/* Subtle industrial diagonal texture + gold ambient */}
         <div className="absolute inset-0 pointer-events-none"
-          style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0,0,0,0.05) 20px, rgba(0,0,0,0.05) 21px)" }} />
+          style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 22px, rgba(253,185,39,0.035) 22px, rgba(253,185,39,0.035) 23px)" }} />
+        <div className="absolute -left-24 top-1/2 -translate-y-1/2 w-[560px] h-[560px] rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(253,185,39,0.09), transparent 65%)", filter: "blur(60px)" }} />
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
             <Reveal>
               <div>
-                <p className="text-white/60 text-xs font-semibold uppercase tracking-[0.22em] mb-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] mb-4" style={{ color: "rgba(253,185,39,0.65)" }}>
                   Ingyenes tanácsadás · Gyors átfutás · 6 hónap garancia
                 </p>
-                <h2 className="text-4xl md:text-5xl font-black text-white" style={{ lineHeight: 0.95 }}>
-                  Hibás a hidraulika?<br />Mi megoldjuk.
+                <h2 className="text-4xl md:text-5xl font-black" style={{ lineHeight: 0.95 }}>
+                  Hibás a hidraulika?<br /><span style={{ color: ORANGE }}>Mi megoldjuk.</span>
                 </h2>
               </div>
             </Reveal>
             <Reveal delay={120}>
               <div className="flex flex-col sm:flex-row gap-4 shrink-0">
+                <a href="tel:+36309111474"
+                  className="btn-hover glint inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-base font-black no-underline"
+                  style={{ background: ORANGE, color: "#04140d", boxShadow: "0 10px 28px rgba(253,185,39,0.25)" }}>
+                  <Phone size={16} /> +36 30 911 1474
+                </a>
                 <a href="#kapcsolat"
                   className="btn-hover inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-base font-bold no-underline"
-                  style={{ background: "white", color: "hsl(158 80% 18%)", boxShadow: "0 14px 40px rgba(0,0,0,0.22)" }}>
+                  style={{ color: "hsl(40 20% 97%)", border: "1.5px solid rgba(253,185,39,0.4)", background: "rgba(253,185,39,0.06)" }}>
                   Árajánlatot kérek <ChevronRight size={16} />
-                </a>
-                <a href="tel:+36309111474"
-                  className="inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-base font-bold text-white no-underline"
-                  style={{ border: "2px solid rgba(255,255,255,0.38)" }}>
-                  <Phone size={16} /> +36 30 911 1474
                 </a>
               </div>
             </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          COVERAGE
+      ══════════════════════════════════════════════════ */}
+      <section className="py-28 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse 70% 60% at 60% 50%, rgba(253,185,39,0.04), transparent 70%)" }} />
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <Reveal>
+              <Chip>Lefedettség</Chip>
+              <h2 className="text-4xl md:text-5xl mt-5 mb-5 font-black" style={{ lineHeight: 0.95 }}>
+                Bárhová megyünk<br />az országban.
+              </h2>
+              <div className="mb-6 h-0.5 w-12 rounded-full" style={{ background: `linear-gradient(90deg, ${ORANGE}, transparent)` }} />
+              <p className="leading-relaxed text-[15px] max-w-sm mb-8" style={{ color: "hsl(158 16% 55%)" }}>
+                Nem számít, hol van a gépe — futárunk elmegy Önhöz, átveszi az alkatrészt, és visszahozza megjavítva. Egész Magyarország területét lefedjük.
+              </p>
+              <a href="tel:+36309111474"
+                className="btn-hover glint inline-flex items-center gap-2.5 h-12 px-8 rounded-full text-base font-black no-underline"
+                style={{ background: ORANGE, color: "#04111f", boxShadow: "0 8px 24px rgba(253,185,39,0.25)" }}>
+                <Phone size={16} /> Hívjon most — ingyenes
+              </a>
+            </Reveal>
+
+            <Reveal delay={80}>
+              {(() => {
+                /* ── Hungary outer border (46-point accurate trace) ── */
+                const HU = "M31,287 65,302 83,312 121,329 149,367 193,383 237,366 286,367 323,366 384,349 448,339 485,339 551,323 562,291 602,228 619,222 641,152 690,124 721,68 725,43 724,26 677,25 616,27 591,3 563,31 524,42 493,45 454,62 424,58 382,82 347,85 307,100 248,120 224,120 186,102 129,99 110,81 81,86 46,90 43,127 30,153 47,170 36,192 37,231 48,262 40,275Z";
+                const BP = { x: 345, y: 172 };
+                /* Courier destinations — dot, label, curved route from Budapest */
+                const cities = [
+                  { n: "Győr",         x: 150, y: 118, ly: -12, d: "M345,172 Q248,128 150,118" },
+                  { n: "Szombathely",  x: 56,  y: 205, ly: 19,  d: "M345,172 Q195,168 56,205" },
+                  { n: "Zalaegerszeg", x: 82,  y: 298, ly: 19,  d: "M345,172 Q205,250 82,298" },
+                  { n: "Pécs",         x: 224, y: 358, ly: 19,  d: "M345,172 Q272,278 224,358" },
+                  { n: "Szeged",       x: 462, y: 348, ly: 19,  d: "M345,172 Q412,268 462,348" },
+                  { n: "Kecskemét",    x: 398, y: 268, ly: 19,  d: "M345,172 Q368,222 398,268" },
+                  { n: "Békéscsaba",   x: 590, y: 316, ly: 19,  d: "M345,172 Q480,252 590,316" },
+                  { n: "Debrecen",     x: 622, y: 210, ly: 19,  d: "M345,172 Q488,178 622,210" },
+                  { n: "Nyíregyháza",  x: 676, y: 130, ly: -12, d: "M345,172 Q515,132 676,130" },
+                  { n: "Miskolc",      x: 542, y: 92,  ly: -12, d: "M345,172 Q442,112 542,92" },
+                ];
+                return (
+                  <div className="relative">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: "hsl(158 16% 38%)" }}>
+                      Futárszolgálat — az ország minden pontjára
+                    </p>
+
+                    <svg viewBox="0 0 760 400" className="w-full" xmlns="http://www.w3.org/2000/svg"
+                      style={{ background: "hsl(158 58% 6%)", borderRadius: "1rem", border: "1px solid rgba(16,185,129,0.12)" }}>
+
+                      {/* Country silhouette */}
+                      <path d={HU} fill="hsl(158 50% 8.5%)"
+                        stroke="rgba(16,185,129,0.4)" strokeWidth="1.6" strokeLinejoin="round" />
+
+                      {/* Courier routes — dashed lines flowing outward from Budapest */}
+                      {cities.map((c, i) => (
+                        <path key={c.n + "r"} d={c.d} className="route-line" fill="none"
+                          stroke="rgba(253,185,39,0.35)" strokeWidth="1.4" strokeLinecap="round"
+                          style={{ animationDelay: `${i * -0.35}s` }} />
+                      ))}
+
+                      {/* Destination dots + labels */}
+                      {cities.map((c, i) => (
+                        <g key={c.n}>
+                          <circle cx={c.x} cy={c.y} r="8" fill="none"
+                            stroke="rgba(16,185,129,0.5)" strokeWidth="1" className="city-ping"
+                            style={{ animationDelay: `${i * 0.28}s` }} />
+                          <circle cx={c.x} cy={c.y} r="3.2" fill="#10b981"
+                            style={{ filter: "drop-shadow(0 0 4px rgba(16,185,129,0.8))" }} />
+                          <text x={c.x} y={c.y + c.ly} textAnchor="middle"
+                            fontSize="10.5" fontWeight="600" fill="rgba(255,255,255,0.55)"
+                            fontFamily="system-ui,sans-serif" style={{ userSelect: "none" }}>{c.n}</text>
+                        </g>
+                      ))}
+
+                      {/* Budapest hub */}
+                      <g>
+                        <circle cx={BP.x} cy={BP.y} r="14" fill="none"
+                          stroke="rgba(253,185,39,0.55)" strokeWidth="1.4" className="city-ping" />
+                        <circle cx={BP.x} cy={BP.y} r="6" fill={ORANGE}
+                          style={{ filter: "drop-shadow(0 0 8px rgba(253,185,39,0.9))" }} />
+                        <text x={BP.x} y={BP.y - 20} textAnchor="middle"
+                          fontSize="12" fontWeight="800" fill={ORANGE}
+                          fontFamily="system-ui,sans-serif" style={{ userSelect: "none" }}>Budapest</text>
+                      </g>
+                    </svg>
+
+                    <div className="mt-4 flex flex-wrap gap-2.5">
+                      {[
+                        { icon: MapPin, t: "Központ: Budapest, IX." },
+                        { icon: Truck,  t: "Oda-vissza futár — ingyen" },
+                        { icon: CheckCircle2, t: "Mind a 20 megye ✓" },
+                      ].map(({ icon: Icon, t }) => (
+                        <span key={t} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-semibold"
+                          style={{ background: "rgba(16,185,129,0.07)", border: "1px solid rgba(16,185,129,0.18)", color: "hsl(158 25% 70%)" }}>
+                          <Icon size={12} style={{ color: ORANGE }} /> {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          BRANDS — full statement section
+      ══════════════════════════════════════════════════ */}
+      <section className="py-24 relative overflow-hidden"
+        style={{ background: "hsl(158 65% 5%)", borderTop: "1px solid rgba(253,185,39,0.12)", borderBottom: "1px solid rgba(253,185,39,0.12)" }}>
+
+        {/* Ambient glow */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse 70% 80% at 50% 50%, rgba(16,185,129,0.22), transparent 70%)" }} />
+
+        <div className="container mx-auto px-6 relative z-10 mb-12">
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div>
+                <Chip>Márkafüggetlen szerviz</Chip>
+                <h2 className="mt-4 font-black leading-none" style={{ fontSize: "clamp(2.4rem,5.5vw,4rem)" }}>
+                  26 vezető gyártó.<br />
+                  <span style={{ color: ORANGE }}>Egy megbízható szerviz.</span>
+                </h2>
+              </div>
+              <div className="max-w-sm">
+                <p className="text-base leading-relaxed" style={{ color: "hsl(158 16% 55%)" }}>
+                </p>
+                <a href="tel:+36309111474"
+                  className="btn-hover mt-5 inline-flex items-center gap-2 h-11 px-6 rounded-full text-sm font-bold no-underline"
+                  style={{ background: ORANGE, color: "#04111f" }}>
+                  <Phone size={14} /> Kérdezzen ingyenesen
+                </a>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Marquee row 1 — left */}
+        <div className="overflow-hidden mb-3">
+          <div className="marquee-track" style={{ animationDuration: "22s" }}>
+            {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
+              <span key={i} className="inline-flex items-center gap-4 px-6"
+                style={{ fontSize: "clamp(1.5rem,3.5vw,2.4rem)", fontWeight: 900, color: i % 2 === 0 ? ORANGE : "rgba(255,255,255,0.07)", letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+                {b}
+                <span style={{ color: "rgba(253,185,39,0.2)", fontSize: "0.5em" }}>◆</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Marquee row 2 — right (reverse direction) */}
+        <div className="overflow-hidden">
+          <div className="marquee-track" style={{ animationDuration: "28s", animationDirection: "reverse" }}>
+            {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
+              <span key={i} className="inline-flex items-center gap-4 px-6"
+                style={{ fontSize: "clamp(1.5rem,3.5vw,2.4rem)", fontWeight: 900, color: i % 2 === 0 ? "rgba(255,255,255,0.06)" : ORANGE, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+                {b}
+                <span style={{ color: "rgba(253,185,39,0.2)", fontSize: "0.5em" }}>◆</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Brand badge grid */}
+        <div className="container mx-auto px-6 relative z-10 mt-12">
+          <div className="flex flex-wrap justify-center gap-3">
+            {brands.map((b) => (
+              <span key={b} className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
+                style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)", color: "hsl(43 98% 72%)" }}>
+                {b}
+              </span>
+            ))}
+          </div>
+          <p className="text-center mt-6 text-xs font-semibold uppercase tracking-widest" style={{ color: "hsl(158 16% 38%)" }}>
+            + Minden egyéb gyártó hidraulikus rendszerei
+          </p>
+
+          {/* Strategic partners */}
+          <div className="mt-14 pt-10" style={{ borderTop: "1px solid rgba(253,185,39,0.12)" }}>
+            <p className="text-center text-[10px] font-bold uppercase tracking-[0.24em] mb-8" style={{ color: "hsl(158 16% 42%)" }}>
+              Hidraulika elemekben stratégiai partnerünk
+            </p>
+            <div className="flex flex-wrap justify-center items-center gap-6">
+              {[
+                { src: "/images/brand-leslie.jpg", alt: "Leslie Hidraulika" },
+                { src: "/images/brand-ponar.jpg",  alt: "Ponar Wadowice" },
+              ].map(({ src, alt }) => (
+                <a key={alt} href="https://hidraulikaelem.hu/" target="_blank" rel="noopener noreferrer"
+                  className="rounded-2xl overflow-hidden flex items-center justify-center px-6 py-4 no-underline"
+                  style={{ background: "rgba(255,255,255,0.92)", boxShadow: "0 0 0 1px rgba(253,185,39,0.2), 0 8px 32px rgba(0,0,0,0.35)" }}>
+                  <img src={src} alt={alt} loading="lazy" decoding="async" className="h-12 w-auto object-contain" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════
+          VÉLEMÉNYEK — testimonials
+      ══════════════════════════════════════════════════ */}
+      <section id="velemenyek" className="py-28 relative overflow-hidden">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full pointer-events-none blur-[110px] opacity-[0.06]"
+          style={{ background: `radial-gradient(ellipse, ${ORANGE}, transparent 70%)` }} />
+        <div className="container mx-auto px-6 relative z-10">
+          <Reveal>
+            <div className="mb-14 text-center">
+              <Chip>Vélemények</Chip>
+              <h2 className="text-5xl md:text-6xl mt-4 font-black">Akik már ránk bízták.</h2>
+              <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold" style={{ color: "hsl(158 16% 55%)" }}>
+                <span className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} size={14} fill={ORANGE} style={{ color: ORANGE }} />
+                  ))}
+                </span>
+                5.0 — ügyfeleink értékelése
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} delay={i * 60}>
+                <div className="project-card-hover h-full flex flex-col rounded-3xl p-6"
+                  style={{ background: "hsl(158 58% 10%)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                  <div className="flex gap-0.5 mb-4">
+                    {Array.from({ length: 5 }).map((_, s) => (
+                      <Star key={s} size={13} fill={ORANGE} style={{ color: ORANGE }} />
+                    ))}
+                  </div>
+                  <p className="text-sm leading-relaxed flex-1" style={{ color: "hsl(158 16% 62%)" }}>
+                    „{t.text}"
+                  </p>
+                  <div className="mt-5 pt-4 flex items-center gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-black"
+                      style={{ background: "rgba(253,185,39,0.12)", border: "1px solid rgba(253,185,39,0.25)", color: ORANGE }}>
+                      {t.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold leading-tight">{t.name}</p>
+                      <p className="text-xs" style={{ color: "hsl(158 16% 45%)" }}>{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -1487,8 +1166,15 @@ function Home() {
                       transition: "transform 0.3s ease, color 0.2s ease",
                     }} />
                   </button>
-                  <div style={{ maxHeight: openFaq === i ? 200 : 0, overflow: "hidden", transition: "max-height 0.35s cubic-bezier(0.22,1,0.36,1)" }}>
-                    <p className="px-5 pb-5 pl-10 text-sm leading-relaxed" style={{ color: "hsl(158 16% 55%)" }}>{f.a}</p>
+                  <div style={{
+                    display: "grid",
+                    gridTemplateRows: openFaq === i ? "1fr" : "0fr",
+                    transition: `grid-template-rows ${openFaq === i ? "0.4s" : "0.28s"} cubic-bezier(0.16,1,0.3,1)`,
+                  }}>
+                    <div style={{ overflow: "hidden" }}>
+                      <p className="px-5 pb-5 pl-10 text-sm leading-relaxed"
+                        style={{ color: "hsl(158 16% 55%)", opacity: openFaq === i ? 1 : 0, transition: "opacity 0.3s ease" }}>{f.a}</p>
+                    </div>
                   </div>
                 </div>
               </Reveal>
@@ -1497,37 +1183,219 @@ function Home() {
         </div>
       </section>
 
+      {/* ══════════════════════════════════════════════════
+          CONTACT — top pills + 2-col below
+      ══════════════════════════════════════════════════ */}
+      <section id="kapcsolat" className="py-28 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 opacity-[0.05] blur-[120px] pointer-events-none"
+          style={{ background: `radial-gradient(circle, ${ORANGE}, transparent 60%)` }} />
+
+        <div className="container mx-auto px-6 relative z-10">
+          <Reveal>
+            <div className="mb-16">
+              <Chip>Kapcsolat</Chip>
+              <h2 className="text-5xl md:text-6xl mt-4 mb-10 font-black">Rendelje meg<br />a javítást!</h2>
+              <div className="flex flex-wrap gap-4">
+                {[
+                  { icon: Phone,  label: "+36 (30) 9111-474",              sub: "Telefonszám", href: "tel:+36309111474" },
+                  { icon: Mail,   label: "info@hidraulikajavitas.com",      sub: "Email",       href: "mailto:info@hidraulikajavitas.com" },
+                  { icon: MapPin, label: "1095 Budapest, Soroksári út 48",  sub: "Telephely",   href: "#" },
+                ].map(({ icon: Icon, label, sub, href }) => (
+                  <a key={sub} href={href}
+                    className="group flex items-center gap-4 px-6 py-4 rounded-2xl no-underline btn-hover"
+                    style={{ background: "hsl(158 58% 11%)", border: "1px solid rgba(255,255,255,0.07)", color: "inherit" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.3)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                      style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.2)", color: ORANGE }}>
+                      <Icon size={17} strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] uppercase tracking-widest font-semibold mb-0.5" style={{ color: "hsl(158 16% 45%)" }}>{sub}</p>
+                      <p className="text-sm font-semibold">{label}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-14 items-start">
+            <Reveal>
+              <div>
+                {/* Workshop location map */}
+                <div className="rounded-2xl overflow-hidden mb-5" style={{ border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 48px rgba(0,0,0,0.4)" }}>
+                  <iframe
+                    title="Hidraulika Service TEAM Kft. — 1095 Budapest, Soroksári út 48"
+                    src="https://maps.google.com/maps?q=Soroks%C3%A1ri%20%C3%BAt%2048%2C%20Budapest%2C%201095&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    width="100%" height="300" loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                    style={{ border: 0, display: "block", filter: "saturate(0.85) contrast(1.02)" }} />
+                </div>
+                <div className="rounded-2xl p-5 text-xs space-y-1.5"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <p className="font-bold text-sm mb-3" style={{ color: "hsl(40 20% 90%)" }}>Hidraulika Service TEAM Kft.</p>
+                  <p style={{ color: "hsl(158 16% 45%)" }}>Adószám: 32267509-2-43</p>
+                  <p style={{ color: "hsl(158 16% 45%)" }}>Cégjegyzékszám: 01-09-376445</p>
+                  <p style={{ color: "hsl(158 16% 45%)" }}>1095 Budapest, Soroksári út 48, Malom Udvar</p>
+                  <p style={{ color: "hsl(158 16% 45%)" }}>8. épület, földszint</p>
+                  <p className="pt-2" style={{ color: "hsl(158 16% 45%)" }}>Hétfő–Péntek: 08:00–15:30</p>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={100}>
+              <div className="glass-strong rounded-3xl p-8 md:p-10"
+                style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
+                {formState === "success" ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-center" style={{ animation: "card-in 0.4s ease both" }}>
+                    <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
+                      style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.3)" }}>
+                      <CheckCircle2 size={30} style={{ color: ORANGE }} />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">Köszönjük!</h3>
+                    <p className="text-sm max-w-xs" style={{ color: "hsl(158 16% 55%)" }}>
+                      Hamarosan felvesszük Önnel a kapcsolatot — általában 24 órán belül.
+                    </p>
+                    <button onClick={() => setFormState("idle")}
+                      className="mt-8 text-xs cursor-pointer underline"
+                      style={{ background: "none", border: "none", color: "hsl(158 16% 50%)" }}>
+                      Új üzenet küldése
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="text-xl font-bold mb-1">Kérjen ingyenes visszahívást</h3>
+                    <p className="text-sm mb-7" style={{ color: "hsl(158 16% 55%)" }}>24 órán belül felvesszük Önnel a kapcsolatot.</p>
+                    <form className="space-y-4"
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        setFormState("loading");
+                        const fd = new FormData(e.currentTarget);
+                        try {
+                          await submitContact({
+                            data: {
+                              name: fd.get("name") as string,
+                              phone: fd.get("phone") as string,
+                              email: (fd.get("email") as string) || "",
+                              partType: (fd.get("partType") as string) || "",
+                              description: (fd.get("description") as string) || "",
+                            },
+                          });
+                          setFormState("success");
+                        } catch (err) {
+                          console.error("[contact form]", err);
+                          setFormState("error");
+                        }
+                      }}>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        {[
+                          { label: "Név",         type: "text", name: "name",  placeholder: "Adja meg nevét",     required: true },
+                          { label: "Telefonszám", type: "tel",  name: "phone", placeholder: "+36 30 000 0000",    required: true },
+                        ].map(({ label, type, name, placeholder, required }) => (
+                          <div key={label}>
+                            <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>{label}</label>
+                            <input type={type} name={name} placeholder={placeholder} required={required}
+                              className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
+                              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
+                              onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
+                              onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Email (opcionális)</label>
+                        <input type="email" name="email" placeholder="pelda@email.hu"
+                          className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
+                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
+                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
+                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Alkatrész típusa</label>
+                        <select name="partType" defaultValue=""
+                          className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
+                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)", appearance: "none" }}
+                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; }}
+                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; }}>
+                          <option value="" disabled style={{ background: "hsl(158 52% 13%)" }}>Válasszon típust...</option>
+                          {["Hidraulikus szivattyú","Hidraulikus motor","Hidraulikus henger","Orbit motor","Vezérlőblokk","Egyéb"].map(o => (
+                            <option key={o} value={o.toLowerCase()} style={{ background: "hsl(158 52% 13%)" }}>{o}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Hiba leírása</label>
+                        <textarea name="description" rows={4} placeholder="Röviden írja le a hibát és a gép típusát..."
+                          className="w-full resize-none rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
+                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
+                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
+                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+                        />
+                      </div>
+                      {formState === "error" && (
+                        <p className="text-xs font-semibold rounded-xl px-4 py-3"
+                          style={{ color: "#fca5a5", background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.25)", animation: "reveal-in 0.3s ease both" }}>
+                          Hiba történt a küldés során. Kérjük próbálja újra, vagy hívjon minket: +36 30 911 1474
+                        </p>
+                      )}
+                      <button type="submit" disabled={formState === "loading"}
+                        className="btn-hover w-full rounded-full text-base font-semibold text-white py-4 cursor-pointer"
+                        style={{
+                          background: ORANGE,
+                          boxShadow: "0 8px 24px rgba(253,185,39,0.2), inset 0 1px 0 rgba(255,255,255,0.15)",
+                          border: "none",
+                          opacity: formState === "loading" ? 0.7 : 1,
+                          transition: "opacity 0.2s ease",
+                        }}>
+                        {formState === "loading" ? "Küldés..." : "Kérek visszahívást"}
+                      </button>
+                    </form>
+                  </>
+                )}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* ── Scroll to top ─── */}
-      {showScrollTop && (
-        <button onClick={() => {
-            // Override CSS scroll-behavior:smooth which can make this take 5+ seconds on long pages
-            document.documentElement.style.scrollBehavior = "auto";
-            document.body.style.scrollBehavior = "auto";
-            window.scrollTo(0, 0);
-            requestAnimationFrame(() => {
-              document.documentElement.style.scrollBehavior = "";
-              document.body.style.scrollBehavior = "";
-            });
-          }} aria-label="Vissza a tetejére"
-          className="fixed right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer btn-hover"
-          style={{ bottom: showMobileCTA ? 88 : 24, transition: "bottom 0.3s cubic-bezier(0.22,1,0.36,1)", background: ORANGE, boxShadow: "0 4px 28px rgba(253,185,39,0.45)", border: "none", color: "white", animation: "card-in 0.3s cubic-bezier(0.22,1,0.36,1) both" }}>
-          <ArrowUp size={20} />
-        </button>
-      )}
+      <button onClick={() => {
+          // Override CSS scroll-behavior:smooth which can make this take 5+ seconds on long pages
+          document.documentElement.style.scrollBehavior = "auto";
+          document.body.style.scrollBehavior = "auto";
+          window.scrollTo(0, 0);
+          requestAnimationFrame(() => {
+            document.documentElement.style.scrollBehavior = "";
+            document.body.style.scrollBehavior = "";
+          });
+        }} aria-label="Vissza a tetejére" tabIndex={showScrollTop ? 0 : -1}
+        className="fixed right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer"
+        style={{
+          bottom: showMobileCTA ? 88 : 24,
+          background: ORANGE, boxShadow: "0 4px 28px rgba(253,185,39,0.45)", border: "none", color: "white",
+          opacity: showScrollTop ? 1 : 0,
+          transform: showScrollTop ? "translateY(0) scale(1)" : "translateY(10px) scale(0.9)",
+          pointerEvents: showScrollTop ? "auto" : "none",
+          transition: "bottom 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1)",
+        }}>
+        <ArrowUp size={20} />
+      </button>
 
       {/* ── Mobile bottom CTA bar ─── */}
-      {showMobileCTA && (
-        <div className="md:hidden fixed left-0 right-0 z-40"
-          style={{
-            bottom: 0,
-            transition: "bottom 0.3s cubic-bezier(0.22,1,0.36,1)",
-            animation: "slide-up 0.35s cubic-bezier(0.22,1,0.36,1) both",
-            background: "rgba(3,16,11,0.97)",
-            backdropFilter: "blur(12px) saturate(1.5)",
-            WebkitBackdropFilter: "blur(12px) saturate(1.5)",
-            borderTop: "1px solid rgba(255,255,255,0.07)",
-            boxShadow: "0 -8px 30px rgba(0,0,0,0.4)",
-          }}>
+      <div className="md:hidden fixed left-0 right-0 z-40"
+        style={{
+          bottom: 0,
+          transform: showMobileCTA ? "translateY(0)" : "translateY(110%)",
+          transition: "transform 0.35s cubic-bezier(0.22,1,0.36,1)",
+          pointerEvents: showMobileCTA ? "auto" : "none",
+          background: "rgba(3,16,11,0.97)",
+          backdropFilter: "blur(12px) saturate(1.5)",
+          WebkitBackdropFilter: "blur(12px) saturate(1.5)",
+          borderTop: "1px solid rgba(255,255,255,0.07)",
+          boxShadow: "0 -8px 30px rgba(0,0,0,0.4)",
+        }}>
           <div className="flex gap-3 p-3" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
             <a href="tel:+36309111474"
               className="btn-hover flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl text-sm font-bold no-underline"
@@ -1541,7 +1409,6 @@ function Home() {
             </a>
           </div>
         </div>
-      )}
 
 
       {/* ══════════════════════════════════════════════════
@@ -1552,12 +1419,8 @@ function Home() {
           <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-14">
 
             <div className="max-w-xs">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-full flex items-center justify-center"
-                  style={{ background: "linear-gradient(135deg, hsl(43 98% 54%), #10b981)", boxShadow: "0 0 20px rgba(253,185,39,0.3)" }}>
-                  <span style={{ color: "white", fontWeight: 900, fontSize: "1rem", lineHeight: 1 }}>H</span>
-                </div>
-                <span className="text-lg font-bold tracking-widest">hidraulika<span style={{ color: ORANGE }}>javítás.hu</span></span>
+              <div className="mb-4">
+                <img src="/images/logo-dark.png" alt="Hidraulikajavítás.com" loading="lazy" className="h-10 w-auto" />
               </div>
               <p className="text-sm leading-relaxed mb-4" style={{ color: "hsl(158 16% 48%)" }}>
                 Hidraulikus szivattyúk, motorok, hengerek és vezérlőblokkok javítása. Márkafüggetlen szakszerviz, országos futárszolgálattal.

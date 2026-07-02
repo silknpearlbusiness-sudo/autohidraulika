@@ -77,8 +77,12 @@
 }
 /* Breathing glow — opacity only, safe inside overflow:hidden CTAs. */
 @keyframes cta-glow {
-  0%, 100% { opacity: 0.2; }
-  50%      { opacity: 0.85; }
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.5; }
+}
+/* Courier map: dashes march outward from the hub. */
+@keyframes route-flow {
+  to { stroke-dashoffset: -28; }
 }
 
 :root {
@@ -126,18 +130,48 @@
     scroll-behavior: smooth;
     /* Mobile: instant scroll-to-top via JS; smooth kept for anchor links on desktop */
   }
+  /* Anchor targets land below the fixed floating nav instead of underneath it */
+  [id] {
+    scroll-margin-top: 96px;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     -webkit-font-smoothing: antialiased;
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Display headings: DIN-style condensed — industrial signage look */
+  h1, h2 {
+    font-family: "Barlow Condensed", "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: 0.01em;
+  }
+  /* Smaller headings stay in the text face — condensed gets cramped at small sizes */
+  h3, h4, h5, h6 {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   }
   ::selection {
     background: rgba(253, 185, 39, 0.35);
   }
+  /* Film grain over the whole site — tactile, kills the flat "template" look */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.02;
+    mix-blend-mode: overlay;
+  }
+  /* Themed scrollbar */
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: hsl(158 62% 5%); }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(158 25% 18%);
+    border-radius: 6px;
+    border: 3px solid hsl(158 62% 5%);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(158 25% 26%); }
 }
 
 @layer utilities {
@@ -197,6 +231,11 @@
     transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
   }
 
+  /* Service list rows: shift content with transform (composited), not padding (layout) */
+  .service-row .service-shift {
+    transition: transform 0.3s var(--ease-out);
+  }
+
   .feature-row::before {
     content: "";
     position: absolute;
@@ -231,6 +270,7 @@
     }
     .feature-row:hover::before { opacity: 1; }
     .glint:hover::after { animation: glint 0.7s var(--ease-out); }
+    .service-row:hover .service-shift { transform: translateX(0.65rem); }
   }
 
   /* Attention ring for the nav call button — composited expanding ring. */
@@ -268,7 +308,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     opacity: 0;
     animation: cta-glow 2.6s ease-in-out infinite;
     pointer-events: none;
@@ -279,6 +319,17 @@
 
   .stat-glow {
     text-shadow: 0 0 24px rgba(253,185,39,0.7), 0 0 48px rgba(253,185,39,0.35);
+  }
+
+  /* Courier map elements */
+  .route-line {
+    stroke-dasharray: 5 9;
+    animation: route-flow 1.8s linear infinite;
+  }
+  .city-ping {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse-ring 2.6s var(--ease-out) infinite;
   }
 }
 

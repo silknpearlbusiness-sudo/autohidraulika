@@ -107,32 +107,8 @@ function NavBar() {
       }}
     >
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2.5 no-underline">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-            style={{
-              background: "linear-gradient(135deg, hsl(43 98% 54%), #10b981)",
-              boxShadow: "0 0 16px rgba(253,185,39,0.35)",
-            }}
-          >
-            <span
-              style={{
-                color: "white",
-                fontWeight: 900,
-                fontSize: "0.9rem",
-                lineHeight: 1,
-              }}
-            >
-              H
-            </span>
-          </div>
-          <span
-            className="font-bold text-sm tracking-wide"
-            style={{ color: "hsl(40 20% 97%)" }}
-          >
-            hidraulika
-            <span style={{ color: ORANGE }}>javítás.hu</span>
-          </span>
+        <a href="/" className="flex items-center no-underline">
+          <img src="/images/logo-dark.png" alt="Hidraulikajavítás.com" className="h-7 w-auto" />
         </a>
         <CallBtn />
       </div>
