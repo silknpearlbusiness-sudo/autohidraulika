@@ -513,30 +513,31 @@ function Home() {
           }} />
         </div>
 
-        <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 xl:px-14 relative z-10">
-          <div className="flex flex-col justify-end min-h-screen pb-14 lg:pb-20 pt-28">
+        <div className="mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10">
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 xl:gap-20 min-h-screen">
 
-            <Reveal>
-              <div className="mb-7">
-                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]"
-                  style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.25)", color: "hsl(43 98% 68%)" }}>
-                  <OrangeDot /> Márkafüggetlen szakszerviz · Budapest
-                </span>
-              </div>
-            </Reveal>
+            {/* LEFT — text, bottom-anchored */}
+            <div className="flex flex-col justify-end pt-32 pb-14 lg:pb-20">
 
-            <Reveal delay={60}>
-              <h1 style={{ fontFamily: '"Syne", system-ui, sans-serif', fontWeight: 800, lineHeight: 0.88, margin: 0 }}>
-                <span className="block" style={{ fontSize: "clamp(4rem,10.5vw,9.5rem)", color: "hsl(40 20% 97%)", letterSpacing: "-0.02em" }}>HIDRAULIKA</span>
-                <span className="block" style={{ fontSize: "clamp(4rem,10.5vw,9.5rem)", color: ORANGE, letterSpacing: "-0.02em" }}>JAVÍTÁS</span>
-              </h1>
-            </Reveal>
+              <Reveal>
+                <div className="mb-7">
+                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]"
+                    style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.25)", color: "hsl(43 98% 68%)" }}>
+                    <OrangeDot /> Márkafüggetlen szakszerviz · Budapest
+                  </span>
+                </div>
+              </Reveal>
 
-            {/* Description + CTA side by side — breaks the vertical stack template pattern */}
-            <Reveal delay={130}>
-              <div className="mt-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-20">
-                <div className="max-w-md">
-                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em]" style={{ color: "hsl(158 16% 45%)" }}>
+              <Reveal delay={60}>
+                <h1 style={{ fontFamily: '"Syne", system-ui, sans-serif', fontWeight: 800, lineHeight: 0.88, margin: 0 }}>
+                  <span className="block" style={{ fontSize: "clamp(3.5rem,7.5vw,8rem)", color: "hsl(40 20% 97%)", letterSpacing: "-0.02em" }}>HIDRAULIKA</span>
+                  <span className="block" style={{ fontSize: "clamp(3.5rem,7.5vw,8rem)", color: ORANGE, letterSpacing: "-0.02em" }}>JAVÍTÁS</span>
+                </h1>
+              </Reveal>
+
+              <Reveal delay={130}>
+                <div className="mt-7 max-w-md">
+                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em]" style={{ color: "hsl(158 16% 42%)" }}>
                     Hidraulika Service Team Kft.
                   </p>
                   <p className="text-base md:text-lg leading-relaxed" style={{ color: "hsl(158 14% 65%)" }}>
@@ -544,7 +545,10 @@ function Home() {
                     Futárunk elhozza az alkatrészt — <strong style={{ color: "hsl(40 20% 93%)" }}>24–48 óra</strong> alatt megjavítjuk, és visszük is vissza.
                   </p>
                 </div>
-                <div className="flex flex-row items-center gap-5 shrink-0">
+              </Reveal>
+
+              <Reveal delay={180}>
+                <div className="mt-7 flex flex-row items-center gap-5">
                   <a href="tel:+36309111474"
                     className="glint relative inline-flex items-center justify-center gap-3 font-black text-white no-underline"
                     style={{ background: ORANGE, height: "3.75rem", paddingLeft: "2.25rem", paddingRight: "2.25rem", fontSize: "1.05rem", borderRadius: "10px", boxShadow: "0 6px 22px rgba(253,185,39,0.28)", transition: "transform 0.15s ease, box-shadow 0.15s ease", whiteSpace: "nowrap" }}
@@ -552,36 +556,61 @@ function Home() {
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ""; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 22px rgba(253,185,39,0.28)"; }}>
                     <Phone size={18} /> Hívjon most!
                   </a>
-                  <a href="#kapcsolat"
-                    className="inline-flex items-center gap-2 no-underline font-semibold"
+                  <a href="#kapcsolat" className="inline-flex items-center gap-2 no-underline font-semibold"
                     style={{ fontSize: "0.95rem", color: "hsl(40 20% 68%)", whiteSpace: "nowrap" }}>
-                    Visszahívást kérek
-                    <ArrowUpRight size={15} style={{ color: ORANGE }} />
+                    Visszahívást kérek <ArrowUpRight size={15} style={{ color: ORANGE }} />
                   </a>
                 </div>
-              </div>
-            </Reveal>
+              </Reveal>
 
-            {/* Trust stats */}
-            <Reveal delay={210}>
-              <div className="mt-10 flex items-center gap-8 md:gap-12" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "1.75rem" }}>
-                {[
-                  { to: 5000, suffix: "+", label: "Sikeres javítás" },
-                  { to: 48,   suffix: " óra", label: "Max. átfutás" },
-                  { to: 6,    suffix: " hónap", label: "Írásos garancia" },
-                ].map((s, i) => (
-                  <div key={s.label} className="flex items-center gap-8 md:gap-12">
-                    {i > 0 && <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.08)" }} />}
-                    <div>
-                      <p className="text-2xl md:text-3xl font-black leading-none" style={{ color: ORANGE }}>
+              {/* Stats — redesigned: accent bar + white number + muted label */}
+              <Reveal delay={240}>
+                <div className="mt-10 flex items-start gap-10 md:gap-14" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.75rem" }}>
+                  {[
+                    { to: 5000, suffix: "+", label: "Sikeres javítás" },
+                    { to: 48,   suffix: " óra", label: "Max. átfutás" },
+                    { to: 6,    suffix: " hónap", label: "Írásos garancia" },
+                  ].map((s) => (
+                    <div key={s.label}>
+                      <div style={{ width: "1.25rem", height: "2px", background: ORANGE, marginBottom: "0.6rem" }} />
+                      <p style={{ fontFamily: '"Syne", system-ui, sans-serif', fontSize: "clamp(1.5rem,2.5vw,2rem)", fontWeight: 800, lineHeight: 1, color: "hsl(40 20% 96%)" }}>
                         <Counter to={s.to} suffix={s.suffix} />
                       </p>
-                      <p className="text-[10px] uppercase tracking-widest mt-1 font-semibold" style={{ color: "hsl(158 16% 44%)" }}>{s.label}</p>
+                      <p style={{ fontSize: "0.65rem", letterSpacing: "0.16em", color: "hsl(158 14% 42%)", marginTop: "0.35rem", textTransform: "uppercase", fontWeight: 600 }}>{s.label}</p>
                     </div>
+                  ))}
+                </div>
+              </Reveal>
+
+            </div>
+
+            {/* RIGHT — photo stack */}
+            <div className="hidden lg:flex flex-col justify-center gap-4 pt-28 pb-12">
+              <Reveal delay={120}>
+                <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/10]" style={{ maxHeight: "46vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
+                  <img src={IMGS.workshop1} alt="Hitachi ZW550 rakodógép hidraulika javítás" className="absolute inset-0 w-full h-full object-cover"
+                    style={{ filter: "saturate(0.85) contrast(1.05) brightness(0.9)", objectPosition: "50% 60%" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)" }} />
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2"
+                    style={{ background: "rgba(4,20,14,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(253,185,39,0.25)" }}>
+                    <ShieldCheck size={14} style={{ color: ORANGE }} />
+                    <span className="text-xs font-bold">6 hónap írásos garancia</span>
                   </div>
-                ))}
-              </div>
-            </Reveal>
+                </div>
+              </Reveal>
+              <Reveal delay={220}>
+                <div className="relative rounded-2xl overflow-hidden w-full aspect-[21/9]" style={{ maxHeight: "28vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
+                  <img src={IMGS.timberjack} alt="Mezőgazdasági munkagép hidraulika" className="absolute inset-0 w-full h-full object-cover"
+                    style={{ filter: "saturate(0.8) contrast(1.05) brightness(0.85)", objectPosition: "50% 68%" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)" }} />
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2"
+                    style={{ background: "rgba(4,20,14,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(253,185,39,0.25)" }}>
+                    <Truck size={14} style={{ color: ORANGE }} />
+                    <span className="text-xs font-bold">Ingyenes országos futár</span>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
 
           </div>
         </div>

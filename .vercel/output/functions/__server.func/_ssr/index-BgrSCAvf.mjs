@@ -1,7 +1,7 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-gz81yd0S.mjs";
+import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-X8tSBuqf.mjs";
 import "../_libs/seroval.mjs";
-import { W as Wrench, P as Phone, X, M as Menu, a as ArrowUpRight, T as Truck, b as ClipboardCheck, c as PackageCheck, d as Clock, e as ChevronRight, f as MapPin, g as CircleCheck, S as Star, h as CircleQuestionMark, i as ArrowRight, j as Mail, k as ArrowUp } from "../_libs/lucide-react.mjs";
+import { W as Wrench, P as Phone, X, M as Menu, a as ArrowUpRight, S as ShieldCheck, T as Truck, b as ClipboardCheck, c as PackageCheck, d as Clock, e as ChevronRight, f as MapPin, g as CircleCheck, h as Star, i as CircleQuestionMark, j as ArrowRight, k as Mail, l as ArrowUp } from "../_libs/lucide-react.mjs";
 import { o as objectType, s as stringType, l as literalType } from "../_libs/zod.mjs";
 import "node:async_hooks";
 import "../_libs/h3-v2.mjs";
@@ -97,7 +97,9 @@ const submitContact = createServerFn({
   method: "POST"
 }).inputValidator(schema).handler(createSsrRpc("f89a2e5e681e9af767c0434e24c12a718b0b01fca0227036608f98c4b9390f88"));
 const IMGS = {
-  workshop2: "/images/workshop-2.jpg"
+  workshop1: "/images/ZW550-6-768x690.webp",
+  workshop2: "/images/workshop-2.jpg",
+  timberjack: "/images/3737280468_219458a037_b.jpg"
 };
 function Counter({
   to,
@@ -579,36 +581,36 @@ function Home() {
           background: "linear-gradient(to top, hsl(158 62% 7%), transparent)"
         } })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-[1400px] px-6 md:px-10 xl:px-14 relative z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col justify-end min-h-screen pb-14 lg:pb-20 pt-28", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-7", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]", style: {
-          background: "rgba(253,185,39,0.1)",
-          border: "1px solid rgba(253,185,39,0.25)",
-          color: "hsl(43 98% 68%)"
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(OrangeDot, {}),
-          " Márkafüggetlen szakszerviz · Budapest"
-        ] }) }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 60, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { style: {
-          fontFamily: '"Syne", system-ui, sans-serif',
-          fontWeight: 800,
-          lineHeight: 0.88,
-          margin: 0
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", style: {
-            fontSize: "clamp(4rem,10.5vw,9.5rem)",
-            color: "hsl(40 20% 97%)",
-            letterSpacing: "-0.02em"
-          }, children: "HIDRAULIKA" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", style: {
-            fontSize: "clamp(4rem,10.5vw,9.5rem)",
-            color: ORANGE,
-            letterSpacing: "-0.02em"
-          }, children: "JAVÍTÁS" })
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 130, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-20", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-md", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1.1fr_0.9fr] gap-10 xl:gap-20 min-h-screen", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col justify-end pt-32 pb-14 lg:pb-20", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-7", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]", style: {
+            background: "rgba(253,185,39,0.1)",
+            border: "1px solid rgba(253,185,39,0.25)",
+            color: "hsl(43 98% 68%)"
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(OrangeDot, {}),
+            " Márkafüggetlen szakszerviz · Budapest"
+          ] }) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 60, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { style: {
+            fontFamily: '"Syne", system-ui, sans-serif',
+            fontWeight: 800,
+            lineHeight: 0.88,
+            margin: 0
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", style: {
+              fontSize: "clamp(3.5rem,7.5vw,8rem)",
+              color: "hsl(40 20% 97%)",
+              letterSpacing: "-0.02em"
+            }, children: "HIDRAULIKA" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", style: {
+              fontSize: "clamp(3.5rem,7.5vw,8rem)",
+              color: ORANGE,
+              letterSpacing: "-0.02em"
+            }, children: "JAVÍTÁS" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 130, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-7 max-w-md", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-2 text-xs font-bold uppercase tracking-[0.28em]", style: {
-              color: "hsl(158 16% 45%)"
+              color: "hsl(158 16% 42%)"
             }, children: "Hidraulika Service Team Kft." }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-base md:text-lg leading-relaxed", style: {
               color: "hsl(158 14% 65%)"
@@ -619,8 +621,8 @@ function Home() {
               }, children: "24–48 óra" }),
               " alatt megjavítjuk, és visszük is vissza."
             ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-row items-center gap-5 shrink-0", children: [
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 180, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-7 flex flex-row items-center gap-5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "tel:+36309111474", className: "glint relative inline-flex items-center justify-center gap-3 font-black text-white no-underline", style: {
               background: ORANGE,
               height: "3.75rem",
@@ -646,41 +648,99 @@ function Home() {
               color: "hsl(40 20% 68%)",
               whiteSpace: "nowrap"
             }, children: [
-              "Visszahívást kérek",
+              "Visszahívást kérek ",
               /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 15, style: {
                 color: ORANGE
               } })
             ] })
-          ] })
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 210, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 flex items-center gap-8 md:gap-12", style: {
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          paddingTop: "1.75rem"
-        }, children: [{
-          to: 5e3,
-          suffix: "+",
-          label: "Sikeres javítás"
-        }, {
-          to: 48,
-          suffix: " óra",
-          label: "Max. átfutás"
-        }, {
-          to: 6,
-          suffix: " hónap",
-          label: "Írásos garancia"
-        }].map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-8 md:gap-12", children: [
-          i > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-px h-8", style: {
-            background: "rgba(255,255,255,0.08)"
-          } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-2xl md:text-3xl font-black leading-none", style: {
-              color: ORANGE
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 240, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 flex items-start gap-10 md:gap-14", style: {
+            borderTop: "1px solid rgba(255,255,255,0.07)",
+            paddingTop: "1.75rem"
+          }, children: [{
+            to: 5e3,
+            suffix: "+",
+            label: "Sikeres javítás"
+          }, {
+            to: 48,
+            suffix: " óra",
+            label: "Max. átfutás"
+          }, {
+            to: 6,
+            suffix: " hónap",
+            label: "Írásos garancia"
+          }].map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+              width: "1.25rem",
+              height: "2px",
+              background: ORANGE,
+              marginBottom: "0.6rem"
+            } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
+              fontFamily: '"Syne", system-ui, sans-serif',
+              fontSize: "clamp(1.5rem,2.5vw,2rem)",
+              fontWeight: 800,
+              lineHeight: 1,
+              color: "hsl(40 20% 96%)"
             }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Counter, { to: s.to, suffix: s.suffix }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] uppercase tracking-widest mt-1 font-semibold", style: {
-              color: "hsl(158 16% 44%)"
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
+              fontSize: "0.65rem",
+              letterSpacing: "0.16em",
+              color: "hsl(158 14% 42%)",
+              marginTop: "0.35rem",
+              textTransform: "uppercase",
+              fontWeight: 600
             }, children: s.label })
-          ] })
-        ] }, s.label)) }) })
+          ] }, s.label)) }) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hidden lg:flex flex-col justify-center gap-4 pt-28 pb-12", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 120, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative rounded-2xl overflow-hidden w-full aspect-[16/10]", style: {
+            maxHeight: "46vh",
+            border: "1px solid rgba(255,255,255,0.1)",
+            boxShadow: "0 24px 64px rgba(0,0,0,0.45)"
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: IMGS.workshop1, alt: "Hitachi ZW550 rakodógép hidraulika javítás", className: "absolute inset-0 w-full h-full object-cover", style: {
+              filter: "saturate(0.85) contrast(1.05) brightness(0.9)",
+              objectPosition: "50% 60%"
+            } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0", style: {
+              background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)"
+            } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2", style: {
+              background: "rgba(4,20,14,0.75)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(253,185,39,0.25)"
+            }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldCheck, { size: 14, style: {
+                color: ORANGE
+              } }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold", children: "6 hónap írásos garancia" })
+            ] })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 220, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative rounded-2xl overflow-hidden w-full aspect-[21/9]", style: {
+            maxHeight: "28vh",
+            border: "1px solid rgba(255,255,255,0.1)",
+            boxShadow: "0 24px 64px rgba(0,0,0,0.45)"
+          }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: IMGS.timberjack, alt: "Mezőgazdasági munkagép hidraulika", className: "absolute inset-0 w-full h-full object-cover", style: {
+              filter: "saturate(0.8) contrast(1.05) brightness(0.85)",
+              objectPosition: "50% 68%"
+            } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0", style: {
+              background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)"
+            } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2", style: {
+              background: "rgba(4,20,14,0.75)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(253,185,39,0.25)"
+            }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Truck, { size: 14, style: {
+                color: ORANGE
+              } }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold", children: "Ingyenes országos futár" })
+            ] })
+          ] }) })
+        ] })
       ] }) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-hidden", style: {
