@@ -190,6 +190,7 @@ const faq = [
   { q: "Milyen garanciát vállalnak a javításokra?", a: "Minden elvégzett javításra 6 hónap teljes körű, írásos garanciát biztosítunk az anyagra és a munkadíjra egyaránt. Új alkatrészek értékesítésénél 12 hónap garancia érvényes." },
   { q: "Hogyan működik az országos futárszolgálat?", a: "Hívja telefonszámunkat, és futárunk az ország bármely pontjára kimegy a kiszerelt alkatrészért. A javítás után visszaszállítjuk az Ön által megadott helyre — személyes megjelenés nélkül." },
   { q: "Mennyibe kerül egy átlagos hidraulika javítás?", a: "A javítás ára az alkatrész típusától, a hiba jellegétől és a szükséges anyagoktól függ. Bevizsgálás után pontos, írásos árajánlatot adunk — csak elfogadás után kezdünk." },
+  { q: "El kell vinnem személyesen az alkatrészt?", a: "Nem. Futárszolgálatunk az ország bármely pontjáról begyűjti a hibás alkatrészt, mi elvégezzük a javítást, majd visszaszállítjuk. Az egész folyamat során Önnek nem kell mozdulnia." },
 ];
 
 const counties = [
@@ -590,7 +591,6 @@ function Home() {
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
                   <div className="absolute bottom-4 left-4">
                     <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>Kotrógép · Szivattyúcsere</p>
-                    <p className="text-sm font-bold mt-0.5" style={{ color: "hsl(40 20% 92%)" }}>Hitachi ZW550 rakodógép</p>
                   </div>
                 </div>
               </Reveal>
@@ -600,8 +600,7 @@ function Home() {
                     style={{ filter: "saturate(0.8) contrast(1.05) brightness(0.85)", objectPosition: "50% 68%" }} />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
                   <div className="absolute bottom-4 left-4">
-                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>Mezőgazdaság · Hengerfelvújítás</p>
-                    <p className="text-sm font-bold mt-0.5" style={{ color: "hsl(40 20% 92%)" }}>John Deere 8230 traktor</p>
+                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>Mezőgazdaság · Hengerfelújítás</p>
                   </div>
                 </div>
               </Reveal>
@@ -993,7 +992,7 @@ function Home() {
 
         {/* Marquee row 1 — left */}
         <div className="overflow-hidden mb-3">
-          <div className="marquee-track" style={{ animationDuration: "22s" }}>
+          <div className="marquee-track" style={{ animationDuration: "38s" }}>
             {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
               <span key={i} className="inline-flex items-center gap-4 px-6"
                 style={{ fontSize: "clamp(1.5rem,3.5vw,2.4rem)", fontWeight: 900, color: i % 2 === 0 ? ORANGE : "rgba(255,255,255,0.07)", letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
@@ -1006,7 +1005,7 @@ function Home() {
 
         {/* Marquee row 2 — right (reverse direction) */}
         <div className="overflow-hidden">
-          <div className="marquee-track" style={{ animationDuration: "28s", animationDirection: "reverse" }}>
+          <div className="marquee-track" style={{ animationDuration: "48s", animationDirection: "reverse" }}>
             {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
               <span key={i} className="inline-flex items-center gap-4 px-6"
                 style={{ fontSize: "clamp(1.5rem,3.5vw,2.4rem)", fontWeight: 900, color: i % 2 === 0 ? "rgba(255,255,255,0.06)" : ORANGE, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap" }}>

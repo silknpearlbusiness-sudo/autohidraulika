@@ -1,5 +1,5 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-AtwCAqEl.mjs";
+import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-hFkIyY3s.mjs";
 import "../_libs/seroval.mjs";
 import { W as Wrench, P as Phone, X, M as Menu, a as ArrowUpRight, T as Truck, b as ClipboardCheck, c as PackageCheck, d as Clock, e as ChevronRight, f as MapPin, g as CircleCheck, S as Star, h as CircleQuestionMark, i as ArrowRight, j as Mail, k as ArrowUp } from "../_libs/lucide-react.mjs";
 import { o as objectType, s as stringType, l as literalType } from "../_libs/zod.mjs";
@@ -254,6 +254,9 @@ const faq = [{
 }, {
   q: "Mennyibe kerül egy átlagos hidraulika javítás?",
   a: "A javítás ára az alkatrész típusától, a hiba jellegétől és a szükséges anyagoktól függ. Bevizsgálás után pontos, írásos árajánlatot adunk — csak elfogadás után kezdünk."
+}, {
+  q: "El kell vinnem személyesen az alkatrészt?",
+  a: "Nem. Futárszolgálatunk az ország bármely pontjáról begyűjti a hibás alkatrészt, mi elvégezzük a javítást, majd visszaszállítjuk. Az egész folyamat során Önnek nem kell mozdulnia."
 }];
 const counties = ["Budapest", "Pest", "Győr-Moson-Sopron", "Vas", "Zala", "Somogy", "Baranya", "Tolna", "Fejér", "Komárom-Esztergom", "Veszprém", "Bács-Kiskun", "Csongrád-Csanád", "Békés", "Hajdú-Bihar", "Szabolcs-Sz-B", "Jász-NK-Sz", "Heves", "Nógrád", "Borsod-A-Z"];
 function Home() {
@@ -685,14 +688,9 @@ function Home() {
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0", style: {
               background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)"
             } }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold uppercase tracking-widest", style: {
-                color: ORANGE
-              }, children: "Kotrógép · Szivattyúcsere" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold mt-0.5", style: {
-                color: "hsl(40 20% 92%)"
-              }, children: "Hitachi ZW550 rakodógép" })
-            ] })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-4 left-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold uppercase tracking-widest", style: {
+              color: ORANGE
+            }, children: "Kotrógép · Szivattyúcsere" }) })
           ] }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 220, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative rounded-2xl overflow-hidden w-full aspect-[21/9]", style: {
             maxHeight: "28vh",
@@ -706,14 +704,9 @@ function Home() {
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0", style: {
               background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)"
             } }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold uppercase tracking-widest", style: {
-                color: ORANGE
-              }, children: "Mezőgazdaság · Hengerfelvújítás" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold mt-0.5", style: {
-                color: "hsl(40 20% 92%)"
-              }, children: "John Deere 8230 traktor" })
-            ] })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-4 left-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold uppercase tracking-widest", style: {
+              color: ORANGE
+            }, children: "Mezőgazdaság · Hengerfelújítás" }) })
           ] }) })
         ] })
       ] }) })
@@ -1150,7 +1143,7 @@ function Home() {
         ] })
       ] }) }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-hidden mb-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "marquee-track", style: {
-        animationDuration: "22s"
+        animationDuration: "38s"
       }, children: (() => {
         const mb = brands.filter((b) => b !== "Leslie Hidraulika" && b !== "Ponar");
         return [...mb, ...mb, ...mb, ...mb];
@@ -1169,7 +1162,7 @@ function Home() {
         }, children: "◆" })
       ] }, i)) }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "marquee-track", style: {
-        animationDuration: "28s",
+        animationDuration: "48s",
         animationDirection: "reverse"
       }, children: (() => {
         const mb = brands.filter((b) => b !== "Leslie Hidraulika" && b !== "Ponar");
