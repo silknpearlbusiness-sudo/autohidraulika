@@ -553,16 +553,16 @@ function Home() {
             {/* RIGHT — photo stack */}
             <div className="hidden lg:flex flex-col justify-center gap-4 pt-28 pb-12">
               <Reveal delay={120}>
-                <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/10]" style={{ maxHeight: "46vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
+                <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/8]" style={{ maxHeight: "38vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
                   <img src={IMGS.workshop1} alt="Hitachi ZW550 rakodógép hidraulika javítás" className="absolute inset-0 w-full h-full object-cover"
-                    style={{ filter: "saturate(0.85) contrast(1.05) brightness(0.9)", objectPosition: "50% 60%" }} />
+                    style={{ filter: "saturate(0.85) contrast(1.05) brightness(0.9)", objectPosition: "50% 42%" }} />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
                 </div>
               </Reveal>
               <Reveal delay={220}>
-                <div className="relative rounded-2xl overflow-hidden w-full aspect-[21/9]" style={{ maxHeight: "28vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
+                <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/9]" style={{ maxHeight: "36vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
                   <img src={IMGS.timberjack} alt="Mezőgazdasági munkagép hidraulika" className="absolute inset-0 w-full h-full object-cover"
-                    style={{ filter: "saturate(0.8) contrast(1.05) brightness(0.85)", objectPosition: "50% 68%" }} />
+                    style={{ filter: "saturate(0.8) contrast(1.05) brightness(0.85)", objectPosition: "50% 82%" }} />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
                 </div>
               </Reveal>
