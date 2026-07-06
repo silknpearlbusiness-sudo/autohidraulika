@@ -174,11 +174,11 @@ const processSteps = [
 ];
 
 const faq = [
-  { q: "Milyen hidraulikus alkatrészeket javítanak?", a: "Hidraulika szivattyúk (dugattyús, lapátos, fogaskerék), hidromotorokat, munkahengereket, orbit motorokat és vezérlőtömböket. Márkafüggetlenül." },
-  { q: "Mennyi idő alatt készül el a hidraulika javítás?", a: "A hidraulikus egyság beárkezésétol szamítva lehető legröbvidebb időn belül árajanlatot adunk. Összetettebb hibáknál ez hosszabb lehet — erről minden esetben előre tájékoztatjuk." },
-  { q: "Milyen garanciát vállalnak a javításokra?", a: "Minden elvégzett javításra 6 hónap teljes körű, garanciát biztosítunk. Új alkatrészek értékesítésénél 12 hónap garancia érvényes." },
+  { q: "Milyen hidraulikus alkatrészeket javítanak?", a: "Hidraulika szivattyúkat (dugattyús, lapátos, fogaskerék), hidromotorokat, munkahengereket, orbit motorokat és vezérlőtömböket. Márkafüggetlenül." },
+  { q: "Mennyi idő alatt készül el a hidraulika javítás?", a: "A hidraulikus egység beérkezésétől számítva lehető legrövidebb időn belül árajánlatot adunk. Összetettebb hibáknál ez hosszabb idő lehet — erről minden esetben előre tájékoztatjuk." },
+  { q: "Milyen garanciát vállalnak a javításokra?", a: "Minden elvégzett javításra 6 hónap teljes körű garanciát biztosítunk. Új alkatrészek értékesítésénél 12 hónap garancia érvényes." },
   { q: "Hogyan működik az országos futárszolgálat?", a: "Hívja telefonszámunkat, és futárunk az ország bármely pontjára kimegy a kiszerelt alkatrészért. A javítás után visszaszállítjuk az Ön által megadott helyre — természetesen személyesen is behozhatja az ügyfél." },
-  { q: "Mennyibe kerül egy átlagos hidraulika javítás?", a: "A javítás ára az alkatrész típusától, a hiba jellegétől és a szükséges anyagoktól függ. Bevizsgálás után pontos, árajánlatot adunk — csak elfogadás után kezdünk." },
+  { q: "Mennyibe kerül egy átlagos hidraulika javítás?", a: "A javítás ára az alkatrész típusától, a hiba jellegétől és a szükséges anyagoktól függ. Bevizsgálás után pontos árajánlatot adunk — csak elfogadás után kezdünk." },
   { q: "El kell vinnem személyesen az alkatrészt?", a: "Természetesen elhozhatja, de futárszolgálatunk az ország bármely pontjáról begyűjti a hibás egységet, mi elvégezzük a javítást, majd visszaszállítjuk." },
 ];
 
@@ -491,7 +491,7 @@ function Home() {
               <Reveal>
                 <div className="hazard mb-4" style={{ width: 72, height: 6 }} />
                 <p className="mb-5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.14em] sm:tracking-[0.22em]" style={{ color: "hsl(43 98% 60%)" }}>
-                  Márkafüggetlen szakszerviz — Budapest
+                  Márkafüggetlen szakszervíz — Budapest
                 </p>
               </Reveal>
 
@@ -878,7 +878,7 @@ function Home() {
               style={{ background: "linear-gradient(135deg, rgba(253,185,39,0.08), rgba(16,185,129,0.06))", border: "1px solid rgba(253,185,39,0.2)" }}>
               <div className="flex-1">
                 <p className="font-black text-xl">Nem tudja pontosan, mi a hiba?</p>
-                <p className="text-sm mt-1" style={{ color: "hsl(158 16% 52%)" }}>Hívjon! Ingyenesen megmondjuk mi a probléma és mennyibe kerül a javítás.</p>
+                <p className="text-sm mt-1" style={{ color: "hsl(158 16% 52%)" }}>Hívjon! Ingyenesen megmondjuk, mi a probléma és mennyibe kerül a javítás.</p>
               </div>
               <a href="tel:+36309111474"
                 className="glint cta-pulse shrink-0 inline-flex items-center gap-2.5 rounded-full font-black no-underline"
@@ -1063,7 +1063,7 @@ function Home() {
               </h2>
               <div className="mb-6 h-0.5 w-12 rounded-full" style={{ background: `linear-gradient(90deg, ${ORANGE}, transparent)` }} />
               <p className="leading-relaxed text-[15px] max-w-sm mb-8" style={{ color: "hsl(158 16% 55%)" }}>
-                Nem számít, hol van a gépe — futárunk elmegy Önhöz, átveszi az alkatrészt, és visszahozza megjavítva. Egész Magyarország területét lefedjük.
+                Nem számít, hol van a gépe — futárunk elmegy Önhöz, átveszi az alkatrészt, és visszaviszi Önnek megjavítva. Egész Magyarország területét lefedjük.
               </p>
               <a href="tel:+36309111474"
                 className="btn-hover glint inline-flex items-center gap-2.5 h-12 px-8 rounded-full text-base font-black no-underline"
@@ -1224,15 +1224,31 @@ function Home() {
           </div>
         </div>
 
-        {/* Brand badge grid — tidy 2-col grid on mobile, wrapped pills on larger screens */}
+        {/* Brand manifest board — numbered spec-sheet grid with hairline dividers */}
         <div className="container mx-auto px-6 relative z-10 mt-4 md:mt-12">
-          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
-            {brands.map((b) => (
-              <span key={b} className="text-center px-2 py-2 sm:px-4 rounded-lg sm:rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.08em] sm:tracking-widest"
-                style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)", color: "hsl(43 98% 72%)" }}>
-                {b}
-              </span>
-            ))}
+          <div className="max-w-5xl mx-auto rounded-xl overflow-hidden"
+            style={{ border: "1px solid rgba(253,185,39,0.2)", boxShadow: "0 24px 60px rgba(0,0,0,0.35)" }}>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" style={{ gap: 1, background: "rgba(253,185,39,0.14)" }}>
+              {brands.map((b, i) => (
+                <div key={b} className="group flex items-center gap-2.5 px-3.5 py-3 sm:px-5 sm:py-3.5"
+                  style={{ background: "hsl(158 62% 5.5%)" }}>
+                  <span className="shrink-0 text-[9px] font-bold tabular-nums uppercase" style={{ color: "rgba(253,185,39,0.5)" }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.08em] transition-colors duration-200 group-hover:text-[hsl(43_98%_60%)]"
+                    style={{ color: "hsl(40 15% 86%)" }}>
+                    {b}
+                  </span>
+                </div>
+              ))}
+              {/* Filler cells so the last row's hairlines stay square */}
+              {Array.from({ length: (4 - (brands.length % 4)) % 4 }).map((_, i) => (
+                <div key={`f${i}`} className="hidden lg:block" style={{ background: "hsl(158 62% 5.5%)" }} />
+              ))}
+              {Array.from({ length: (3 - (brands.length % 3)) % 3 }).map((_, i) => (
+                <div key={`f3${i}`} className="hidden sm:block lg:hidden" style={{ background: "hsl(158 62% 5.5%)" }} />
+              ))}
+            </div>
           </div>
           <p className="text-center mt-6 text-xs font-semibold uppercase tracking-widest" style={{ color: "hsl(158 16% 38%)" }}>
             + Minden egyéb gyártó hidraulikus rendszerei
