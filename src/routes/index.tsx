@@ -30,12 +30,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Hidraulika javítás Budapesten és országosan: hidraulikus szivattyúk, motorok, hengerek, orbit motorok és vezérlőblokkok szakszerű felújítása. Márkafüggetlen szerviz, 24–48 órás átfutás, 6 hónap garancia, ingyenes országos futárszolgálat. Hívjon: +36 30 911 1474",
+          "Hidraulika javítás Budapesten és országosan: hidraulikus szivattyúk, motorok, hengerek, orbit motorok és vezérlőblokkok szakszerű felújítása. Márkafüggetlen szerviz, 6 hónap garancia, országos futárszolgálat. Hívjon: +36 30 911 1474",
       },
       {
         name: "keywords",
         content:
-          "hidraulika javítás, hidraulika javítás Budapest, hidraulikus szivattyú javítás, hidraulikus motor javítás, hidraulikus henger javítás, hidraulika henger felújítás, orbit motor javítás, vezérlőblokk javítás, hidraulika szerviz, hidraulika felújítás, munkagép hidraulika javítás, kotrógép hidraulika, dugattyús szivattyú javítás, fogaskerék szivattyú, axiális motor, márkafüggetlen hidraulika szerviz, Bosch Rexroth javítás, Komatsu hidraulika, Caterpillar hidraulika, Parker szivattyú",
+          "hidraulika javítás, hidraulika javítás Budapest, hidraulikus szivattyú javítás, hidraulikus motor javítás, hidraulikus henger javítás, hidraulika henger felújítás, orbit motor javítás, vezérlőtömb javítás, hidraulika szerviz, hidraulika felújítás, munkagép hidraulika javítás, kotrógép hidraulika, dugattyús szivattyú javítás, fogaskerék szivattyú, axiális motor, márkafüggetlen hidraulika szerviz, Bosch Rexroth javítás, Komatsu hidraulika, Caterpillar hidraulika, Parker szivattyú",
       },
       { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
       { name: "author", content: "Hidraulika Service TEAM Kft." },
@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
       { name: "ICBM", content: "47.4669, 19.0744" },
 
       { property: "og:title", content: "Hidraulika Javítás Budapest | Hidraulika Service TEAM Kft." },
-      { property: "og:description", content: "Hidraulikus szivattyúk, motorok, hengerek, orbit motorok és vezérlőblokkok márkafüggetlen javítása. 24–48 órás átfutás, 6 hónap garancia, ingyenes országos futárszolgálat." },
+      { property: "og:description", content: "Hidraulikus szivattyúk, motorok, hengerek, orbit motorok és vezérlőblokkok márkafüggetlen javítása. 6 hónap garancia,országos futárszolgálat." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://www.hidraulikajavitas.com/" },
       { property: "og:site_name", content: "Hidraulika Service TEAM Kft." },
@@ -162,13 +162,11 @@ const processSteps = [
   },
   {
     icon: ClipboardCheck, num: "02", title: "Adunk egy pontos árajánlatot a hidraulika javításról és a javítási határidőről!",
-    desc: "Sok olyan jellegű hiba van, amelyekre nem lehet előre pontos árat mondani, csak a bevizsgálást követően. Részletes, írásos árajánlatot küldünk — munkához csak az Ön jóváhagyása után fogunk.",
-    detail: "Írásos árajánlat 24 órán belül",
+    desc: "Sok olyan jellegű hiba van, amelyekre nem lehet előre pontos árat mondani, csak a bevizsgálást követően. Részletes, árajánlatot adunk — munkához csak az Ön jóváhagyása után fogunk.",
   },
   {
     icon: Wrench, num: "03", title: "Ön elfogadja – mi megjavítjuk.",
     desc: "Gyári vagy gyári minőségű alkatrészekkel és tömítésekkel végezzük el a javítást. Minden munkafázist dokumentálunk, a javítást tesztelés követi.",
-    detail: "Átlag 24–48 óra átfutás",
   },
   {
     icon: PackageCheck, num: "04", title: "Visszaszállítjuk a felújított egységet.",
@@ -564,11 +562,10 @@ function Home() {
 
               {/* Stats — redesigned: accent bar + white number + muted label */}
               <Reveal delay={240}>
-                <div className="mt-10 grid grid-cols-3 gap-3 sm:flex sm:items-start sm:gap-10 md:gap-14" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.75rem" }}>
+                <div className="mt-10 grid grid-cols-2 gap-3 sm:flex sm:items-start sm:gap-10 md:gap-14" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.75rem" }}>
                   {[
                     { to: 5000, suffix: "+", label: "Elvégzett munka" },
-                    { to: 48,   suffix: " h", label: "Gyors átfutás" },
-                    { to: 6,    suffix: " hó", label: "Garancia írásban" },
+                    { to: 6,    suffix: " hónap", label: "Garancia" },
                   ].map((s) => (
                     <div key={s.label}>
                       <div style={{ width: "1.25rem", height: "2px", background: ORANGE, marginBottom: "0.6rem" }} />
@@ -590,9 +587,6 @@ function Home() {
                   <img src={IMGS.workshop1} alt="Hitachi ZW550 rakodógép hidraulika javítás" className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: "saturate(0.85) contrast(1.05) brightness(0.9)", objectPosition: "50% 60%" }} />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>Kotrógép · Szivattyúcsere</p>
-                  </div>
                 </div>
               </Reveal>
               <Reveal delay={220}>
@@ -600,9 +594,6 @@ function Home() {
                   <img src={IMGS.timberjack} alt="Mezőgazdasági munkagép hidraulika" className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: "saturate(0.8) contrast(1.05) brightness(0.85)", objectPosition: "50% 68%" }} />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
-                  <div className="absolute bottom-4 left-4">
-                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>Mezőgazdaság · Hengerfelújítás</p>
-                  </div>
                 </div>
               </Reveal>
             </div>
@@ -620,13 +611,11 @@ function Home() {
 
           {/* Header */}
           <Reveal>
-            <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-              <div>
-                <h2 className="font-black leading-[0.9]" style={{ fontSize: "clamp(2.25rem,8.5vw,7rem)", letterSpacing: "0.015em" }}>
-                  MIT<br /><span style={{ color: ORANGE }}>JAVÍTUNK?</span>
-                </h2>
-              </div>
-              <p className="max-w-sm text-base leading-relaxed lg:text-right" style={{ color: "hsl(158 16% 50%)" }}>
+            <div className="mb-16 text-center">
+              <h2 className="font-black leading-[0.9]" style={{ fontSize: "clamp(2.25rem,8.5vw,6rem)", letterSpacing: "0.015em" }}>
+                MIT <span style={{ color: ORANGE }}>JAVÍTUNK?</span>
+              </h2>
+              <p className="max-w-xl mx-auto mt-6 text-base leading-relaxed" style={{ color: "hsl(158 16% 50%)" }}>
                 Minden hidraulikus alkatrész — szivattyúktól az orbit motorig. Márkafüggetlenül, gyári minőségű alkatrészekkel, 6 hónap garanciával.
               </p>
             </div>
@@ -734,18 +723,17 @@ function Home() {
                 Sok olyan jellegű hiba van, amelyekre nem lehet előre pontos árat mondani, csak a bevizsgálást követően.
               </p>
               {/* Time summary pills */}
-              <div className="grid grid-cols-2 gap-2.5 max-w-xs mx-auto sm:max-w-none sm:flex sm:flex-wrap sm:justify-center sm:gap-3 mt-7">
+              <div className="grid sm:grid-cols-2 gap-2.5 max-w-2xl mx-auto mt-7 text-left">
                 {[
-                  { num: "1", label: "1 perc", sub: "Hívás" },
-                  { num: "2", label: "Másnap", sub: "Futár indul" },
-                  { num: "3", label: "24–48 óra", sub: "Javítás" },
-                  { num: "4", label: "Azután", sub: "Visszaszállítás" },
+                  { num: "1", label: "Futárunk elhozza Öntől a meghibásodott alkatrészt." },
+                  { num: "2", label: "Adunk egy pontos árajánlatot a hidraulika javításról és a javítási határidőről!" },
+                  { num: "3", label: "Ön elfogadja – mi megjavítjuk." },
+                  { num: "4", label: "Visszaszállítjuk a felújított alkatrészt." },
                 ].map((pill) => (
-                  <div key={pill.label} className="relative px-4 py-3 sm:px-5 sm:py-2.5 rounded-2xl text-center"
+                  <div key={pill.num} className="flex items-start gap-3 px-4 py-3 rounded-2xl"
                     style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)" }}>
-                    <div className="sm:hidden absolute top-1.5 left-2.5 text-[9px] font-black" style={{ color: "rgba(253,185,39,0.45)" }}>{pill.num}.</div>
-                    <div className="text-sm font-black" style={{ color: ORANGE }}>{pill.label}</div>
-                    <div className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "hsl(158 16% 48%)" }}>{pill.sub}</div>
+                    <span className="shrink-0 font-black text-sm tabular-nums" style={{ color: ORANGE }}>{pill.num}.</span>
+                    <span className="text-sm font-semibold leading-snug" style={{ color: "hsl(40 20% 90%)" }}>{pill.label}</span>
                   </div>
                 ))}
               </div>
@@ -949,7 +937,7 @@ function Home() {
                     <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
                       {[
                         { icon: MapPin, t: "Központ: Budapest, IX. kerület" },
-                        { icon: Truck,  t: "Oda-vissza futár — ingyen" },
+                        { icon: Truck,  t: "Oda-vissza futár" },
                         { icon: CheckCircle2, t: "Mind a 20 megyét lefedjük" },
                       ].map(({ icon: Icon, t }) => (
                         <span key={t} className="flex sm:inline-flex items-center gap-3 sm:gap-2 px-3 sm:px-3.5 py-2.5 sm:py-2 rounded-xl sm:rounded-full text-[13px] sm:text-xs font-semibold"
@@ -1170,16 +1158,16 @@ function Home() {
       <section id="kapcsolat" className="py-16 md:py-28 relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <Reveal>
-            <div className="mb-16">
+            <div className="mb-16 text-center">
               <h2 className="text-4xl sm:text-5xl md:text-6xl mt-4 mb-10 font-black">Rendelje meg<br />a javítást!</h2>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 {[
                   { icon: Phone,  label: "+36 (30) 9111-474",              sub: "Telefonszám", href: "tel:+36309111474" },
                   { icon: Mail,   label: "info@hidraulikajavitas.com",      sub: "Email",       href: "mailto:info@hidraulikajavitas.com" },
                   { icon: MapPin, label: "1095 Budapest, Soroksári út 48",  sub: "Telephely",   href: "#" },
                 ].map(({ icon: Icon, label, sub, href }) => (
                   <a key={sub} href={href}
-                    className="group flex w-full sm:w-auto items-center gap-4 px-5 sm:px-6 py-4 rounded-2xl no-underline btn-hover"
+                    className="group flex w-full sm:w-auto items-center gap-4 px-5 sm:px-6 py-4 rounded-2xl no-underline btn-hover text-left"
                     style={{ background: "hsl(158 58% 11%)", border: "1px solid rgba(255,255,255,0.07)", color: "inherit" }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.3)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}>
@@ -1204,8 +1192,8 @@ function Home() {
                 <div className="rounded-2xl overflow-hidden mb-5" style={{ border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 48px rgba(0,0,0,0.4)" }}>
                   <iframe
                     title="Hidraulika Service TEAM Kft. — 1095 Budapest, Soroksári út 48"
-                    src="https://maps.google.com/maps?q=Soroks%C3%A1ri%20%C3%BAt%2048%2C%20Budapest%2C%201095&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                    width="100%" height="300" loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d331.7077152391974!2d19.07320720044053!3d47.47230352293517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741dda277dad9ff%3A0x9d1de55d7f09d840!2sHidraulika%20Service%20Team%20Kft!5e1!3m2!1sen!2shu!4v1783344342140!5m2!1sen!2shu"
+                    width="100%" height="300" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"
                     style={{ border: 0, display: "block", filter: "saturate(0.85) contrast(1.02)" }} />
                 </div>
                 <div className="rounded-2xl p-5 text-xs space-y-1.5"
