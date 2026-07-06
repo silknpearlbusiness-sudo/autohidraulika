@@ -128,10 +128,10 @@ const repairItems = [
   { num: "02", name: "Radiál dugattyús szivattyú", short: "Radiális dugattyús, robusztus kialakítás nehézipari alkalmazásokhoz.",                        img: "/images/radialszivattyu.gif" },
   { num: "03", name: "Lapátos szivattyú",          short: "Lamellás betétek, patronok és házak — komplett felújítás.",                                   img: "/images/Hidraulika_lapatos.jpg" },
   { num: "04", name: "Fogaskerekes szivattyú",     short: "Egyszerű, megbízható — gyors csere, versenyképes ár.",                                        img: "/images/Hidraulika_fogaskerek.jpg" },
-  { num: "05", name: "Hidromotor",                 short: "Hidraulikus energiát forgómozgássá alakít — nagy nyomaték, precíz vezérlés.",                 img: "/images/Hidraulika_hidromotor1.jpg" },
+  { num: "05", name: "Hidromotor",                 short: "Hidraulikus energiát forgómozgássá alakít — nagy nyomaték, precíz vezérlés.",                 img: "/images/Hidraulika_ORBIT.jpg" },
   { num: "06", name: "Vezérlőtömb",                short: "Szelepek, blokkok javítása — a rendszer agyát is megjavítjuk.",                               img: "/images/Hidraulika_vezerlotomb.jpg" },
   { num: "07", name: "Munkahenger",                short: "Tömítéscsere, krómozás, henger felújítás — minden méretben, minden nyomástartományban.",      img: "/images/Hidraulika_munkahenger.jpg" },
-  { num: "08", name: "Orbit motor",                short: "Kompakt, nagy nyomatékú — mezőgazdasági és erdészeti gépekben mindennapos.",                  img: "/images/Hidraulika_ORBIT.jpg" },
+  { num: "08", name: "Orbit motor",                short: "Kompakt, nagy nyomatékú — mezőgazdasági és erdészeti gépekben mindennapos.",                  img: "/images/orbitmotor.webp" },
 ];
 
 const services = [
@@ -168,17 +168,17 @@ const processSteps = [
   },
   {
     icon: PackageCheck, num: "04", title: "Visszaszállítjuk a felújított egységet.",
-    desc: "A kész, tesztelt alkatrészt visszaszállítjuk az Ön által megadott helyszínre. 6 hónap írásos garancia minden elvégzett javításra.",
+    desc: "A kész, tesztelt alkatrészt visszaszállítjuk az Ön által megadott helyszínre. 6 hónap garancia minden elvégzett javításra.",
     detail: "6 hónap garancia",
   },
 ];
 
 const faq = [
-  { q: "Milyen hidraulikus alkatrészeket javítanak?", a: "Hidraulikus szivattyúkat (dugattyús, lamellás, fogaskerék), motorokat, hengereket, orbit motorokat és vezérlőblokkokat. Márkafüggetlenül: Komatsu, Caterpillar, Bosch Rexroth, Parker, Kawasaki, ZF, Liebherr és más gyártók termékeit is javítjuk." },
-  { q: "Mennyi idő alatt készül el a hidraulika javítás?", a: "Az alkatrész beérkezésétől számítva átlagosan 24-48 órán belül elvégezzük a javítást. Összetettebb hibáknál ez hosszabb lehet — erről minden esetben előre tájékoztatjuk." },
-  { q: "Milyen garanciát vállalnak a javításokra?", a: "Minden elvégzett javításra 6 hónap teljes körű, írásos garanciát biztosítunk az anyagra és a munkadíjra egyaránt. Új alkatrészek értékesítésénél 12 hónap garancia érvényes." },
-  { q: "Hogyan működik az országos futárszolgálat?", a: "Hívja telefonszámunkat, és futárunk az ország bármely pontjára kimegy a kiszerelt alkatrészért. A javítás után visszaszállítjuk az Ön által megadott helyre — személyes megjelenés nélkül." },
-  { q: "Mennyibe kerül egy átlagos hidraulika javítás?", a: "A javítás ára az alkatrész típusától, a hiba jellegétől és a szükséges anyagoktól függ. Bevizsgálás után pontos, írásos árajánlatot adunk — csak elfogadás után kezdünk." },
+  { q: "Milyen hidraulikus alkatrészeket javítanak?", a: "Hidraulika szivattyúk (dugattyús, lapátos, fogaskerék), hidromotorokat, munkahengereket, orbit motorokat és vezérlőtömböket. Márkafüggetlenül." },
+  { q: "Mennyi idő alatt készül el a hidraulika javítás?", a: "A hidraulikus egyság beárkezésétol szamítva lehető legröbvidebb időn belül árajanlatot adunk. Összetettebb hibáknál ez hosszabb lehet — erről minden esetben előre tájékoztatjuk." },
+  { q: "Milyen garanciát vállalnak a javításokra?", a: "Minden elvégzett javításra 6 hónap teljes körű, garanciát biztosítunk. Új alkatrészek értékesítésénél 12 hónap garancia érvényes." },
+  { q: "Hogyan működik az országos futárszolgálat?", a: "Hívja telefonszámunkat, és futárunk az ország bármely pontjára kimegy a kiszerelt alkatrészért. A javítás után visszaszállítjuk az Ön által megadott helyre — természetesen személyesen is behozhatja az ügyfél." },
+  { q: "Mennyibe kerül egy átlagos hidraulika javítás?", a: "A javítás ára az alkatrész típusától, a hiba jellegétől és a szükséges anyagoktól függ. Bevizsgálás után pontos, árajánlatot adunk — csak elfogadás után kezdünk." },
   { q: "El kell vinnem személyesen az alkatrészt?", a: "Természetesen elhozhatja, de futárszolgálatunk az ország bármely pontjáról begyűjti a hibás egységet, mi elvégezzük a javítást, majd visszaszállítjuk." },
 ];
 
@@ -322,7 +322,7 @@ function Home() {
                 "@type": "Person",
                 "@id": "https://www.hidraulikajavitas.com/#person-andreka-ferenc",
                 "name": "Andréka Ferenc",
-                "jobTitle": "Vezető Hidraulika Szerelő",
+                "jobTitle": " Alapito tulajdonos",
               },
             ],
             "founder": [{ "@id": "https://www.hidraulikajavitas.com/#person-pos-gabor" }],
@@ -866,21 +866,6 @@ function Home() {
               <p className="mt-5 text-base leading-relaxed" style={{ color: "hsl(158 16% 55%)" }}>
                 Sok olyan jellegű hiba van, amelyekre nem lehet előre pontos árat mondani, csak a bevizsgálást követően.
               </p>
-              {/* Time summary pills */}
-              <div className="grid gap-1.5 max-w-lg mx-auto mt-7 text-left">
-                {[
-                  { num: "1", label: "Futárunk elhozza Öntől a meghibásodott alkatrészt." },
-                  { num: "2", label: "Adunk egy pontos árajánlatot a hidraulika javításról és a javítási határidőről!" },
-                  { num: "3", label: "Ön elfogadja – mi megjavítjuk." },
-                  { num: "4", label: "Visszaszállítjuk a felújított alkatrészt." },
-                ].map((pill) => (
-                  <div key={pill.num} className="flex items-start gap-2.5 px-3.5 py-2 rounded-xl"
-                    style={{ background: "rgba(253,185,39,0.05)", border: "1px solid rgba(253,185,39,0.12)" }}>
-                    <span className="shrink-0 font-bold text-[13px] tabular-nums" style={{ color: ORANGE }}>{pill.num}.</span>
-                    <span className="text-[13px] font-medium leading-snug" style={{ color: "hsl(40 15% 82%)" }}>{pill.label}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </Reveal>
 
