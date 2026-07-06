@@ -15,7 +15,7 @@ import "crypto";
 import "async_hooks";
 import "stream";
 import "../_libs/isbot.mjs";
-const appCss = "/assets/styles-8DSNKKfK.css";
+const appCss = "/assets/styles-BjnyTNGk.css";
 function reportLovableError(error, context = {}) {
   if (typeof window === "undefined") return;
   window.__lovableEvents?.captureException?.(
@@ -101,7 +101,7 @@ const Route$8 = createRootRouteWithContext()({
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" },
       {
         rel: "stylesheet",
         href: appCss
@@ -367,7 +367,7 @@ const Route$1 = createFileRoute("/adatkezeles")({
   }),
   component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-const $$splitComponentImporter = () => import("./index-KrXFcr9V.mjs");
+const $$splitComponentImporter = () => import("./index-0roIB48q.mjs");
 const Route = createFileRoute("/")({
   head: () => ({
     meta: [{
