@@ -160,10 +160,12 @@
   [class*="uppercase"] {
     font-family: "IBM Plex Mono", ui-monospace, monospace;
   }
-  /* Kill the pill/blob language site-wide: hard 3px corners on everything,
-     including inline borderRadius:999 styles. Circles become squares — intended. */
-  [class*="rounded"], [style*="border-radius"] {
-    border-radius: 3px !important;
+  /* Industrial sharp corners on phones only — desktop keeps the rounded look.
+     Beats inline borderRadius:999 styles too. Circles become squares — intended. */
+  @media (max-width: 767px) {
+    [class*="rounded"], [style*="border-radius"] {
+      border-radius: 3px !important;
+    }
   }
   ::selection {
     background: rgba(253, 185, 39, 0.35);
