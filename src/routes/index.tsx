@@ -878,6 +878,13 @@ function Home() {
           PROCESS — vertical timeline
       ══════════════════════════════════════════════════ */}
       <section id="folyamat" className="py-16 md:py-28 relative overflow-hidden" style={{ background: BG2 }}>
+        {/* Photo bleed — courier picking up a part, faded into the section color on the left */}
+        <div className="hidden lg:block absolute top-0 right-0 h-full pointer-events-none" style={{ width: "38%" }}>
+          <img src="/images/courier.jpg" alt="" aria-hidden="true" className="w-full h-full object-cover"
+            style={{ filter: "saturate(0.55) contrast(1.05) brightness(0.6)" }} />
+          <div className="absolute inset-0" style={{ background: `linear-gradient(90deg, ${BG2} 0%, transparent 45%)` }} />
+          <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${BG2}, transparent 35%)` }} />
+        </div>
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none"
           style={{ background: "radial-gradient(ellipse 60% 50% at 20% 50%, rgba(16,185,129,0.12), transparent 65%)" }} />
 
@@ -965,6 +972,11 @@ function Home() {
       ══════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden py-14 md:py-20"
         style={{ background: "hsl(158 65% 4.5%)", borderTop: "1px solid rgba(253,185,39,0.28)", borderBottom: "1px solid rgba(253,185,39,0.28)" }}>
+        {/* Workshop photo backdrop, heavily dimmed so text stays the focus */}
+        <div className="absolute inset-0 pointer-events-none">
+          <img src={IMGS.workshop2} alt="" aria-hidden="true" className="w-full h-full object-cover"
+            style={{ filter: "saturate(0.5) contrast(1.05) brightness(0.32)", objectPosition: "50% 25%" }} />
+        </div>
         {/* Subtle industrial diagonal texture + gold ambient */}
         <div className="absolute inset-0 pointer-events-none"
           style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 22px, rgba(253,185,39,0.035) 22px, rgba(253,185,39,0.035) 23px)" }} />
@@ -1118,6 +1130,11 @@ function Home() {
       <section className="py-16 md:py-24 relative overflow-hidden"
         style={{ background: "hsl(158 65% 5%)", borderTop: "1px solid rgba(253,185,39,0.12)", borderBottom: "1px solid rgba(253,185,39,0.12)" }}>
 
+        {/* Faint workshop photo texture — barely-there, keeps the section from reading as flat color */}
+        <div className="absolute inset-0 pointer-events-none">
+          <img src={IMGS.workshop1} alt="" aria-hidden="true" className="w-full h-full object-cover"
+            style={{ filter: "saturate(0.4) contrast(1.1) brightness(0.28)", objectPosition: "50% 40%" }} />
+        </div>
         {/* Ambient glow */}
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 80% at 50% 50%, rgba(16,185,129,0.22), transparent 70%)" }} />
