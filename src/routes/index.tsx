@@ -974,8 +974,8 @@ function Home() {
         style={{ background: "hsl(158 65% 4.5%)", borderTop: "1px solid rgba(253,185,39,0.28)", borderBottom: "1px solid rgba(253,185,39,0.28)" }}>
         {/* Workshop photo backdrop, heavily dimmed so text stays the focus */}
         <div className="absolute inset-0 pointer-events-none">
-          <img src={IMGS.workshop2} alt="" aria-hidden="true" className="w-full h-full object-cover"
-            style={{ filter: "saturate(0.5) contrast(1.05) brightness(0.32)", objectPosition: "50% 25%" }} />
+          <img src={IMGS.timberjack} alt="" aria-hidden="true" className="w-full h-full object-cover"
+            style={{ filter: "saturate(0.5) contrast(1.05) brightness(0.32)", objectPosition: "50% 55%" }} />
         </div>
         {/* Subtle industrial diagonal texture + gold ambient */}
         <div className="absolute inset-0 pointer-events-none"
