@@ -515,21 +515,21 @@ function Home() {
         </div>
 
         <div className="mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10">
-          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 xl:gap-16 min-h-screen">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 xl:gap-16 min-h-[100svh]">
 
             {/* LEFT — text, bottom-anchored */}
-            <div className="flex flex-col justify-end pt-32 pb-14 lg:pb-20">
+            <div className="flex flex-col justify-end pt-32 pb-14 lg:pb-20 min-w-0">
 
               <Reveal>
-                <p className="mb-5 text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "hsl(43 98% 60%)" }}>
+                <p className="mb-5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.14em] sm:tracking-[0.22em]" style={{ color: "hsl(43 98% 60%)" }}>
                   Márkafüggetlen szakszerviz · Budapest
                 </p>
               </Reveal>
 
               <Reveal delay={60}>
-                <h1 style={{ fontFamily: '"Syne", system-ui, sans-serif', fontWeight: 800, lineHeight: 0.88, margin: 0 }}>
-                  <span className="block" style={{ fontSize: "clamp(3rem,5.5vw,6rem)", color: "hsl(40 20% 97%)", letterSpacing: "-0.02em" }}>HIDRAULIKA</span>
-                  <span className="block" style={{ fontSize: "clamp(3rem,5.5vw,6rem)", color: ORANGE, letterSpacing: "-0.02em" }}>JAVÍTÁS</span>
+                <h1 style={{ fontFamily: '"Syne", system-ui, sans-serif', fontWeight: 800, lineHeight: 0.92, margin: 0 }}>
+                  <span className="block text-[clamp(2rem,9vw,4rem)] lg:text-[clamp(3rem,5.5vw,6rem)]" style={{ color: "hsl(40 20% 97%)", letterSpacing: "-0.02em" }}>HIDRAULIKA</span>
+                  <span className="block text-[clamp(2rem,9vw,4rem)] lg:text-[clamp(3rem,5.5vw,6rem)]" style={{ color: ORANGE, letterSpacing: "-0.02em" }}>JAVÍTÁS</span>
                 </h1>
               </Reveal>
 
@@ -546,7 +546,7 @@ function Home() {
               </Reveal>
 
               <Reveal delay={180}>
-                <div className="mt-7 flex flex-row items-center gap-5">
+                <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-5">
                   <a href="tel:+36309111474"
                     className="glint relative inline-flex items-center justify-center gap-3 font-black text-white no-underline"
                     style={{ background: ORANGE, height: "3.75rem", paddingLeft: "2.25rem", paddingRight: "2.25rem", fontSize: "1.05rem", borderRadius: "10px", boxShadow: "0 6px 22px rgba(253,185,39,0.28)", transition: "transform 0.15s ease, box-shadow 0.15s ease", whiteSpace: "nowrap" }}
@@ -554,7 +554,7 @@ function Home() {
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ""; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 22px rgba(253,185,39,0.28)"; }}>
                     <Phone size={18} /> Hívjon most!
                   </a>
-                  <a href="#kapcsolat" className="inline-flex items-center gap-2 no-underline font-semibold"
+                  <a href="#kapcsolat" className="inline-flex items-center justify-center sm:justify-start gap-2 py-2 sm:py-0 no-underline font-semibold"
                     style={{ fontSize: "0.95rem", color: "hsl(40 20% 68%)", whiteSpace: "nowrap" }}>
                     Visszahívást kérek <ArrowUpRight size={15} style={{ color: ORANGE }} />
                   </a>
@@ -563,15 +563,15 @@ function Home() {
 
               {/* Stats — redesigned: accent bar + white number + muted label */}
               <Reveal delay={240}>
-                <div className="mt-10 flex items-start gap-10 md:gap-14" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.75rem" }}>
+                <div className="mt-10 grid grid-cols-3 gap-3 sm:flex sm:items-start sm:gap-10 md:gap-14" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.75rem" }}>
                   {[
                     { to: 5000, suffix: "+", label: "Elvégzett munka" },
                     { to: 48,   suffix: " h", label: "Gyors átfutás" },
-                    { to: 6,    suffix: " hónap", label: "Garancia írásban" },
+                    { to: 6,    suffix: " hó", label: "Garancia írásban" },
                   ].map((s) => (
                     <div key={s.label}>
                       <div style={{ width: "1.25rem", height: "2px", background: ORANGE, marginBottom: "0.6rem" }} />
-                      <p style={{ fontFamily: '"Syne", system-ui, sans-serif', fontSize: "clamp(1.5rem,2.5vw,2rem)", fontWeight: 800, lineHeight: 1, color: "hsl(40 20% 96%)" }}>
+                      <p style={{ fontFamily: '"Syne", system-ui, sans-serif', fontSize: "clamp(1.3rem,2.5vw,2rem)", fontWeight: 800, lineHeight: 1, color: "hsl(40 20% 96%)" }}>
                         <Counter to={s.to} suffix={s.suffix} />
                       </p>
                       <p style={{ fontSize: "0.65rem", letterSpacing: "0.16em", color: "hsl(158 14% 42%)", marginTop: "0.35rem", textTransform: "uppercase", fontWeight: 600 }}>{s.label}</p>
@@ -614,14 +614,14 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           SERVICES — bento image grid
       ══════════════════════════════════════════════════ */}
-      <section id="szolgaltatasok" className="py-28 relative overflow-hidden">
+      <section id="szolgaltatasok" className="py-16 md:py-28 relative overflow-hidden">
         <div className="container mx-auto px-6">
 
           {/* Header */}
           <Reveal>
             <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
               <div>
-                <h2 className="font-black leading-[0.9]" style={{ fontSize: "clamp(3.5rem,8vw,7rem)", letterSpacing: "0.015em" }}>
+                <h2 className="font-black leading-[0.9]" style={{ fontSize: "clamp(2.25rem,8.5vw,7rem)", letterSpacing: "0.015em" }}>
                   MIT<br /><span style={{ color: ORANGE }}>JAVÍTUNK?</span>
                 </h2>
               </div>
@@ -719,29 +719,30 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           PROCESS — vertical timeline
       ══════════════════════════════════════════════════ */}
-      <section id="folyamat" className="py-28 relative overflow-hidden" style={{ background: BG2 }}>
+      <section id="folyamat" className="py-16 md:py-28 relative overflow-hidden" style={{ background: BG2 }}>
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none"
           style={{ background: "radial-gradient(ellipse 60% 50% at 20% 50%, rgba(16,185,129,0.12), transparent 65%)" }} />
 
         <div className="container mx-auto px-6 relative z-10">
           <Reveal>
             <div className="mb-16 text-center max-w-3xl mx-auto">
-              <h2 className="mt-5 font-black leading-none" style={{ fontSize: "clamp(2.6rem,6vw,4.5rem)" }}>
+              <h2 className="mt-5 font-black leading-none" style={{ fontSize: "clamp(2rem,8vw,4.5rem)" }}>
                 A javítás<br /><span style={{ color: ORANGE }}>folyamata.</span>
               </h2>
               <p className="mt-5 text-base leading-relaxed" style={{ color: "hsl(158 16% 55%)" }}>
                 Sok olyan jellegű hiba van, amelyekre nem lehet előre pontos árat mondani, csak a bevizsgálást követően.
               </p>
               {/* Time summary pills */}
-              <div className="flex flex-wrap justify-center gap-3 mt-7">
+              <div className="grid grid-cols-2 gap-2.5 max-w-xs mx-auto sm:max-w-none sm:flex sm:flex-wrap sm:justify-center sm:gap-3 mt-7">
                 {[
-                  { label: "1 perc", sub: "Hívás" },
-                  { label: "Másnap", sub: "Futár indul" },
-                  { label: "24–48 óra", sub: "Javítás" },
-                  { label: "Azután", sub: "Visszaszállítás" },
+                  { num: "1", label: "1 perc", sub: "Hívás" },
+                  { num: "2", label: "Másnap", sub: "Futár indul" },
+                  { num: "3", label: "24–48 óra", sub: "Javítás" },
+                  { num: "4", label: "Azután", sub: "Visszaszállítás" },
                 ].map((pill) => (
-                  <div key={pill.label} className="px-5 py-2.5 rounded-2xl text-center"
+                  <div key={pill.label} className="relative px-4 py-3 sm:px-5 sm:py-2.5 rounded-2xl text-center"
                     style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)" }}>
+                    <div className="sm:hidden absolute top-1.5 left-2.5 text-[9px] font-black" style={{ color: "rgba(253,185,39,0.45)" }}>{pill.num}.</div>
                     <div className="text-sm font-black" style={{ color: ORANGE }}>{pill.label}</div>
                     <div className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: "hsl(158 16% 48%)" }}>{pill.sub}</div>
                   </div>
@@ -758,8 +759,8 @@ function Home() {
                 <Reveal key={p.num} delay={i * 90}>
                   <div className="flex gap-6 md:gap-10 relative">
 
-                    {/* Left: number + line */}
-                    <div className="flex flex-col items-center shrink-0" style={{ width: 64 }}>
+                    {/* Left: number + line (desktop/tablet only — on mobile the icon lives inside the card) */}
+                    <div className="hidden sm:flex flex-col items-center shrink-0" style={{ width: 64 }}>
                       <div className="w-14 h-14 rounded-2xl flex items-center justify-center z-10 relative"
                         style={{ background: "linear-gradient(135deg, #FDB927, #10b981)", color: "white", boxShadow: "0 0 28px rgba(253,185,39,0.3)" }}>
                         <p.icon size={22} strokeWidth={1.8} />
@@ -771,16 +772,22 @@ function Home() {
                     </div>
 
                     {/* Right: content card */}
-                    <div className={`group flex-1 rounded-3xl p-6 md:p-8 project-card-hover ${isLast ? "mb-0" : "mb-4"}`}
+                    <div className={`group flex-1 min-w-0 rounded-3xl p-5 sm:p-6 md:p-8 project-card-hover ${isLast ? "mb-0" : "mb-4"}`}
                       style={{ background: "hsl(158 58% 10%)", border: "1px solid rgba(255,255,255,0.07)" }}>
 
                       {/* Step header */}
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <span className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: ORANGE }}>
-                            {p.num} lépés
-                          </span>
-                          <h3 className="text-xl font-extrabold mt-1 transition-colors group-hover:text-[hsl(43_98%_65%)]">{p.title}</h3>
+                          <div className="flex items-center gap-3">
+                            <div className="sm:hidden w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                              style={{ background: "linear-gradient(135deg, #FDB927, #10b981)", color: "white", boxShadow: "0 0 20px rgba(253,185,39,0.25)" }}>
+                              <p.icon size={18} strokeWidth={1.8} />
+                            </div>
+                            <span className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: ORANGE }}>
+                              {p.num} lépés
+                            </span>
+                          </div>
+                          <h3 className="text-lg sm:text-xl font-extrabold mt-2 sm:mt-1 transition-colors group-hover:text-[hsl(43_98%_65%)]">{p.title}</h3>
                         </div>
                         <span className="shrink-0 font-black leading-none select-none hidden md:block"
                           style={{ fontSize: "3.5rem", color: "rgba(253,185,39,0.06)", lineHeight: 1 }}>
@@ -814,7 +821,7 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           CTA BAND
       ══════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden py-20"
+      <section className="relative overflow-hidden py-14 md:py-20"
         style={{ background: "hsl(158 65% 4.5%)", borderTop: "1px solid rgba(253,185,39,0.28)", borderBottom: "1px solid rgba(253,185,39,0.28)" }}>
         {/* Subtle industrial diagonal texture + gold ambient */}
         <div className="absolute inset-0 pointer-events-none"
@@ -854,13 +861,13 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           COVERAGE
       ══════════════════════════════════════════════════ */}
-      <section className="py-28 relative overflow-hidden">
+      <section className="py-16 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse 70% 60% at 60% 50%, rgba(253,185,39,0.04), transparent 70%)" }} />
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <Reveal>
-              <h2 className="text-4xl md:text-5xl mt-5 mb-5 font-black" style={{ lineHeight: 0.95 }}>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl mt-5 mb-5 font-black" style={{ lineHeight: 0.95 }}>
                 Bárhová megyünk<br />az országban.
               </h2>
               <div className="mb-6 h-0.5 w-12 rounded-full" style={{ background: `linear-gradient(90deg, ${ORANGE}, transparent)` }} />
@@ -938,15 +945,20 @@ function Home() {
                       </g>
                     </svg>
 
-                    <div className="mt-4 flex flex-wrap gap-2.5">
+                    <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap sm:gap-2.5">
                       {[
-                        { icon: MapPin, t: "Központ: Budapest, IX." },
+                        { icon: MapPin, t: "Központ: Budapest, IX. kerület" },
                         { icon: Truck,  t: "Oda-vissza futár — ingyen" },
-                        { icon: CheckCircle2, t: "Mind a 20 megye ✓" },
+                        { icon: CheckCircle2, t: "Mind a 20 megyét lefedjük" },
                       ].map(({ icon: Icon, t }) => (
-                        <span key={t} className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-semibold"
-                          style={{ background: "rgba(16,185,129,0.07)", border: "1px solid rgba(16,185,129,0.18)", color: "hsl(158 25% 70%)" }}>
-                          <Icon size={12} style={{ color: ORANGE }} /> {t}
+                        <span key={t} className="flex sm:inline-flex items-center gap-3 sm:gap-2 px-3 sm:px-3.5 py-2.5 sm:py-2 rounded-xl sm:rounded-full text-[13px] sm:text-xs font-semibold"
+                          style={{ background: "rgba(16,185,129,0.07)", border: "1px solid rgba(16,185,129,0.18)", color: "hsl(158 25% 74%)" }}>
+                          <span className="sm:hidden w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                            style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.22)" }}>
+                            <Icon size={14} style={{ color: ORANGE }} />
+                          </span>
+                          <Icon size={12} className="hidden sm:block" style={{ color: ORANGE }} />
+                          {t}
                         </span>
                       ))}
                     </div>
@@ -961,7 +973,7 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           BRANDS — full statement section
       ══════════════════════════════════════════════════ */}
-      <section className="py-24 relative overflow-hidden"
+      <section className="py-16 md:py-24 relative overflow-hidden"
         style={{ background: "hsl(158 65% 5%)", borderTop: "1px solid rgba(253,185,39,0.12)", borderBottom: "1px solid rgba(253,185,39,0.12)" }}>
 
         {/* Ambient glow */}
@@ -1054,11 +1066,11 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           VÉLEMÉNYEK — testimonials
       ══════════════════════════════════════════════════ */}
-      <section id="velemenyek" className="py-28 relative overflow-hidden">
+      <section id="velemenyek" className="py-16 md:py-28 relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <Reveal>
             <div className="mb-14 text-center">
-              <h2 className="text-5xl md:text-6xl mt-4 font-black">Akik már ránk bízták.</h2>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl mt-4 font-black">Akik már ránk bízták.</h2>
               <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold" style={{ color: "hsl(158 16% 55%)" }}>
                 <span className="flex gap-0.5">
                   {Array.from({ length: 5 }).map((_, s) => (
@@ -1103,11 +1115,11 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           FAQ — 2-column on desktop
       ══════════════════════════════════════════════════ */}
-      <section id="gyik" className="py-28 relative" style={{ background: BG2 }}>
+      <section id="gyik" className="py-16 md:py-28 relative" style={{ background: BG2 }}>
         <div className="container mx-auto px-6">
           <Reveal>
             <div className="mb-16 text-center">
-              <h2 className="text-5xl md:text-6xl mt-4 font-black">Amit Önök kérdeznek.</h2>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl mt-4 font-black">Amit Önök kérdeznek.</h2>
             </div>
           </Reveal>
 
@@ -1154,11 +1166,11 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           CONTACT — top pills + 2-col below
       ══════════════════════════════════════════════════ */}
-      <section id="kapcsolat" className="py-28 relative overflow-hidden">
+      <section id="kapcsolat" className="py-16 md:py-28 relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <Reveal>
             <div className="mb-16">
-              <h2 className="text-5xl md:text-6xl mt-4 mb-10 font-black">Rendelje meg<br />a javítást!</h2>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl mt-4 mb-10 font-black">Rendelje meg<br />a javítást!</h2>
               <div className="flex flex-wrap gap-4">
                 {[
                   { icon: Phone,  label: "+36 (30) 9111-474",              sub: "Telefonszám", href: "tel:+36309111474" },
@@ -1166,7 +1178,7 @@ function Home() {
                   { icon: MapPin, label: "1095 Budapest, Soroksári út 48",  sub: "Telephely",   href: "#" },
                 ].map(({ icon: Icon, label, sub, href }) => (
                   <a key={sub} href={href}
-                    className="group flex items-center gap-4 px-6 py-4 rounded-2xl no-underline btn-hover"
+                    className="group flex w-full sm:w-auto items-center gap-4 px-5 sm:px-6 py-4 rounded-2xl no-underline btn-hover"
                     style={{ background: "hsl(158 58% 11%)", border: "1px solid rgba(255,255,255,0.07)", color: "inherit" }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.3)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"; }}>
@@ -1208,7 +1220,7 @@ function Home() {
             </Reveal>
 
             <Reveal delay={100}>
-              <div className="glass-strong rounded-3xl p-8 md:p-10"
+              <div className="glass-strong rounded-3xl p-5 sm:p-8 md:p-10"
                 style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
                 {formState === "success" ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center" style={{ animation: "card-in 0.4s ease both" }}>
@@ -1337,7 +1349,7 @@ function Home() {
         }} aria-label="Vissza a tetejére" tabIndex={showScrollTop ? 0 : -1}
         className="fixed right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer"
         style={{
-          bottom: showMobileCTA ? 88 : 24,
+          bottom: showMobileCTA ? 98 : 24,
           background: ORANGE, boxShadow: "0 4px 28px rgba(253,185,39,0.45)", border: "none", color: "white",
           opacity: showScrollTop ? 1 : 0,
           transform: showScrollTop ? "translateY(0) scale(1)" : "translateY(10px) scale(0.9)",
@@ -1347,29 +1359,37 @@ function Home() {
         <ArrowUp size={20} />
       </button>
 
-      {/* ── Mobile bottom CTA bar ─── */}
-      <div className="md:hidden fixed left-0 right-0 z-40"
+      {/* ── Mobile bottom CTA bar — floating dock ─── */}
+      <div className="md:hidden fixed z-40"
         style={{
-          bottom: 0,
-          transform: showMobileCTA ? "translateY(0)" : "translateY(110%)",
+          left: 12, right: 12,
+          bottom: "max(12px, env(safe-area-inset-bottom))",
+          transform: showMobileCTA ? "translateY(0)" : "translateY(140%)",
           transition: "transform 0.35s cubic-bezier(0.22,1,0.36,1)",
           pointerEvents: showMobileCTA ? "auto" : "none",
-          background: "rgba(3,16,11,0.97)",
-          backdropFilter: "blur(12px) saturate(1.5)",
-          WebkitBackdropFilter: "blur(12px) saturate(1.5)",
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-          boxShadow: "0 -8px 30px rgba(0,0,0,0.4)",
+          background: "rgba(3,16,11,0.94)",
+          backdropFilter: "blur(16px) saturate(1.6)",
+          WebkitBackdropFilter: "blur(16px) saturate(1.6)",
+          border: "1px solid rgba(253,185,39,0.22)",
+          borderRadius: 22,
+          boxShadow: "0 12px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)",
         }}>
-          <div className="flex gap-3 p-3" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
+          <div className="flex gap-2 p-2">
             <a href="tel:+36309111474"
-              className="btn-hover flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl text-sm font-bold no-underline"
-              style={{ background: ORANGE, color: "#04111f" }}>
-              <Phone size={15} /> Hívjon most
+              className="btn-hover glint flex-[1.35] flex items-center justify-center gap-2.5 no-underline"
+              style={{ background: ORANGE, color: "#04140d", height: 54, borderRadius: 15, boxShadow: "0 6px 18px rgba(253,185,39,0.3)" }}>
+              <span className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(4,20,13,0.14)" }}>
+                <Phone size={15} />
+              </span>
+              <span className="leading-tight text-left">
+                <span className="block text-[13px] font-black">Hívjon most</span>
+                <span className="block text-[10px] font-bold tabular-nums" style={{ opacity: 0.72 }}>+36 30 911 1474</span>
+              </span>
             </a>
             <a href="#kapcsolat"
-              className="btn-hover flex-1 flex items-center justify-center gap-2 h-12 rounded-2xl text-sm font-semibold text-white no-underline"
-              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}>
-              Árajánlatot kérek
+              className="btn-hover flex-1 flex items-center justify-center gap-1.5 text-[13px] font-bold text-white no-underline"
+              style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.13)", height: 54, borderRadius: 15 }}>
+              Árajánlat <ArrowUpRight size={14} style={{ color: ORANGE }} />
             </a>
           </div>
         </div>
@@ -1378,7 +1398,7 @@ function Home() {
       {/* ══════════════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════════════ */}
-      <footer className="py-16 relative" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", background: "hsl(158 65% 3%)", paddingBottom: showMobileCTA ? "88px" : undefined }}>
+      <footer className="py-16 relative" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", background: "hsl(158 65% 3%)", paddingBottom: showMobileCTA ? "104px" : undefined }}>
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-14">
 

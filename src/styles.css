@@ -130,6 +130,11 @@
     scroll-behavior: smooth;
     /* Mobile: instant scroll-to-top via JS; smooth kept for anchor links on desktop */
   }
+  /* No sideways scroll, ever — one overflowing element must not shift the whole page on mobile */
+  html, body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
   /* Anchor targets land below the fixed floating nav instead of underneath it */
   [id] {
     scroll-margin-top: 96px;
