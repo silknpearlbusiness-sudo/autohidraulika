@@ -612,8 +612,9 @@ function Home() {
             </div>
           </Reveal>
 
-          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-14 items-start">
-            <Reveal>
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-14 items-start">
+            {/* Mobile: form first (right after the contact pills); map + company card follow. Desktop keeps map on the left. */}
+            <Reveal className="order-2 lg:order-1">
               <div>
                 {/* Workshop location map */}
                 <div className="rounded-2xl overflow-hidden mb-5" style={{ border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 48px rgba(0,0,0,0.4)" }}>
@@ -642,7 +643,7 @@ function Home() {
                   <div className="mt-5 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
                     <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: ORANGE }}>Székhely</p>
                     <p className="text-sm font-semibold mt-1 leading-relaxed" style={{ color: "hsl(40 15% 88%)" }}>
-                      1095 Budapest, Soroksári út 48, Malom Udvar<br />8. épület, földszint
+                      1095 Budapest, Soroksári út 48., Malom Udvar<br />8. épület, földszint
                     </p>
                   </div>
                   <div className="mt-5 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
@@ -653,7 +654,7 @@ function Home() {
               </div>
             </Reveal>
 
-            <Reveal delay={100}>
+            <Reveal delay={100} className="order-1 lg:order-2">
               <div className="glass-strong rounded-3xl p-5 sm:p-8 md:p-10"
                 style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
                 {formState === "success" ? (
@@ -789,8 +790,28 @@ function Home() {
             </div>
           </Reveal>
 
-          {/* Service list + live preview panel */}
-          <div className="grid lg:grid-cols-[1fr_420px] gap-12 items-start">
+          {/* Mobile/tablet: photo card grid — image on top, name + blurb below */}
+          <div className="grid grid-cols-2 gap-3 lg:hidden">
+            {repairItems.map((s, i) => (
+              <Reveal key={s.num} delay={i * 40}>
+                <a href="#kapcsolat" className="block h-full rounded-2xl overflow-hidden no-underline"
+                  style={{ background: "hsl(158 58% 10%)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <div className="relative h-28 flex items-center justify-center" style={{ background: "rgba(255,255,255,0.95)" }}>
+                    <img src={s.img} alt={s.name} loading="lazy" decoding="async" className="max-h-full max-w-full object-contain p-2" />
+                    <span className="absolute top-2 left-2.5 text-[9px] font-black tabular-nums px-1.5 py-0.5 rounded"
+                      style={{ background: "rgba(4,20,13,0.85)", color: ORANGE, letterSpacing: "0.08em" }}>{s.num}</span>
+                  </div>
+                  <div className="p-3">
+                    <h3 className="font-bold text-[13px] leading-snug" style={{ color: "hsl(40 20% 94%)" }}>{s.name}</h3>
+                    <p className="text-[11px] mt-1 leading-snug" style={{ color: "hsl(158 16% 50%)", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{s.short}</p>
+                  </div>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Desktop: service list + live preview panel */}
+          <div className="hidden lg:grid lg:grid-cols-[1fr_420px] gap-12 items-start">
             <div>
               {repairItems.map((s, i) => (
                 <Reveal key={s.num} delay={i * 40}>
@@ -799,12 +820,7 @@ function Home() {
                     style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
                     onMouseEnter={() => setActiveService(i)}
                     onFocus={() => setActiveService(i)}>
-                    {/* Mobile/tablet: thumbnail in the row (desktop uses the side panel) */}
-                    <span className="lg:hidden shrink-0 w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center"
-                      style={{ background: "rgba(255,255,255,0.94)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                      <img src={s.img} alt={s.name} loading="lazy" decoding="async" className="w-full h-full object-contain p-1" />
-                    </span>
-                    <span className="service-shift hidden lg:block shrink-0 font-black tabular-nums w-10 text-right"
+                    <span className="service-shift shrink-0 font-black tabular-nums w-10 text-right"
                       style={{ fontSize: "0.75rem", color: activeService === i ? ORANGE : "hsl(158 16% 28%)", letterSpacing: "0.05em", transition: "color 0.2s ease" }}>
                       {s.num}
                     </span>
@@ -861,8 +877,8 @@ function Home() {
             <div className="mt-8 flex flex-col sm:flex-row items-center gap-5 rounded-3xl p-7"
               style={{ background: "linear-gradient(135deg, rgba(253,185,39,0.08), rgba(16,185,129,0.06))", border: "1px solid rgba(253,185,39,0.2)" }}>
               <div className="flex-1">
-                <p className="font-black text-xl">Nem tudja pontosan mi a hiba?</p>
-                <p className="text-sm mt-1" style={{ color: "hsl(158 16% 52%)" }}>Hívjon — ingyenesen megmondjuk mi a probléma és mennyibe kerül a javítás.</p>
+                <p className="font-black text-xl">Nem tudja pontosan, mi a hiba?</p>
+                <p className="text-sm mt-1" style={{ color: "hsl(158 16% 52%)" }}>Hívjon! Ingyenesen megmondjuk mi a probléma és mennyibe kerül a javítás.</p>
               </div>
               <a href="tel:+36309111474"
                 className="glint cta-pulse shrink-0 inline-flex items-center gap-2.5 rounded-full font-black no-underline"
@@ -924,19 +940,38 @@ function Home() {
                     <div className={`group flex-1 min-w-0 rounded-3xl p-5 sm:p-6 md:p-8 project-card-hover ${isLast ? "mb-0" : "mb-4"}`}
                       style={{ background: "hsl(158 58% 10%)", border: "1px solid rgba(255,255,255,0.07)" }}>
 
-                      {/* Step header */}
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <div className="flex items-center gap-3">
-                            <div className="sm:hidden w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                              style={{ background: "#FDB927", color: "#04140d", boxShadow: "0 0 20px rgba(253,185,39,0.25)" }}>
-                              <p.icon size={18} strokeWidth={1.8} />
+                      {/* Step header — mobile: icon + step label left, progress counter right, hairline divider */}
+                      <div className="sm:hidden">
+                        <div className="flex items-center justify-between mb-3 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                              style={{ background: "#FDB927", color: "#04140d" }}>
+                              <p.icon size={17} strokeWidth={1.8} />
                             </div>
-                            <span className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: ORANGE }}>
-                              {p.num} lépés
+                            <span className="text-[11px] font-black uppercase tracking-[0.16em]" style={{ color: ORANGE }}>
+                              {p.num}. lépés
                             </span>
                           </div>
-                          <h3 className="text-lg sm:text-xl font-extrabold mt-2 sm:mt-1 transition-colors group-hover:text-[hsl(43_98%_65%)]">{p.title}</h3>
+                          <div className="flex items-center gap-1">
+                            {processSteps.map((_, d) => (
+                              <span key={d} className="rounded-full" style={{
+                                width: d === i ? 14 : 5, height: 5,
+                                background: d === i ? ORANGE : "rgba(255,255,255,0.15)",
+                                transition: "width 0.3s ease",
+                              }} />
+                            ))}
+                          </div>
+                        </div>
+                        <h3 className="text-[17px] font-extrabold leading-snug">{p.title}</h3>
+                      </div>
+
+                      {/* Step header — desktop */}
+                      <div className="hidden sm:flex items-start justify-between mb-3">
+                        <div>
+                          <span className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: ORANGE }}>
+                            {p.num} lépés
+                          </span>
+                          <h3 className="text-xl font-extrabold mt-1 transition-colors group-hover:text-[hsl(43_98%_65%)]">{p.title}</h3>
                         </div>
                         <span className="shrink-0 font-black leading-none select-none hidden md:block"
                           style={{ fontSize: "3.5rem", color: "rgba(253,185,39,0.06)", lineHeight: 1 }}>
@@ -944,13 +979,15 @@ function Home() {
                         </span>
                       </div>
 
-                      <p className="text-[15px] leading-relaxed mb-4" style={{ color: "hsl(158 16% 58%)" }}>{p.desc}</p>
+                      <p className="text-sm sm:text-[15px] leading-relaxed mt-2 sm:mt-0 mb-4" style={{ color: "hsl(158 16% 58%)" }}>{p.desc}</p>
 
-                      {/* Detail pill */}
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"
-                        style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.15)", color: "hsl(43 98% 70%)" }}>
-                        <Clock size={11} /> {p.detail}
-                      </div>
+                      {/* Detail pill — only when the step has a detail */}
+                      {p.detail && (
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"
+                          style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.15)", color: "hsl(43 98% 70%)" }}>
+                          <Clock size={11} /> {p.detail}
+                        </div>
+                      )}
 
                       <div className="mt-4 h-px w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out rounded-full"
                         style={{ background: `linear-gradient(90deg, ${ORANGE}, #10b981, transparent)` }} />
@@ -1161,8 +1198,8 @@ function Home() {
           </Reveal>
         </div>
 
-        {/* Marquee row 1 — left */}
-        <div className="overflow-hidden mb-3">
+        {/* Marquee row 1 — left (desktop only; on mobile the giant names pile up) */}
+        <div className="hidden md:block overflow-hidden mb-3">
           <div className="marquee-track" style={{ animationDuration: "38s" }}>
             {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
               <span key={i} className="inline-flex items-center gap-4 px-6"
@@ -1174,8 +1211,8 @@ function Home() {
           </div>
         </div>
 
-        {/* Marquee row 2 — right (reverse direction) */}
-        <div className="overflow-hidden">
+        {/* Marquee row 2 — right (reverse direction, desktop only) */}
+        <div className="hidden md:block overflow-hidden">
           <div className="marquee-track" style={{ animationDuration: "48s", animationDirection: "reverse" }}>
             {(() => { const mb = brands.filter(b => b !== "Leslie Hidraulika" && b !== "Ponar"); return [...mb,...mb,...mb,...mb]; })().map((b, i) => (
               <span key={i} className="inline-flex items-center gap-4 px-6"
@@ -1187,11 +1224,11 @@ function Home() {
           </div>
         </div>
 
-        {/* Brand badge grid */}
-        <div className="container mx-auto px-6 relative z-10 mt-12">
-          <div className="flex flex-wrap justify-center gap-3">
+        {/* Brand badge grid — tidy 2-col grid on mobile, wrapped pills on larger screens */}
+        <div className="container mx-auto px-6 relative z-10 mt-4 md:mt-12">
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
             {brands.map((b) => (
-              <span key={b} className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
+              <span key={b} className="text-center px-2 py-2 sm:px-4 rounded-lg sm:rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.08em] sm:tracking-widest"
                 style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)", color: "hsl(43 98% 72%)" }}>
                 {b}
               </span>
