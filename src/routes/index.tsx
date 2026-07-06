@@ -530,9 +530,9 @@ function Home() {
             </Reveal>
 
             <Reveal delay={70}>
-              <h1 className="mb-5" style={{ fontWeight: 800, lineHeight: 0.95, letterSpacing: "0.015em" }}>
-                <span className="block hero-gradient-text" style={{ fontSize: "clamp(3.25rem,8vw,7rem)" }}>HIDRAULIKA</span>
-                <span className="block hero-gradient-text" style={{ fontSize: "clamp(3.25rem,8vw,7rem)" }}>JAVÍTÁS</span>
+              <h1 className="mb-5" style={{ fontFamily: '"Syne", system-ui, sans-serif', fontWeight: 800, lineHeight: 0.92 }}>
+                <span className="block" style={{ fontSize: "clamp(3.25rem,8vw,7rem)", color: "hsl(40 20% 97%)" }}>HIDRAULIKA</span>
+                <span className="block" style={{ fontSize: "clamp(3.25rem,8vw,7rem)", color: ORANGE }}>JAVÍTÁS</span>
               </h1>
               <p className="mb-6 text-sm font-bold uppercase" style={{ letterSpacing: "0.28em", color: "hsl(158 16% 55%)" }}>
                 Hidraulika Service Team Kft.
@@ -548,17 +548,19 @@ function Home() {
             </Reveal>
 
             <Reveal delay={180}>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <a href="tel:+36309111474"
-                  className="group glint cta-pulse relative inline-flex items-center justify-center gap-3 rounded-full font-black text-white no-underline w-full sm:w-auto"
-                  style={{ background: ORANGE, height: "4rem", paddingLeft: "2.5rem", paddingRight: "2.5rem", fontSize: "1.15rem", boxShadow: "0 10px 32px rgba(253,185,39,0.3)" }}>
-                  <Phone size={20} /> Hívjon most!
+                  className="group glint relative inline-flex items-center justify-center gap-3 font-black text-white no-underline"
+                  style={{ background: ORANGE, height: "3.75rem", paddingLeft: "2.25rem", paddingRight: "2.25rem", fontSize: "1.05rem", borderRadius: "10px", boxShadow: "0 6px 22px rgba(253,185,39,0.28)", transition: "transform 0.15s ease, box-shadow 0.15s ease" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 32px rgba(253,185,39,0.38)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ""; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 22px rgba(253,185,39,0.28)"; }}>
+                  <Phone size={18} /> Hívjon most!
                 </a>
                 <a href="#kapcsolat"
-                  className="btn-hover inline-flex items-center justify-center gap-3 rounded-full font-bold no-underline w-full sm:w-auto"
-                  style={{ height: "4rem", paddingLeft: "2.5rem", paddingRight: "2.5rem", fontSize: "1.05rem", color: "hsl(40 20% 97%)", border: "2px solid rgba(253,185,39,0.45)", background: "rgba(4,20,14,0.45)" }}>
-                  Kérek visszahívást
-                  <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  className="inline-flex items-center justify-center sm:justify-start gap-2 no-underline font-semibold"
+                  style={{ fontSize: "0.975rem", color: "hsl(40 20% 72%)", letterSpacing: "0.01em" }}>
+                  Visszahívást kérek
+                  <ArrowUpRight size={16} style={{ color: ORANGE }} />
                 </a>
               </div>
             </Reveal>
