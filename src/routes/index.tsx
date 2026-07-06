@@ -470,9 +470,9 @@ function Home() {
       <section className="relative min-h-screen overflow-hidden">
         {/* Full-bleed background photo */}
         <div className="absolute inset-0 z-0">
-          <img src={IMGS.workshop2} alt="" aria-hidden="true"
+          <img src="/images/Hidraulika_javitas-scaled.jpg" alt="" aria-hidden="true"
             className="w-full h-full object-cover"
-            style={{ filter: "saturate(0.7) brightness(0.55)", objectPosition: "60% 30%" }} />
+            style={{ filter: "saturate(0.85) brightness(0.6)", objectPosition: "50% 40%" }} />
           {/* Bottom-heavy dark wash — text lives at the bottom, photo visible at the top */}
           <div className="absolute inset-0" style={{
             background: "linear-gradient(to top, hsla(158,62%,5%,0.98) 0%, hsla(158,62%,5%,0.82) 45%, hsla(158,62%,5%,0.4) 100%)",
