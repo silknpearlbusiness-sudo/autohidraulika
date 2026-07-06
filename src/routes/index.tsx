@@ -623,14 +623,32 @@ function Home() {
                     width="100%" height="300" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"
                     style={{ border: 0, display: "block", filter: "saturate(0.85) contrast(1.02)" }} />
                 </div>
-                <div className="rounded-2xl p-5 text-xs space-y-1.5"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  <p className="font-bold text-sm mb-3" style={{ color: "hsl(40 20% 90%)" }}>Hidraulika Service TEAM Kft.</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>Adószám: 32267509-2-43</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>Cégjegyzékszám: 01-09-376445</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>1095 Budapest, Soroksári út 48, Malom Udvar</p>
-                  <p style={{ color: "hsl(158 16% 45%)" }}>8. épület, földszint</p>
-                  <p className="pt-2" style={{ color: "hsl(158 16% 45%)" }}>Hétfő–Péntek: 08:00–15:30</p>
+                <div className="rounded-2xl p-6 sm:p-7"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(253,185,39,0.16)" }}>
+                  <p className="font-black text-xl sm:text-2xl mb-5" style={{ fontFamily: '"Anton", "Arial Narrow", sans-serif', letterSpacing: "0.01em", color: "hsl(40 20% 96%)" }}>
+                    HIDRAULIKA SERVICE TEAM KFT.
+                  </p>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+                    {[
+                      { label: "Adószám", value: "32267509-2-43" },
+                      { label: "Cégjegyzékszám", value: "01-09-376445" },
+                    ].map((row) => (
+                      <div key={row.label}>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: ORANGE }}>{row.label}</p>
+                        <p className="text-sm font-semibold mt-1 tabular-nums" style={{ color: "hsl(40 15% 88%)" }}>{row.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: ORANGE }}>Székhely</p>
+                    <p className="text-sm font-semibold mt-1 leading-relaxed" style={{ color: "hsl(40 15% 88%)" }}>
+                      1095 Budapest, Soroksári út 48, Malom Udvar<br />8. épület, földszint
+                    </p>
+                  </div>
+                  <div className="mt-5 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: ORANGE }}>Nyitvatartás</p>
+                    <p className="text-sm font-semibold mt-1" style={{ color: "hsl(40 15% 88%)" }}>Hétfő–Péntek: 08:00–15:30</p>
+                  </div>
                 </div>
               </div>
             </Reveal>
