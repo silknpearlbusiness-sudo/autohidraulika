@@ -530,19 +530,25 @@ function Home() {
                 </div>
               </Reveal>
 
-              {/* Stats — redesigned: accent bar + white number + muted label */}
+              {/* Stats — spec-plate badges: icon + big number, industrial data-plate feel */}
               <Reveal delay={240}>
-                <div className="mt-10 grid grid-cols-2 gap-3 sm:flex sm:items-start sm:gap-10 md:gap-14" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.75rem" }}>
+                <div className="mt-10 grid grid-cols-2 gap-3 max-w-md">
                   {[
-                    { to: 5000, suffix: "+", label: "Elvégzett munka" },
-                    { to: 6,    suffix: " hónap", label: "Garancia" },
+                    { icon: Wrench,      to: 5000, suffix: "+", label: "Elvégzett munka" },
+                    { icon: ShieldCheck, to: 6,    suffix: " hónap", label: "Garancia" },
                   ].map((s) => (
-                    <div key={s.label}>
-                      <div style={{ width: "1.25rem", height: "2px", background: ORANGE, marginBottom: "0.6rem" }} />
-                      <p style={{ fontFamily: '"Syne", system-ui, sans-serif', fontSize: "clamp(1.3rem,2.5vw,2rem)", fontWeight: 800, lineHeight: 1, color: "hsl(40 20% 96%)" }}>
-                        <Counter to={s.to} suffix={s.suffix} />
-                      </p>
-                      <p style={{ fontSize: "0.65rem", letterSpacing: "0.16em", color: "hsl(158 14% 42%)", marginTop: "0.35rem", textTransform: "uppercase", fontWeight: 600 }}>{s.label}</p>
+                    <div key={s.label} className="flex items-center gap-3 px-4 py-3.5 rounded-2xl"
+                      style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(253,185,39,0.16)" }}>
+                      <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                        style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.25)" }}>
+                        <s.icon size={19} strokeWidth={1.8} style={{ color: ORANGE }} />
+                      </div>
+                      <div className="min-w-0">
+                        <p style={{ fontFamily: '"Syne", system-ui, sans-serif', fontSize: "clamp(1.15rem,2.2vw,1.6rem)", fontWeight: 800, lineHeight: 1, color: "hsl(40 20% 96%)" }}>
+                          <Counter to={s.to} suffix={s.suffix} />
+                        </p>
+                        <p style={{ fontSize: "0.62rem", letterSpacing: "0.1em", color: "hsl(158 14% 48%)", marginTop: "0.3rem", textTransform: "uppercase", fontWeight: 700 }}>{s.label}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
