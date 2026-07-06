@@ -520,12 +520,9 @@ function Home() {
             <div className="flex flex-col justify-end pt-32 pb-14 lg:pb-20">
 
               <Reveal>
-                <div className="mb-7">
-                  <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]"
-                    style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.25)", color: "hsl(43 98% 68%)" }}>
-                    <OrangeDot /> Márkafüggetlen szakszerviz · Budapest
-                  </span>
-                </div>
+                <p className="mb-5 text-xs font-bold uppercase tracking-[0.22em]" style={{ color: "hsl(43 98% 60%)" }}>
+                  Márkafüggetlen szakszerviz · Budapest
+                </p>
               </Reveal>
 
               <Reveal delay={60}>
@@ -567,9 +564,9 @@ function Home() {
               <Reveal delay={240}>
                 <div className="mt-10 flex items-start gap-10 md:gap-14" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "1.75rem" }}>
                   {[
-                    { to: 5000, suffix: "+", label: "Sikeres javítás" },
-                    { to: 48,   suffix: " óra", label: "Max. átfutás" },
-                    { to: 6,    suffix: " hónap", label: "Írásos garancia" },
+                    { to: 5000, suffix: "+", label: "Elvégzett munka" },
+                    { to: 48,   suffix: " h", label: "Gyors átfutás" },
+                    { to: 6,    suffix: " hónap", label: "Garancia írásban" },
                   ].map((s) => (
                     <div key={s.label}>
                       <div style={{ width: "1.25rem", height: "2px", background: ORANGE, marginBottom: "0.6rem" }} />
@@ -590,11 +587,10 @@ function Home() {
                 <div className="relative rounded-2xl overflow-hidden w-full aspect-[16/10]" style={{ maxHeight: "46vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
                   <img src={IMGS.workshop1} alt="Hitachi ZW550 rakodógép hidraulika javítás" className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: "saturate(0.85) contrast(1.05) brightness(0.9)", objectPosition: "50% 60%" }} />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)" }} />
-                  <div className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2"
-                    style={{ background: "rgba(4,20,14,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(253,185,39,0.25)" }}>
-                    <ShieldCheck size={14} style={{ color: ORANGE }} />
-                    <span className="text-xs font-bold">6 hónap írásos garancia</span>
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>Kotrógép · Szivattyúcsere</p>
+                    <p className="text-sm font-bold mt-0.5" style={{ color: "hsl(40 20% 92%)" }}>Hitachi ZW550 rakodógép</p>
                   </div>
                 </div>
               </Reveal>
@@ -602,11 +598,10 @@ function Home() {
                 <div className="relative rounded-2xl overflow-hidden w-full aspect-[21/9]" style={{ maxHeight: "28vh", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 24px 64px rgba(0,0,0,0.45)" }}>
                   <img src={IMGS.timberjack} alt="Mezőgazdasági munkagép hidraulika" className="absolute inset-0 w-full h-full object-cover"
                     style={{ filter: "saturate(0.8) contrast(1.05) brightness(0.85)", objectPosition: "50% 68%" }} />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)" }} />
-                  <div className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2"
-                    style={{ background: "rgba(4,20,14,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(253,185,39,0.25)" }}>
-                    <Truck size={14} style={{ color: ORANGE }} />
-                    <span className="text-xs font-bold">Ingyenes országos futár</span>
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)" }} />
+                  <div className="absolute bottom-4 left-4">
+                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: ORANGE }}>Mezőgazdaság · Hengerfelvújítás</p>
+                    <p className="text-sm font-bold mt-0.5" style={{ color: "hsl(40 20% 92%)" }}>John Deere 8230 traktor</p>
                   </div>
                 </div>
               </Reveal>
@@ -618,35 +613,16 @@ function Home() {
       </section>
 
       {/* ══════════════════════════════════════════════════
-          MARQUEE
-      ══════════════════════════════════════════════════ */}
-      <div className="overflow-hidden" style={{ background: ORANGE, borderTop: "1px solid rgba(0,0,0,0.1)", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
-        <div className="marquee-track py-3.5">
-          {[...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="inline-flex items-center gap-5 font-bold tracking-[0.12em] uppercase text-[13px] px-5" style={{ color: "#0b1a12" }}>
-              {item}
-              <span style={{ color: "rgba(11,26,18,0.35)", fontSize: "8px" }}>◆</span>
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════════════
           SERVICES — bento image grid
       ══════════════════════════════════════════════════ */}
       <section id="szolgaltatasok" className="py-28 relative overflow-hidden">
-        {/* Ambient blobs */}
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full pointer-events-none blur-[120px] opacity-[0.07]"
-          style={{ background: `radial-gradient(ellipse, ${ORANGE}, transparent 70%)` }} />
-
         <div className="container mx-auto px-6">
 
           {/* Header */}
           <Reveal>
             <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
               <div>
-                <Chip>Javítási területek</Chip>
-                <h2 className="mt-4 font-black leading-[0.9]" style={{ fontSize: "clamp(3.5rem,8vw,7rem)", letterSpacing: "0.015em" }}>
+                <h2 className="font-black leading-[0.9]" style={{ fontSize: "clamp(3.5rem,8vw,7rem)", letterSpacing: "0.015em" }}>
                   MIT<br /><span style={{ color: ORANGE }}>JAVÍTUNK?</span>
                 </h2>
               </div>
@@ -751,7 +727,6 @@ function Home() {
         <div className="container mx-auto px-6 relative z-10">
           <Reveal>
             <div className="mb-16 text-center max-w-3xl mx-auto">
-              <Chip>A folyamat</Chip>
               <h2 className="mt-5 font-black leading-none" style={{ fontSize: "clamp(2.6rem,6vw,4.5rem)" }}>
                 A javítás<br /><span style={{ color: ORANGE }}>folyamata.</span>
               </h2>
@@ -886,7 +861,6 @@ function Home() {
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <Reveal>
-              <Chip>Lefedettség</Chip>
               <h2 className="text-4xl md:text-5xl mt-5 mb-5 font-black" style={{ lineHeight: 0.95 }}>
                 Bárhová megyünk<br />az országban.
               </h2>
@@ -999,7 +973,6 @@ function Home() {
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
-                <Chip>Márkafüggetlen szerviz</Chip>
                 <h2 className="mt-4 font-black leading-none" style={{ fontSize: "clamp(2.4rem,5.5vw,4rem)" }}>
                   26 vezető gyártó.<br />
                   <span style={{ color: ORANGE }}>Egy megbízható szerviz.</span>
@@ -1083,12 +1056,9 @@ function Home() {
           VÉLEMÉNYEK — testimonials
       ══════════════════════════════════════════════════ */}
       <section id="velemenyek" className="py-28 relative overflow-hidden">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full pointer-events-none blur-[110px] opacity-[0.06]"
-          style={{ background: `radial-gradient(ellipse, ${ORANGE}, transparent 70%)` }} />
         <div className="container mx-auto px-6 relative z-10">
           <Reveal>
             <div className="mb-14 text-center">
-              <Chip>Vélemények</Chip>
               <h2 className="text-5xl md:text-6xl mt-4 font-black">Akik már ránk bízták.</h2>
               <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold" style={{ color: "hsl(158 16% 55%)" }}>
                 <span className="flex gap-0.5">
@@ -1138,7 +1108,6 @@ function Home() {
         <div className="container mx-auto px-6">
           <Reveal>
             <div className="mb-16 text-center">
-              <Chip>Gyakori kérdések</Chip>
               <h2 className="text-5xl md:text-6xl mt-4 font-black">Amit Önök kérdeznek.</h2>
             </div>
           </Reveal>
@@ -1187,13 +1156,9 @@ function Home() {
           CONTACT — top pills + 2-col below
       ══════════════════════════════════════════════════ */}
       <section id="kapcsolat" className="py-28 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 opacity-[0.05] blur-[120px] pointer-events-none"
-          style={{ background: `radial-gradient(circle, ${ORANGE}, transparent 60%)` }} />
-
         <div className="container mx-auto px-6 relative z-10">
           <Reveal>
             <div className="mb-16">
-              <Chip>Kapcsolat</Chip>
               <h2 className="text-5xl md:text-6xl mt-4 mb-10 font-black">Rendelje meg<br />a javítást!</h2>
               <div className="flex flex-wrap gap-4">
                 {[

@@ -1,7 +1,7 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-9nB5ywzf.mjs";
+import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-AtwCAqEl.mjs";
 import "../_libs/seroval.mjs";
-import { W as Wrench, P as Phone, X, M as Menu, a as ArrowUpRight, S as ShieldCheck, T as Truck, b as ClipboardCheck, c as PackageCheck, d as Clock, e as ChevronRight, f as MapPin, g as CircleCheck, h as Star, i as CircleQuestionMark, j as ArrowRight, k as Mail, l as ArrowUp } from "../_libs/lucide-react.mjs";
+import { W as Wrench, P as Phone, X, M as Menu, a as ArrowUpRight, T as Truck, b as ClipboardCheck, c as PackageCheck, d as Clock, e as ChevronRight, f as MapPin, g as CircleCheck, S as Star, h as CircleQuestionMark, i as ArrowRight, j as Mail, k as ArrowUp } from "../_libs/lucide-react.mjs";
 import { o as objectType, s as stringType, l as literalType } from "../_libs/zod.mjs";
 import "node:async_hooks";
 import "../_libs/h3-v2.mjs";
@@ -132,21 +132,6 @@ function Counter({
     suffix
   ] });
 }
-function Chip({
-  children
-}) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-[0.16em]", style: {
-    background: "rgba(253,185,39,0.1)",
-    border: "1px solid rgba(253,185,39,0.22)",
-    color: "hsl(43 98% 65%)"
-  }, children });
-}
-function OrangeDot() {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-1.5 h-1.5 rounded-full inline-block", style: {
-    background: "hsl(43 98% 54%)",
-    animation: "pulse-glow 2s ease-in-out infinite"
-  } });
-}
 const navLinks = [{
   href: "#szolgaltatasok",
   label: "Szolgáltatások"
@@ -163,7 +148,6 @@ const navLinks = [{
   href: "#kapcsolat",
   label: "Kapcsolat"
 }];
-const marqueeItems = ["HIDRAULIKA JAVÍTÁS", "Hidraulika szivattyú", "Hidromotor", "Orbit", "Vezérlőtömb", "Munkahenger"];
 const repairItems = [{
   num: "01",
   name: "Axiál dugattyús szivattyú",
@@ -583,14 +567,9 @@ function Home() {
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1fr_1fr] gap-10 xl:gap-16 min-h-screen", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col justify-end pt-32 pb-14 lg:pb-20", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-7", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]", style: {
-            background: "rgba(253,185,39,0.1)",
-            border: "1px solid rgba(253,185,39,0.25)",
-            color: "hsl(43 98% 68%)"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(OrangeDot, {}),
-            " Márkafüggetlen szakszerviz · Budapest"
-          ] }) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-5 text-xs font-bold uppercase tracking-[0.22em]", style: {
+            color: "hsl(43 98% 60%)"
+          }, children: "Márkafüggetlen szakszerviz · Budapest" }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 60, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { style: {
             fontFamily: '"Syne", system-ui, sans-serif',
             fontWeight: 800,
@@ -660,15 +639,15 @@ function Home() {
           }, children: [{
             to: 5e3,
             suffix: "+",
-            label: "Sikeres javítás"
+            label: "Elvégzett munka"
           }, {
             to: 48,
-            suffix: " óra",
-            label: "Max. átfutás"
+            suffix: " h",
+            label: "Gyors átfutás"
           }, {
             to: 6,
             suffix: " hónap",
-            label: "Írásos garancia"
+            label: "Garancia írásban"
           }].map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
               width: "1.25rem",
@@ -704,17 +683,15 @@ function Home() {
               objectPosition: "50% 60%"
             } }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0", style: {
-              background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)"
+              background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)"
             } }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2", style: {
-              background: "rgba(4,20,14,0.75)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid rgba(253,185,39,0.25)"
-            }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldCheck, { size: 14, style: {
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold uppercase tracking-widest", style: {
                 color: ORANGE
-              } }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold", children: "6 hónap írásos garancia" })
+              }, children: "Kotrógép · Szivattyúcsere" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold mt-0.5", style: {
+                color: "hsl(40 20% 92%)"
+              }, children: "Hitachi ZW550 rakodógép" })
             ] })
           ] }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 220, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative rounded-2xl overflow-hidden w-full aspect-[21/9]", style: {
@@ -727,140 +704,117 @@ function Home() {
               objectPosition: "50% 68%"
             } }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0", style: {
-              background: "linear-gradient(to top, rgba(4,20,14,0.55), transparent 45%)"
+              background: "linear-gradient(to top, rgba(4,20,14,0.6), transparent 50%)"
             } }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full px-4 py-2", style: {
-              background: "rgba(4,20,14,0.75)",
-              backdropFilter: "blur(8px)",
-              border: "1px solid rgba(253,185,39,0.25)"
-            }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Truck, { size: 14, style: {
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-4 left-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold uppercase tracking-widest", style: {
                 color: ORANGE
-              } }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold", children: "Ingyenes országos futár" })
+              }, children: "Mezőgazdaság · Hengerfelvújítás" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold mt-0.5", style: {
+                color: "hsl(40 20% 92%)"
+              }, children: "John Deere 8230 traktor" })
             ] })
           ] }) })
         ] })
       ] }) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-hidden", style: {
-      background: ORANGE,
-      borderTop: "1px solid rgba(0,0,0,0.1)",
-      borderBottom: "1px solid rgba(0,0,0,0.1)"
-    }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "marquee-track py-3.5", children: [...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-5 font-bold tracking-[0.12em] uppercase text-[13px] px-5", style: {
-      color: "#0b1a12"
-    }, children: [
-      item,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-        color: "rgba(11,26,18,0.35)",
-        fontSize: "8px"
-      }, children: "◆" })
-    ] }, i)) }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "szolgaltatasok", className: "py-28 relative overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full pointer-events-none blur-[120px] opacity-[0.07]", style: {
-        background: `radial-gradient(ellipse, ${ORANGE}, transparent 70%)`
-      } }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { children: "Javítási területek" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "mt-4 font-black leading-[0.9]", style: {
-              fontSize: "clamp(3.5rem,8vw,7rem)",
-              letterSpacing: "0.015em"
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "szolgaltatasok", className: "py-28 relative overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "font-black leading-[0.9]", style: {
+          fontSize: "clamp(3.5rem,8vw,7rem)",
+          letterSpacing: "0.015em"
+        }, children: [
+          "MIT",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
+            color: ORANGE
+          }, children: "JAVÍTUNK?" })
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-sm text-base leading-relaxed lg:text-right", style: {
+          color: "hsl(158 16% 50%)"
+        }, children: "Minden hidraulikus alkatrész — szivattyúktól az orbit motorig. Márkafüggetlenül, gyári minőségű alkatrészekkel, 6 hónap garanciával." })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1fr_420px] gap-12 items-start", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: repairItems.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: i * 40, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#kapcsolat", className: "group service-row flex items-center gap-4 md:gap-5 py-4 no-underline", style: {
+          borderBottom: "1px solid rgba(255,255,255,0.06)"
+        }, onMouseEnter: () => setActiveService(i), onFocus: () => setActiveService(i), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "lg:hidden shrink-0 w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center", style: {
+            background: "rgba(255,255,255,0.94)",
+            border: "1px solid rgba(255,255,255,0.1)"
+          }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: s.img, alt: s.name, loading: "lazy", decoding: "async", className: "w-full h-full object-contain p-1" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "service-shift hidden lg:block shrink-0 font-black tabular-nums w-10 text-right", style: {
+            fontSize: "0.75rem",
+            color: activeService === i ? ORANGE : "hsl(158 16% 28%)",
+            letterSpacing: "0.05em",
+            transition: "color 0.2s ease"
+          }, children: s.num }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "service-shift flex-1 min-w-0", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-black text-lg leading-tight", style: {
+              color: activeService === i ? "hsl(43 98% 68%)" : void 0,
+              transition: "color 0.2s ease"
+            }, children: s.name }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-0.5 leading-relaxed", style: {
+              color: "hsl(158 16% 46%)"
+            }, children: s.short })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 18, className: "shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-2 group-hover:translate-x-0", style: {
+            color: ORANGE
+          } })
+        ] }) }, s.num)) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 120, className: "hidden lg:block", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sticky top-28", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative rounded-3xl overflow-hidden", style: {
+            background: "rgba(255,255,255,0.96)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(253,185,39,0.12)",
+            aspectRatio: "4 / 3.4"
+          }, children: [
+            repairItems.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: s.img, alt: s.name, decoding: "async", className: "absolute inset-0 w-full h-full object-contain", style: {
+              padding: "2rem 2rem 4.5rem",
+              opacity: activeService === i ? 1 : 0,
+              transform: activeService === i ? "scale(1)" : "scale(0.95)",
+              transition: "opacity 0.3s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)"
+            } }, s.num)),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-0 left-0 right-0 px-6 py-4 flex items-center justify-between", style: {
+              background: "linear-gradient(to top, rgba(4,20,14,0.95), rgba(4,20,14,0.8) 60%, transparent)"
             }, children: [
-              "MIT",
-              /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-black text-base text-white", children: repairItems[activeService].name }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black text-sm tabular-nums", style: {
                 color: ORANGE
-              }, children: "JAVÍTUNK?" })
+              }, children: [
+                repairItems[activeService].num,
+                " / 08"
+              ] })
             ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "max-w-sm text-base leading-relaxed lg:text-right", style: {
-            color: "hsl(158 16% 50%)"
-          }, children: "Minden hidraulikus alkatrész — szivattyúktól az orbit motorig. Márkafüggetlenül, gyári minőségű alkatrészekkel, 6 hónap garanciával." })
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1fr_420px] gap-12 items-start", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: repairItems.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: i * 40, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#kapcsolat", className: "group service-row flex items-center gap-4 md:gap-5 py-4 no-underline", style: {
-            borderBottom: "1px solid rgba(255,255,255,0.06)"
-          }, onMouseEnter: () => setActiveService(i), onFocus: () => setActiveService(i), children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "lg:hidden shrink-0 w-14 h-14 rounded-xl overflow-hidden flex items-center justify-center", style: {
-              background: "rgba(255,255,255,0.94)",
-              border: "1px solid rgba(255,255,255,0.1)"
-            }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: s.img, alt: s.name, loading: "lazy", decoding: "async", className: "w-full h-full object-contain p-1" }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "service-shift hidden lg:block shrink-0 font-black tabular-nums w-10 text-right", style: {
-              fontSize: "0.75rem",
-              color: activeService === i ? ORANGE : "hsl(158 16% 28%)",
-              letterSpacing: "0.05em",
-              transition: "color 0.2s ease"
-            }, children: s.num }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "service-shift flex-1 min-w-0", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "font-black text-lg leading-tight", style: {
-                color: activeService === i ? "hsl(43 98% 68%)" : void 0,
-                transition: "color 0.2s ease"
-              }, children: s.name }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-0.5 leading-relaxed", style: {
-                color: "hsl(158 16% 46%)"
-              }, children: s.short })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 18, className: "shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-200 -translate-x-2 group-hover:translate-x-0", style: {
-              color: ORANGE
-            } })
-          ] }) }, s.num)) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 120, className: "hidden lg:block", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sticky top-28", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative rounded-3xl overflow-hidden", style: {
-              background: "rgba(255,255,255,0.96)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(253,185,39,0.12)",
-              aspectRatio: "4 / 3.4"
-            }, children: [
-              repairItems.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: s.img, alt: s.name, decoding: "async", className: "absolute inset-0 w-full h-full object-contain", style: {
-                padding: "2rem 2rem 4.5rem",
-                opacity: activeService === i ? 1 : 0,
-                transform: activeService === i ? "scale(1)" : "scale(0.95)",
-                transition: "opacity 0.3s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)"
-              } }, s.num)),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute bottom-0 left-0 right-0 px-6 py-4 flex items-center justify-between", style: {
-                background: "linear-gradient(to top, rgba(4,20,14,0.95), rgba(4,20,14,0.8) 60%, transparent)"
-              }, children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-black text-base text-white", children: repairItems[activeService].name }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black text-sm tabular-nums", style: {
-                  color: ORANGE
-                }, children: [
-                  repairItems[activeService].num,
-                  " / 08"
-                ] })
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-xs text-center font-semibold uppercase tracking-widest", style: {
-              color: "hsl(158 16% 40%)"
-            }, children: "Mindegyiket javítjuk — 6 hónap garanciával" })
-          ] }) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 340, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col sm:flex-row items-center gap-5 rounded-3xl p-7", style: {
-          background: "linear-gradient(135deg, rgba(253,185,39,0.08), rgba(16,185,129,0.06))",
-          border: "1px solid rgba(253,185,39,0.2)"
-        }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-black text-xl", children: "Nem tudja pontosan mi a hiba?" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-1", style: {
-              color: "hsl(158 16% 52%)"
-            }, children: "Hívjon — ingyenesen megmondjuk mi a probléma és mennyibe kerül a javítás." })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "tel:+36309111474", className: "glint cta-pulse shrink-0 inline-flex items-center gap-2.5 rounded-full font-black no-underline", style: {
-            background: ORANGE,
-            color: "#04111f",
-            height: "3.5rem",
-            paddingLeft: "2.25rem",
-            paddingRight: "2.25rem",
-            fontSize: "1.05rem",
-            boxShadow: "0 8px 24px rgba(253,185,39,0.25)"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { size: 17 }),
-            " +36 30 911 1474"
-          ] })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-xs text-center font-semibold uppercase tracking-widest", style: {
+            color: "hsl(158 16% 40%)"
+          }, children: "Mindegyiket javítjuk — 6 hónap garanciával" })
         ] }) })
-      ] })
-    ] }),
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 340, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-8 flex flex-col sm:flex-row items-center gap-5 rounded-3xl p-7", style: {
+        background: "linear-gradient(135deg, rgba(253,185,39,0.08), rgba(16,185,129,0.06))",
+        border: "1px solid rgba(253,185,39,0.2)"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-black text-xl", children: "Nem tudja pontosan mi a hiba?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mt-1", style: {
+            color: "hsl(158 16% 52%)"
+          }, children: "Hívjon — ingyenesen megmondjuk mi a probléma és mennyibe kerül a javítás." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "tel:+36309111474", className: "glint cta-pulse shrink-0 inline-flex items-center gap-2.5 rounded-full font-black no-underline", style: {
+          background: ORANGE,
+          color: "#04111f",
+          height: "3.5rem",
+          paddingLeft: "2.25rem",
+          paddingRight: "2.25rem",
+          fontSize: "1.05rem",
+          boxShadow: "0 8px 24px rgba(253,185,39,0.25)"
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Phone, { size: 17 }),
+          " +36 30 911 1474"
+        ] })
+      ] }) })
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "folyamat", className: "py-28 relative overflow-hidden", style: {
       background: BG2
     }, children: [
@@ -869,7 +823,6 @@ function Home() {
       } }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6 relative z-10", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16 text-center max-w-3xl mx-auto", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { children: "A folyamat" }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "mt-5 font-black leading-none", style: {
             fontSize: "clamp(2.6rem,6vw,4.5rem)"
           }, children: [
@@ -1015,7 +968,6 @@ function Home() {
       } }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container mx-auto px-6", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-2 gap-16 items-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(Reveal, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { children: "Lefedettség" }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "text-4xl md:text-5xl mt-5 mb-5 font-black", style: {
             lineHeight: 0.95
           }, children: [
@@ -1175,18 +1127,15 @@ function Home() {
         background: "radial-gradient(ellipse 70% 80% at 50% 50%, rgba(16,185,129,0.22), transparent 70%)"
       } }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "container mx-auto px-6 relative z-10 mb-12", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col md:flex-row md:items-end justify-between gap-6", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { children: "Márkafüggetlen szerviz" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "mt-4 font-black leading-none", style: {
-            fontSize: "clamp(2.4rem,5.5vw,4rem)"
-          }, children: [
-            "26 vezető gyártó.",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
-              color: ORANGE
-            }, children: "Egy megbízható szerviz." })
-          ] })
-        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "mt-4 font-black leading-none", style: {
+          fontSize: "clamp(2.4rem,5.5vw,4rem)"
+        }, children: [
+          "26 vezető gyártó.",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: {
+            color: ORANGE
+          }, children: "Egy megbízható szerviz." })
+        ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base leading-relaxed", style: {
             color: "hsl(158 16% 55%)"
@@ -1270,66 +1219,57 @@ function Home() {
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "velemenyek", className: "py-28 relative overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full pointer-events-none blur-[110px] opacity-[0.06]", style: {
-        background: `radial-gradient(ellipse, ${ORANGE}, transparent 70%)`
-      } }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6 relative z-10", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-14 text-center", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { children: "Vélemények" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-5xl md:text-6xl mt-4 font-black", children: "Akik már ránk bízták." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 flex items-center justify-center gap-2 text-sm font-semibold", style: {
-            color: "hsl(158 16% 55%)"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex gap-0.5", children: Array.from({
-              length: 5
-            }).map((_, s) => /* @__PURE__ */ jsxRuntimeExports.jsx(Star, { size: 14, fill: ORANGE, style: {
-              color: ORANGE
-            } }, s)) }),
-            "5.0 — ügyfeleink értékelése"
-          ] })
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid sm:grid-cols-2 lg:grid-cols-4 gap-4", children: testimonials.map((t, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: i * 60, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "project-card-hover h-full flex flex-col rounded-3xl p-6", style: {
-          background: "hsl(158 58% 10%)",
-          border: "1px solid rgba(255,255,255,0.07)"
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "velemenyek", className: "py-28 relative overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6 relative z-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-14 text-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-5xl md:text-6xl mt-4 font-black", children: "Akik már ránk bízták." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-4 flex items-center justify-center gap-2 text-sm font-semibold", style: {
+          color: "hsl(158 16% 55%)"
         }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex gap-0.5 mb-4", children: Array.from({
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex gap-0.5", children: Array.from({
             length: 5
-          }).map((_, s) => /* @__PURE__ */ jsxRuntimeExports.jsx(Star, { size: 13, fill: ORANGE, style: {
+          }).map((_, s) => /* @__PURE__ */ jsxRuntimeExports.jsx(Star, { size: 14, fill: ORANGE, style: {
             color: ORANGE
           } }, s)) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm leading-relaxed flex-1", style: {
-            color: "hsl(158 16% 62%)"
-          }, children: [
-            "„",
-            t.text,
-            '"'
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-5 pt-4 flex items-center gap-3", style: {
-            borderTop: "1px solid rgba(255,255,255,0.06)"
-          }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-black", style: {
-              background: "rgba(253,185,39,0.12)",
-              border: "1px solid rgba(253,185,39,0.25)",
-              color: ORANGE
-            }, children: t.name.charAt(0) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold leading-tight", children: t.name }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs", style: {
-                color: "hsl(158 16% 45%)"
-              }, children: t.role })
-            ] })
+          "5.0 — ügyfeleink értékelése"
+        ] })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid sm:grid-cols-2 lg:grid-cols-4 gap-4", children: testimonials.map((t, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: i * 60, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "project-card-hover h-full flex flex-col rounded-3xl p-6", style: {
+        background: "hsl(158 58% 10%)",
+        border: "1px solid rgba(255,255,255,0.07)"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex gap-0.5 mb-4", children: Array.from({
+          length: 5
+        }).map((_, s) => /* @__PURE__ */ jsxRuntimeExports.jsx(Star, { size: 13, fill: ORANGE, style: {
+          color: ORANGE
+        } }, s)) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm leading-relaxed flex-1", style: {
+          color: "hsl(158 16% 62%)"
+        }, children: [
+          "„",
+          t.text,
+          '"'
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-5 pt-4 flex items-center gap-3", style: {
+          borderTop: "1px solid rgba(255,255,255,0.06)"
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-black", style: {
+            background: "rgba(253,185,39,0.12)",
+            border: "1px solid rgba(253,185,39,0.25)",
+            color: ORANGE
+          }, children: t.name.charAt(0) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold leading-tight", children: t.name }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs", style: {
+              color: "hsl(158 16% 45%)"
+            }, children: t.role })
           ] })
-        ] }) }, t.name)) })
-      ] })
-    ] }),
+        ] })
+      ] }) }, t.name)) })
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "gyik", className: "py-28 relative", style: {
       background: BG2
     }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16 text-center", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { children: "Gyakori kérdések" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-5xl md:text-6xl mt-4 font-black", children: "Amit Önök kérdeznek." })
-      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-16 text-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-5xl md:text-6xl mt-4 font-black", children: "Amit Önök kérdeznek." }) }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid md:grid-cols-2 gap-4 max-w-5xl mx-auto", children: faq.map((f, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: i * 50, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-3xl overflow-hidden h-fit", style: {
         background: "hsl(158 58% 11%)",
         border: `1px solid ${openFaq === i ? "rgba(253,185,39,0.22)" : "rgba(255,255,255,0.06)"}`,
@@ -1369,245 +1309,239 @@ function Home() {
         }, children: f.a }) }) })
       ] }) }, f.q)) })
     ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "kapcsolat", className: "py-28 relative overflow-hidden", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 right-0 w-96 h-96 opacity-[0.05] blur-[120px] pointer-events-none", style: {
-        background: `radial-gradient(circle, ${ORANGE}, transparent 60%)`
-      } }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6 relative z-10", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { children: "Kapcsolat" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "text-5xl md:text-6xl mt-4 mb-10 font-black", children: [
-            "Rendelje meg",
-            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-            "a javítást!"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-4", children: [{
-            icon: Phone,
-            label: "+36 (30) 9111-474",
-            sub: "Telefonszám",
-            href: "tel:+36309111474"
-          }, {
-            icon: Mail,
-            label: "info@hidraulikajavitas.com",
-            sub: "Email",
-            href: "mailto:info@hidraulikajavitas.com"
-          }, {
-            icon: MapPin,
-            label: "1095 Budapest, Soroksári út 48",
-            sub: "Telephely",
-            href: "#"
-          }].map(({
-            icon: Icon,
-            label,
-            sub,
-            href
-          }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href, className: "group flex items-center gap-4 px-6 py-4 rounded-2xl no-underline btn-hover", style: {
-            background: "hsl(158 58% 11%)",
-            border: "1px solid rgba(255,255,255,0.07)",
-            color: "inherit"
-          }, onMouseEnter: (e) => {
-            e.currentTarget.style.borderColor = "rgba(253,185,39,0.3)";
-          }, onMouseLeave: (e) => {
-            e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "kapcsolat", className: "py-28 relative overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "container mx-auto px-6 relative z-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "text-5xl md:text-6xl mt-4 mb-10 font-black", children: [
+          "Rendelje meg",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+          "a javítást!"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-4", children: [{
+          icon: Phone,
+          label: "+36 (30) 9111-474",
+          sub: "Telefonszám",
+          href: "tel:+36309111474"
+        }, {
+          icon: Mail,
+          label: "info@hidraulikajavitas.com",
+          sub: "Email",
+          href: "mailto:info@hidraulikajavitas.com"
+        }, {
+          icon: MapPin,
+          label: "1095 Budapest, Soroksári út 48",
+          sub: "Telephely",
+          href: "#"
+        }].map(({
+          icon: Icon,
+          label,
+          sub,
+          href
+        }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href, className: "group flex items-center gap-4 px-6 py-4 rounded-2xl no-underline btn-hover", style: {
+          background: "hsl(158 58% 11%)",
+          border: "1px solid rgba(255,255,255,0.07)",
+          color: "inherit"
+        }, onMouseEnter: (e) => {
+          e.currentTarget.style.borderColor = "rgba(253,185,39,0.3)";
+        }, onMouseLeave: (e) => {
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center shrink-0", style: {
+            background: "rgba(253,185,39,0.1)",
+            border: "1px solid rgba(253,185,39,0.2)",
+            color: ORANGE
+          }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 17, strokeWidth: 1.5 }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] uppercase tracking-widest font-semibold mb-0.5", style: {
+              color: "hsl(158 16% 45%)"
+            }, children: sub }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold", children: label })
+          ] })
+        ] }, sub)) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1fr_1.2fr] gap-14 items-start", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-2xl overflow-hidden mb-5", style: {
+            border: "1px solid rgba(255,255,255,0.08)",
+            boxShadow: "0 20px 48px rgba(0,0,0,0.4)"
+          }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("iframe", { title: "Hidraulika Service TEAM Kft. — 1095 Budapest, Soroksári út 48", src: "https://maps.google.com/maps?q=Soroks%C3%A1ri%20%C3%BAt%2048%2C%20Budapest%2C%201095&t=&z=15&ie=UTF8&iwloc=&output=embed", width: "100%", height: "300", loading: "lazy", referrerPolicy: "no-referrer-when-downgrade", style: {
+            border: 0,
+            display: "block",
+            filter: "saturate(0.85) contrast(1.02)"
+          } }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-5 text-xs space-y-1.5", style: {
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(255,255,255,0.06)"
           }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center shrink-0", style: {
-              background: "rgba(253,185,39,0.1)",
-              border: "1px solid rgba(253,185,39,0.2)",
-              color: ORANGE
-            }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 17, strokeWidth: 1.5 }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] uppercase tracking-widest font-semibold mb-0.5", style: {
-                color: "hsl(158 16% 45%)"
-              }, children: sub }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold", children: label })
-            ] })
-          ] }, sub)) })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-sm mb-3", style: {
+              color: "hsl(40 20% 90%)"
+            }, children: "Hidraulika Service TEAM Kft." }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
+              color: "hsl(158 16% 45%)"
+            }, children: "Adószám: 32267509-2-43" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
+              color: "hsl(158 16% 45%)"
+            }, children: "Cégjegyzékszám: 01-09-376445" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
+              color: "hsl(158 16% 45%)"
+            }, children: "1095 Budapest, Soroksári út 48, Malom Udvar" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
+              color: "hsl(158 16% 45%)"
+            }, children: "8. épület, földszint" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "pt-2", style: {
+              color: "hsl(158 16% 45%)"
+            }, children: "Hétfő–Péntek: 08:00–15:30" })
+          ] })
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1fr_1.2fr] gap-14 items-start", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-2xl overflow-hidden mb-5", style: {
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow: "0 20px 48px rgba(0,0,0,0.4)"
-            }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("iframe", { title: "Hidraulika Service TEAM Kft. — 1095 Budapest, Soroksári út 48", src: "https://maps.google.com/maps?q=Soroks%C3%A1ri%20%C3%BAt%2048%2C%20Budapest%2C%201095&t=&z=15&ie=UTF8&iwloc=&output=embed", width: "100%", height: "300", loading: "lazy", referrerPolicy: "no-referrer-when-downgrade", style: {
-              border: 0,
-              display: "block",
-              filter: "saturate(0.85) contrast(1.02)"
-            } }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-5 text-xs space-y-1.5", style: {
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.06)"
-            }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-sm mb-3", style: {
-                color: "hsl(40 20% 90%)"
-              }, children: "Hidraulika Service TEAM Kft." }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
-                color: "hsl(158 16% 45%)"
-              }, children: "Adószám: 32267509-2-43" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
-                color: "hsl(158 16% 45%)"
-              }, children: "Cégjegyzékszám: 01-09-376445" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
-                color: "hsl(158 16% 45%)"
-              }, children: "1095 Budapest, Soroksári út 48, Malom Udvar" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: {
-                color: "hsl(158 16% 45%)"
-              }, children: "8. épület, földszint" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "pt-2", style: {
-                color: "hsl(158 16% 45%)"
-              }, children: "Hétfő–Péntek: 08:00–15:30" })
-            ] })
-          ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 100, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass-strong rounded-3xl p-8 md:p-10", style: {
-            boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)"
-          }, children: formState === "success" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center py-12 text-center", style: {
-            animation: "card-in 0.4s ease both"
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { delay: 100, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass-strong rounded-3xl p-8 md:p-10", style: {
+          boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)"
+        }, children: formState === "success" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center py-12 text-center", style: {
+          animation: "card-in 0.4s ease both"
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16 h-16 rounded-full flex items-center justify-center mb-6", style: {
+            background: "rgba(253,185,39,0.1)",
+            border: "1px solid rgba(253,185,39,0.3)"
+          }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 30, style: {
+            color: ORANGE
+          } }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-2", children: "Köszönjük!" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm max-w-xs", style: {
+            color: "hsl(158 16% 55%)"
+          }, children: "Hamarosan felvesszük Önnel a kapcsolatot — általában 24 órán belül." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setFormState("idle"), className: "mt-8 text-xs cursor-pointer underline", style: {
+            background: "none",
+            border: "none",
+            color: "hsl(158 16% 50%)"
+          }, children: "Új üzenet küldése" })
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-1", children: "Kérjen ingyenes visszahívást" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-7", style: {
+            color: "hsl(158 16% 55%)"
+          }, children: "24 órán belül felvesszük Önnel a kapcsolatot." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: async (e) => {
+            e.preventDefault();
+            setFormState("loading");
+            const fd = new FormData(e.currentTarget);
+            try {
+              await submitContact({
+                data: {
+                  name: fd.get("name"),
+                  phone: fd.get("phone"),
+                  email: fd.get("email") || "",
+                  partType: fd.get("partType") || "",
+                  description: fd.get("description") || ""
+                }
+              });
+              setFormState("success");
+            } catch (err) {
+              console.error("[contact form]", err);
+              setFormState("error");
+            }
           }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-16 h-16 rounded-full flex items-center justify-center mb-6", style: {
-              background: "rgba(253,185,39,0.1)",
-              border: "1px solid rgba(253,185,39,0.3)"
-            }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { size: 30, style: {
-              color: ORANGE
-            } }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-2", children: "Köszönjük!" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm max-w-xs", style: {
-              color: "hsl(158 16% 55%)"
-            }, children: "Hamarosan felvesszük Önnel a kapcsolatot — általában 24 órán belül." }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setFormState("idle"), className: "mt-8 text-xs cursor-pointer underline", style: {
-              background: "none",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid sm:grid-cols-2 gap-4", children: [{
+              label: "Név",
+              type: "text",
+              name: "name",
+              placeholder: "Adja meg nevét",
+              required: true
+            }, {
+              label: "Telefonszám",
+              type: "tel",
+              name: "phone",
+              placeholder: "+36 30 000 0000",
+              required: true
+            }].map(({
+              label,
+              type,
+              name,
+              placeholder,
+              required
+            }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
+                color: "hsl(158 16% 48%)"
+              }, children: label }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type, name, placeholder, required, className: "w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.09)",
+                color: "hsl(40 20% 97%)"
+              }, onFocus: (e) => {
+                e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.07)";
+              }, onBlur: (e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+              } })
+            ] }, label)) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
+                color: "hsl(158 16% 48%)"
+              }, children: "Email (opcionális)" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "email", name: "email", placeholder: "pelda@email.hu", className: "w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.09)",
+                color: "hsl(40 20% 97%)"
+              }, onFocus: (e) => {
+                e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.07)";
+              }, onBlur: (e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+              } })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
+                color: "hsl(158 16% 48%)"
+              }, children: "Alkatrész típusa" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("select", { name: "partType", defaultValue: "", className: "w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.09)",
+                color: "hsl(40 20% 97%)",
+                appearance: "none"
+              }, onFocus: (e) => {
+                e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
+              }, onBlur: (e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+              }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", disabled: true, style: {
+                  background: "hsl(158 52% 13%)"
+                }, children: "Válasszon típust..." }),
+                ["Hidraulikus szivattyú", "Hidraulikus motor", "Hidraulikus henger", "Orbit motor", "Vezérlőblokk", "Egyéb"].map((o) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: o.toLowerCase(), style: {
+                  background: "hsl(158 52% 13%)"
+                }, children: o }, o))
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
+                color: "hsl(158 16% 48%)"
+              }, children: "Hiba leírása" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("textarea", { name: "description", rows: 4, placeholder: "Röviden írja le a hibát és a gép típusát...", className: "w-full resize-none rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.09)",
+                color: "hsl(40 20% 97%)"
+              }, onFocus: (e) => {
+                e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.07)";
+              }, onBlur: (e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+              } })
+            ] }),
+            formState === "error" && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold rounded-xl px-4 py-3", style: {
+              color: "#fca5a5",
+              background: "rgba(248,113,113,0.08)",
+              border: "1px solid rgba(248,113,113,0.25)",
+              animation: "reveal-in 0.3s ease both"
+            }, children: "Hiba történt a küldés során. Kérjük próbálja újra, vagy hívjon minket: +36 30 911 1474" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", disabled: formState === "loading", className: "btn-hover w-full rounded-full text-base font-semibold text-white py-4 cursor-pointer", style: {
+              background: ORANGE,
+              boxShadow: "0 8px 24px rgba(253,185,39,0.2), inset 0 1px 0 rgba(255,255,255,0.15)",
               border: "none",
-              color: "hsl(158 16% 50%)"
-            }, children: "Új üzenet küldése" })
-          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-xl font-bold mb-1", children: "Kérjen ingyenes visszahívást" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm mb-7", style: {
-              color: "hsl(158 16% 55%)"
-            }, children: "24 órán belül felvesszük Önnel a kapcsolatot." }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: async (e) => {
-              e.preventDefault();
-              setFormState("loading");
-              const fd = new FormData(e.currentTarget);
-              try {
-                await submitContact({
-                  data: {
-                    name: fd.get("name"),
-                    phone: fd.get("phone"),
-                    email: fd.get("email") || "",
-                    partType: fd.get("partType") || "",
-                    description: fd.get("description") || ""
-                  }
-                });
-                setFormState("success");
-              } catch (err) {
-                console.error("[contact form]", err);
-                setFormState("error");
-              }
-            }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid sm:grid-cols-2 gap-4", children: [{
-                label: "Név",
-                type: "text",
-                name: "name",
-                placeholder: "Adja meg nevét",
-                required: true
-              }, {
-                label: "Telefonszám",
-                type: "tel",
-                name: "phone",
-                placeholder: "+36 30 000 0000",
-                required: true
-              }].map(({
-                label,
-                type,
-                name,
-                placeholder,
-                required
-              }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
-                  color: "hsl(158 16% 48%)"
-                }, children: label }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type, name, placeholder, required, className: "w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.09)",
-                  color: "hsl(40 20% 97%)"
-                }, onFocus: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.07)";
-                }, onBlur: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                } })
-              ] }, label)) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
-                  color: "hsl(158 16% 48%)"
-                }, children: "Email (opcionális)" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "email", name: "email", placeholder: "pelda@email.hu", className: "w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.09)",
-                  color: "hsl(40 20% 97%)"
-                }, onFocus: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.07)";
-                }, onBlur: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                } })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
-                  color: "hsl(158 16% 48%)"
-                }, children: "Alkatrész típusa" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("select", { name: "partType", defaultValue: "", className: "w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.09)",
-                  color: "hsl(40 20% 97%)",
-                  appearance: "none"
-                }, onFocus: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
-                }, onBlur: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
-                }, children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", disabled: true, style: {
-                    background: "hsl(158 52% 13%)"
-                  }, children: "Válasszon típust..." }),
-                  ["Hidraulikus szivattyú", "Hidraulikus motor", "Hidraulikus henger", "Orbit motor", "Vezérlőblokk", "Egyéb"].map((o) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: o.toLowerCase(), style: {
-                    background: "hsl(158 52% 13%)"
-                  }, children: o }, o))
-                ] })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-semibold uppercase tracking-widest mb-2 block", style: {
-                  color: "hsl(158 16% 48%)"
-                }, children: "Hiba leírása" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("textarea", { name: "description", rows: 4, placeholder: "Röviden írja le a hibát és a gép típusát...", className: "w-full resize-none rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out", style: {
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.09)",
-                  color: "hsl(40 20% 97%)"
-                }, onFocus: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.07)";
-                }, onBlur: (e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                } })
-              ] }),
-              formState === "error" && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold rounded-xl px-4 py-3", style: {
-                color: "#fca5a5",
-                background: "rgba(248,113,113,0.08)",
-                border: "1px solid rgba(248,113,113,0.25)",
-                animation: "reveal-in 0.3s ease both"
-              }, children: "Hiba történt a küldés során. Kérjük próbálja újra, vagy hívjon minket: +36 30 911 1474" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "submit", disabled: formState === "loading", className: "btn-hover w-full rounded-full text-base font-semibold text-white py-4 cursor-pointer", style: {
-                background: ORANGE,
-                boxShadow: "0 8px 24px rgba(253,185,39,0.2), inset 0 1px 0 rgba(255,255,255,0.15)",
-                border: "none",
-                opacity: formState === "loading" ? 0.7 : 1,
-                transition: "opacity 0.2s ease"
-              }, children: formState === "loading" ? "Küldés..." : "Kérek visszahívást" })
-            ] })
-          ] }) }) })
-        ] })
+              opacity: formState === "loading" ? 0.7 : 1,
+              transition: "opacity 0.2s ease"
+            }, children: formState === "loading" ? "Küldés..." : "Kérek visszahívást" })
+          ] })
+        ] }) }) })
       ] })
-    ] }),
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
       document.documentElement.style.scrollBehavior = "auto";
       document.body.style.scrollBehavior = "auto";
