@@ -514,7 +514,7 @@ function Home() {
         </div>
 
         <div className="mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 xl:gap-20 min-h-screen">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 xl:gap-16 min-h-screen">
 
             {/* LEFT — text, bottom-anchored */}
             <div className="flex flex-col justify-end pt-32 pb-14 lg:pb-20">
@@ -530,8 +530,8 @@ function Home() {
 
               <Reveal delay={60}>
                 <h1 style={{ fontFamily: '"Syne", system-ui, sans-serif', fontWeight: 800, lineHeight: 0.88, margin: 0 }}>
-                  <span className="block" style={{ fontSize: "clamp(3.5rem,7.5vw,8rem)", color: "hsl(40 20% 97%)", letterSpacing: "-0.02em" }}>HIDRAULIKA</span>
-                  <span className="block" style={{ fontSize: "clamp(3.5rem,7.5vw,8rem)", color: ORANGE, letterSpacing: "-0.02em" }}>JAVÍTÁS</span>
+                  <span className="block" style={{ fontSize: "clamp(3rem,5.5vw,6rem)", color: "hsl(40 20% 97%)", letterSpacing: "-0.02em" }}>HIDRAULIKA</span>
+                  <span className="block" style={{ fontSize: "clamp(3rem,5.5vw,6rem)", color: ORANGE, letterSpacing: "-0.02em" }}>JAVÍTÁS</span>
                 </h1>
               </Reveal>
 

@@ -1,5 +1,5 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-X8tSBuqf.mjs";
+import { a as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./server-9nB5ywzf.mjs";
 import "../_libs/seroval.mjs";
 import { W as Wrench, P as Phone, X, M as Menu, a as ArrowUpRight, S as ShieldCheck, T as Truck, b as ClipboardCheck, c as PackageCheck, d as Clock, e as ChevronRight, f as MapPin, g as CircleCheck, h as Star, i as CircleQuestionMark, j as ArrowRight, k as Mail, l as ArrowUp } from "../_libs/lucide-react.mjs";
 import { o as objectType, s as stringType, l as literalType } from "../_libs/zod.mjs";
@@ -581,7 +581,7 @@ function Home() {
           background: "linear-gradient(to top, hsl(158 62% 7%), transparent)"
         } })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1.1fr_0.9fr] gap-10 xl:gap-20 min-h-screen", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-[1760px] px-6 md:px-10 xl:px-14 relative z-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid lg:grid-cols-[1fr_1fr] gap-10 xl:gap-16 min-h-screen", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col justify-end pt-32 pb-14 lg:pb-20", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Reveal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-7", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em]", style: {
             background: "rgba(253,185,39,0.1)",
@@ -598,12 +598,12 @@ function Home() {
             margin: 0
           }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", style: {
-              fontSize: "clamp(3.5rem,7.5vw,8rem)",
+              fontSize: "clamp(3rem,5.5vw,6rem)",
               color: "hsl(40 20% 97%)",
               letterSpacing: "-0.02em"
             }, children: "HIDRAULIKA" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", style: {
-              fontSize: "clamp(3.5rem,7.5vw,8rem)",
+              fontSize: "clamp(3rem,5.5vw,6rem)",
               color: ORANGE,
               letterSpacing: "-0.02em"
             }, children: "JAVÍTÁS" })
