@@ -1132,8 +1132,8 @@ function Home() {
 
         {/* Faint workshop photo texture — barely-there, keeps the section from reading as flat color */}
         <div className="absolute inset-0 pointer-events-none">
-          <img src="/images/backgroundphoto.jpg" alt="" aria-hidden="true" className="w-full h-full object-cover"
-            style={{ filter: "saturate(0.45) contrast(1.1) brightness(0.3)", objectPosition: "50% 35%" }} />
+          <img src={IMGS.workshop2} alt="" aria-hidden="true" className="w-full h-full object-cover"
+            style={{ filter: "saturate(0.4) contrast(1.1) brightness(0.16)", objectPosition: "50% 30%" }} />
         </div>
         {/* Ambient glow */}
         <div className="absolute inset-0 pointer-events-none"
