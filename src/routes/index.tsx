@@ -487,8 +487,8 @@ function Home() {
                 </a>
               ))}
               <a href="tel:+36309111474"
-                className="mt-2 flex items-center justify-center gap-2 h-11 rounded-full text-sm font-semibold text-white no-underline"
-                style={{ background: ORANGE, boxShadow: "0 6px 20px rgba(253,185,39,0.25)" }}>
+                className="mt-2 flex items-center justify-center gap-2 h-11 rounded-full text-sm font-bold uppercase tracking-wide no-underline"
+                style={{ background: ORANGE, color: "#04140d", boxShadow: "0 6px 20px rgba(253,185,39,0.25)" }}>
                 <Phone size={13} /> +36 30 911 1474
               </a>
             </div>
@@ -521,15 +521,16 @@ function Home() {
             <div className="flex flex-col justify-end pt-32 pb-14 lg:pb-20 min-w-0">
 
               <Reveal>
+                <div className="hazard mb-4" style={{ width: 72, height: 6 }} />
                 <p className="mb-5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.14em] sm:tracking-[0.22em]" style={{ color: "hsl(43 98% 60%)" }}>
-                  Márkafüggetlen szakszerviz · Budapest
+                  Márkafüggetlen szakszerviz — Budapest
                 </p>
               </Reveal>
 
               <Reveal delay={60}>
-                <h1 style={{ fontFamily: '"Syne", system-ui, sans-serif', fontWeight: 800, lineHeight: 0.92, margin: 0 }}>
-                  <span className="block text-[clamp(2rem,9vw,4rem)] lg:text-[clamp(3rem,5.5vw,6rem)]" style={{ color: "hsl(40 20% 97%)", letterSpacing: "-0.02em" }}>HIDRAULIKA</span>
-                  <span className="block text-[clamp(2rem,9vw,4rem)] lg:text-[clamp(3rem,5.5vw,6rem)]" style={{ color: ORANGE, letterSpacing: "-0.02em" }}>JAVÍTÁS</span>
+                <h1 style={{ fontFamily: '"Syne", system-ui, sans-serif', lineHeight: 0.98, margin: 0 }}>
+                  <span className="block text-[clamp(2.6rem,13vw,4.5rem)] lg:text-[clamp(3.5rem,6.5vw,7rem)]" style={{ color: "hsl(40 20% 97%)" }}>HIDRAULIKA</span>
+                  <span className="block text-[clamp(2.6rem,13vw,4.5rem)] lg:text-[clamp(3.5rem,6.5vw,7rem)]" style={{ color: ORANGE }}>JAVÍTÁS</span>
                 </h1>
               </Reveal>
 
@@ -548,8 +549,8 @@ function Home() {
               <Reveal delay={180}>
                 <div className="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-5">
                   <a href="tel:+36309111474"
-                    className="glint relative inline-flex items-center justify-center gap-3 font-black text-white no-underline"
-                    style={{ background: ORANGE, height: "3.75rem", paddingLeft: "2.25rem", paddingRight: "2.25rem", fontSize: "1.05rem", borderRadius: "10px", boxShadow: "0 6px 22px rgba(253,185,39,0.28)", transition: "transform 0.15s ease, box-shadow 0.15s ease", whiteSpace: "nowrap" }}
+                    className="glint relative inline-flex items-center justify-center gap-3 font-bold uppercase tracking-wide no-underline"
+                    style={{ background: ORANGE, color: "#04140d", height: "3.75rem", paddingLeft: "2.25rem", paddingRight: "2.25rem", fontSize: "0.95rem", borderRadius: "10px", boxShadow: "0 6px 22px rgba(253,185,39,0.28)", transition: "transform 0.15s ease, box-shadow 0.15s ease", whiteSpace: "nowrap" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 14px 36px rgba(253,185,39,0.4)"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ""; (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 22px rgba(253,185,39,0.28)"; }}>
                     <Phone size={18} /> Hívjon most!
@@ -762,7 +763,7 @@ function Home() {
                     {/* Left: number + line (desktop/tablet only — on mobile the icon lives inside the card) */}
                     <div className="hidden sm:flex flex-col items-center shrink-0" style={{ width: 64 }}>
                       <div className="w-14 h-14 rounded-2xl flex items-center justify-center z-10 relative"
-                        style={{ background: "linear-gradient(135deg, #FDB927, #10b981)", color: "white", boxShadow: "0 0 28px rgba(253,185,39,0.3)" }}>
+                        style={{ background: "#FDB927", color: "#04140d", boxShadow: "0 0 28px rgba(253,185,39,0.3)" }}>
                         <p.icon size={22} strokeWidth={1.8} />
                       </div>
                       {!isLast && (
@@ -780,7 +781,7 @@ function Home() {
                         <div>
                           <div className="flex items-center gap-3">
                             <div className="sm:hidden w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                              style={{ background: "linear-gradient(135deg, #FDB927, #10b981)", color: "white", boxShadow: "0 0 20px rgba(253,185,39,0.25)" }}>
+                              style={{ background: "#FDB927", color: "#04140d", boxShadow: "0 0 20px rgba(253,185,39,0.25)" }}>
                               <p.icon size={18} strokeWidth={1.8} />
                             </div>
                             <span className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: ORANGE }}>
@@ -843,12 +844,12 @@ function Home() {
             <Reveal delay={120}>
               <div className="flex flex-col sm:flex-row gap-4 shrink-0">
                 <a href="tel:+36309111474"
-                  className="btn-hover glint inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-base font-black no-underline"
+                  className="btn-hover glint inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-sm font-bold uppercase tracking-wide no-underline"
                   style={{ background: ORANGE, color: "#04140d", boxShadow: "0 10px 28px rgba(253,185,39,0.25)" }}>
                   <Phone size={16} /> +36 30 911 1474
                 </a>
                 <a href="#kapcsolat"
-                  className="btn-hover inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-base font-bold no-underline"
+                  className="btn-hover inline-flex items-center justify-center gap-2.5 h-14 px-10 rounded-full text-sm font-bold uppercase tracking-wide no-underline"
                   style={{ color: "hsl(40 20% 97%)", border: "1.5px solid rgba(253,185,39,0.4)", background: "rgba(253,185,39,0.06)" }}>
                   Árajánlatot kérek <ChevronRight size={16} />
                 </a>
@@ -1317,10 +1318,11 @@ function Home() {
                         </p>
                       )}
                       <button type="submit" disabled={formState === "loading"}
-                        className="btn-hover w-full rounded-full text-base font-semibold text-white py-4 cursor-pointer"
+                        className="btn-hover w-full rounded-full text-sm font-bold uppercase tracking-wide py-4 cursor-pointer"
                         style={{
                           background: ORANGE,
-                          boxShadow: "0 8px 24px rgba(253,185,39,0.2), inset 0 1px 0 rgba(255,255,255,0.15)",
+                          color: "#04140d",
+                          boxShadow: "0 8px 24px rgba(253,185,39,0.2)",
                           border: "none",
                           opacity: formState === "loading" ? 0.7 : 1,
                           transition: "opacity 0.2s ease",
@@ -1374,21 +1376,22 @@ function Home() {
           borderRadius: 22,
           boxShadow: "0 12px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)",
         }}>
+          <div className="hazard" style={{ height: 5, borderTopLeftRadius: 3, borderTopRightRadius: 3 }} />
           <div className="flex gap-2 p-2">
             <a href="tel:+36309111474"
               className="btn-hover glint flex-[1.35] flex items-center justify-center gap-2.5 no-underline"
-              style={{ background: ORANGE, color: "#04140d", height: 54, borderRadius: 15, boxShadow: "0 6px 18px rgba(253,185,39,0.3)" }}>
-              <span className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(4,20,13,0.14)" }}>
+              style={{ background: ORANGE, color: "#04140d", height: 54, borderRadius: 3, boxShadow: "0 6px 18px rgba(253,185,39,0.3)" }}>
+              <span className="w-8 h-8 flex items-center justify-center shrink-0" style={{ background: "rgba(4,20,13,0.14)", borderRadius: 3 }}>
                 <Phone size={15} />
               </span>
               <span className="leading-tight text-left">
-                <span className="block text-[13px] font-black">Hívjon most</span>
-                <span className="block text-[10px] font-bold tabular-nums" style={{ opacity: 0.72 }}>+36 30 911 1474</span>
+                <span className="block text-[12px] font-black uppercase tracking-wide">Hívjon most</span>
+                <span className="block text-[10px] font-bold tabular-nums uppercase" style={{ opacity: 0.72 }}>+36 30 911 1474</span>
               </span>
             </a>
             <a href="#kapcsolat"
-              className="btn-hover flex-1 flex items-center justify-center gap-1.5 text-[13px] font-bold text-white no-underline"
-              style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.13)", height: 54, borderRadius: 15 }}>
+              className="btn-hover flex-1 flex items-center justify-center gap-1.5 text-[12px] font-bold uppercase tracking-wide text-white no-underline"
+              style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(253,185,39,0.35)", height: 54, borderRadius: 3 }}>
               Árajánlat <ArrowUpRight size={14} style={{ color: ORANGE }} />
             </a>
           </div>
