@@ -101,6 +101,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
   }),
+  scripts: () => [
+    { src: "https://r3.minicrm.hu/api/loader.js?70313-10nuqr2j9y1p9ebcfm181w3gk3as7d", async: true },
+  ],
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
