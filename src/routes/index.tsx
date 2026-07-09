@@ -1224,22 +1224,49 @@ function Home() {
           </div>
         </div>
 
-        {/* Phone + small tablet: certified-partner card wall — desktop already has the marquee above, no need to repeat the list */}
+        {/* Phone + small tablet: featured brands as big tiles, rest as a soft tag cloud below — desktop keeps the marquee above */}
         <div className="md:hidden container mx-auto px-6 relative z-10 mt-4">
-          <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: "hsl(158 16% 45%)" }}>
-            Hitelesített márkalista
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {brands.map((b) => (
-              <div key={b} className="flex items-center gap-2 px-3 py-3 rounded-xl"
-                style={{ background: "hsl(158 55% 8%)", border: "1px solid rgba(253,185,39,0.22)" }}>
-                <CheckCircle2 size={14} className="shrink-0" style={{ color: ORANGE }} />
-                <span className="text-[11px] font-black uppercase tracking-[0.03em] leading-tight" style={{ color: "hsl(40 15% 90%)" }}>
-                  {b}
-                </span>
-              </div>
-            ))}
-          </div>
+          {(() => {
+            const featured = ["Bosch", "Rexroth", "Komatsu", "Caterpillar", "Parker", "Hitachi"];
+            const rest = brands.filter((b) => !featured.includes(b));
+            return (
+              <>
+                <p className="text-center text-[10px] font-bold uppercase tracking-[0.22em] mb-5" style={{ color: "hsl(158 16% 48%)" }}>
+                  Vezető partnereink
+                </p>
+                <div className="grid grid-cols-2 gap-2.5 mb-7">
+                  {featured.map((b) => (
+                    <div key={b} className="btn-hover relative flex flex-col items-center justify-center text-center py-6 rounded-2xl overflow-hidden"
+                      style={{
+                        background: "linear-gradient(155deg, rgba(253,185,39,0.12), rgba(253,185,39,0.02))",
+                        border: "1px solid rgba(253,185,39,0.28)",
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04)",
+                      }}>
+                      <div className="absolute -top-6 -right-6 w-16 h-16 rounded-full" style={{ background: "rgba(253,185,39,0.1)", filter: "blur(8px)" }} />
+                      <span className="relative text-[15px] font-black uppercase tracking-[0.02em]" style={{ color: "#FDB927", textShadow: "0 0 20px rgba(253,185,39,0.25)" }}>{b}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(253,185,39,0.25))" }} />
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] whitespace-nowrap" style={{ color: "hsl(158 16% 42%)" }}>
+                    + {rest.length} további hitelesített gyártó
+                  </p>
+                  <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(253,185,39,0.25), transparent)" }} />
+                </div>
+
+                <div className="flex flex-wrap justify-center gap-2">
+                  {rest.map((b) => (
+                    <span key={b} className="px-3 py-1.5 rounded-full text-[10px] font-semibold uppercase tracking-wide"
+                      style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(255,255,255,0.08)", color: "hsl(158 14% 62%)" }}>
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         <div className="container mx-auto px-6 relative z-10 mt-6 sm:mt-6">
