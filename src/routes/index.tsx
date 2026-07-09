@@ -1224,12 +1224,12 @@ function Home() {
           </div>
         </div>
 
-        {/* Mobile-only: certified-partner card wall — communicates "we service these brands", not decoration */}
-        <div className="sm:hidden container mx-auto px-6 relative z-10 mt-4">
+        {/* Phone + small tablet: certified-partner card wall — desktop already has the marquee above, no need to repeat the list */}
+        <div className="md:hidden container mx-auto px-6 relative z-10 mt-4">
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: "hsl(158 16% 45%)" }}>
             Hitelesített márkalista
           </p>
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             {brands.map((b) => (
               <div key={b} className="flex items-center gap-2 px-3 py-3 rounded-xl"
                 style={{ background: "hsl(158 55% 8%)", border: "1px solid rgba(253,185,39,0.22)" }}>
@@ -1238,18 +1238,6 @@ function Home() {
                   {b}
                 </span>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Tablet/desktop: wrapped pills */}
-        <div className="hidden sm:block container mx-auto px-6 relative z-10 mt-12">
-          <div className="flex flex-wrap justify-center gap-3">
-            {brands.map((b) => (
-              <span key={b} className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
-                style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)", color: "hsl(43 98% 72%)" }}>
-                {b}
-              </span>
             ))}
           </div>
         </div>
