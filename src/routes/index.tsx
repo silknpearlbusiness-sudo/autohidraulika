@@ -1224,31 +1224,15 @@ function Home() {
           </div>
         </div>
 
-        {/* Brand manifest board — numbered spec-sheet grid with hairline dividers */}
+        {/* Brand badge grid — tidy 2-col grid on mobile, wrapped pills on larger screens */}
         <div className="container mx-auto px-6 relative z-10 mt-4 md:mt-12">
-          <div className="max-w-5xl mx-auto rounded-xl overflow-hidden"
-            style={{ border: "1px solid rgba(253,185,39,0.2)", boxShadow: "0 24px 60px rgba(0,0,0,0.35)" }}>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" style={{ gap: 1, background: "rgba(253,185,39,0.14)" }}>
-              {brands.map((b, i) => (
-                <div key={b} className="group flex items-center gap-2.5 px-3.5 py-3 sm:px-5 sm:py-3.5"
-                  style={{ background: "hsl(158 62% 5.5%)" }}>
-                  <span className="shrink-0 text-[9px] font-bold tabular-nums uppercase" style={{ color: "rgba(253,185,39,0.5)" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.08em] transition-colors duration-200 group-hover:text-[hsl(43_98%_60%)]"
-                    style={{ color: "hsl(40 15% 86%)" }}>
-                    {b}
-                  </span>
-                </div>
-              ))}
-              {/* Filler cells so the last row's hairlines stay square */}
-              {Array.from({ length: (4 - (brands.length % 4)) % 4 }).map((_, i) => (
-                <div key={`f${i}`} className="hidden lg:block" style={{ background: "hsl(158 62% 5.5%)" }} />
-              ))}
-              {Array.from({ length: (3 - (brands.length % 3)) % 3 }).map((_, i) => (
-                <div key={`f3${i}`} className="hidden sm:block lg:hidden" style={{ background: "hsl(158 62% 5.5%)" }} />
-              ))}
-            </div>
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
+            {brands.map((b) => (
+              <span key={b} className="text-center px-2 py-2 sm:px-4 rounded-lg sm:rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.08em] sm:tracking-widest"
+                style={{ background: "rgba(253,185,39,0.07)", border: "1px solid rgba(253,185,39,0.18)", color: "hsl(43 98% 72%)" }}>
+                {b}
+              </span>
+            ))}
           </div>
           <p className="text-center mt-6 text-xs font-semibold uppercase tracking-widest" style={{ color: "hsl(158 16% 38%)" }}>
             + Minden egyéb gyártó hidraulikus rendszerei
