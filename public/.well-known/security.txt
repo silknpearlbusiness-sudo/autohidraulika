@@ -1,0 +1,4 @@
+Contact: mailto:info@hidraulikajavitas.com
+Expires: 2027-07-09T00:00:00.000Z
+Preferred-Languages: hu, en
+Canonical: https://www.hidraulikajavitas.com/.well-known/security.txt
