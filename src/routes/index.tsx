@@ -1229,8 +1229,8 @@ function Home() {
           <div className="overflow-hidden">
             <div className="marquee-track" style={{ animationDuration: "26s" }}>
               {[...brands, ...brands].map((b, i) => (
-                <span key={i} className="inline-flex items-center mx-1.5 px-3.5 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.08em] whitespace-nowrap"
-                  style={{ background: "rgba(253,185,39,0.08)", border: "1px solid rgba(253,185,39,0.2)", color: "hsl(43 98% 72%)" }}>
+                <span key={i} className="inline-flex items-center mx-1.5 px-3.5 py-2 rounded-full text-[12px] font-black uppercase tracking-[0.06em] whitespace-nowrap"
+                  style={{ background: "hsl(158 55% 9%)", border: "1px solid rgba(253,185,39,0.45)", color: "#FDB927", boxShadow: "0 4px 14px rgba(0,0,0,0.35)" }}>
                   {b}
                 </span>
               ))}
