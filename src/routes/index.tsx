@@ -626,7 +626,7 @@ function Home() {
                 </div>
                 <div className="rounded-2xl p-6 sm:p-7"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(253,185,39,0.16)" }}>
-                  <p className="font-black text-xl sm:text-2xl mb-5" style={{ fontFamily: '"Anton", "Arial Narrow", sans-serif', letterSpacing: "0.01em", color: "hsl(40 20% 96%)" }}>
+                  <p className="font-extrabold text-lg sm:text-xl mb-5" style={{ fontFamily: '"DM Sans", system-ui, sans-serif', letterSpacing: "0.01em", color: "hsl(40 20% 96%)" }}>
                     HIDRAULIKA SERVICE TEAM KFT.
                   </p>
                   <div className="grid grid-cols-2 gap-x-4 gap-y-4">
