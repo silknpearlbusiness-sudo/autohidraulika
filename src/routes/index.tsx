@@ -1224,17 +1224,21 @@ function Home() {
           </div>
         </div>
 
-        {/* Mobile-only: brand badges as a slow drifting marquee row — browsable, not a static list */}
-        <div className="sm:hidden relative z-10 mt-4" style={{ WebkitMaskImage: "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)", maskImage: "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)" }}>
-          <div className="overflow-hidden">
-            <div className="marquee-track" style={{ animationDuration: "26s" }}>
-              {[...brands, ...brands].map((b, i) => (
-                <span key={i} className="inline-flex items-center mx-1.5 px-3.5 py-2 rounded-full text-[12px] font-black uppercase tracking-[0.06em] whitespace-nowrap"
-                  style={{ background: "hsl(158 55% 9%)", border: "1px solid rgba(253,185,39,0.45)", color: "#FDB927", boxShadow: "0 4px 14px rgba(0,0,0,0.35)" }}>
+        {/* Mobile-only: certified-partner card wall — communicates "we service these brands", not decoration */}
+        <div className="sm:hidden container mx-auto px-6 relative z-10 mt-4">
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: "hsl(158 16% 45%)" }}>
+            Hitelesített márkalista
+          </p>
+          <div className="grid grid-cols-2 gap-2.5">
+            {brands.map((b) => (
+              <div key={b} className="flex items-center gap-2 px-3 py-3 rounded-xl"
+                style={{ background: "hsl(158 55% 8%)", border: "1px solid rgba(253,185,39,0.22)" }}>
+                <CheckCircle2 size={14} className="shrink-0" style={{ color: ORANGE }} />
+                <span className="text-[11px] font-black uppercase tracking-[0.03em] leading-tight" style={{ color: "hsl(40 15% 90%)" }}>
                   {b}
                 </span>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 
