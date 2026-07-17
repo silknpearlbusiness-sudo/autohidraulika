@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import type { LegalSection } from "@/lib/legal";
+import { resetConsent } from "@/lib/consent";
 
 const BG = "hsl(158 62% 7%)";
 const ORANGE = "#FDB927";
@@ -108,6 +109,15 @@ export function LegalPage({
                 {l.label}
               </a>
             ))}
+            <button
+              onClick={resetConsent}
+              className="cursor-pointer"
+              style={{ background: "none", border: "none", padding: 0, font: "inherit", color: "hsl(158 16% 38%)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "hsl(158 16% 60%)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "hsl(158 16% 38%)")}
+            >
+              Süti beállítások
+            </button>
             <span style={{ color: "rgba(255,255,255,0.07)" }}>·</span>
             <a
               href="tel:+36309111474"

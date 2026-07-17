@@ -19,7 +19,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
-import { getConsent, setConsent, onConsentChange, type ConsentValue } from "@/lib/consent";
+import { getConsent, setConsent, resetConsent, onConsentChange, type ConsentValue } from "@/lib/consent";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
@@ -1417,6 +1417,7 @@ function Home() {
             <div className="flex gap-6">
               {[
                 { label: "Adatvédelmi tájékoztató", href: "/adatkezeles" },
+                { label: "Süti szabályzat",         href: "/suti-szabalyzat" },
                 { label: "ÁSZF",                    href: "/aszf" },
                 { label: "Impresszum",              href: "/impresszum" },
               ].map(({ label, href }) => (
@@ -1426,6 +1427,13 @@ function Home() {
                   {label}
                 </a>
               ))}
+              <button onClick={resetConsent}
+                className="transition-colors cursor-pointer"
+                style={{ background: "none", border: "none", padding: 0, font: "inherit", color: "rgba(255,255,255,0.2)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = ORANGE)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.2)")}>
+                Süti beállítások
+              </button>
             </div>
           </div>
         </div>

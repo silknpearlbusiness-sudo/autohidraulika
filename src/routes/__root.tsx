@@ -93,9 +93,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "https://www.hidraulikajavitas.com/images/workshop-1.jpg" },
     ],
     links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" },
+      // Fonts are self-hosted via @fontsource imports in styles.css —
+      // no request (and no visitor IP) ever goes to Google's font servers.
       {
         rel: "stylesheet",
         href: appCss,
@@ -179,7 +178,7 @@ function CookieBanner() {
               Süti beállítások 🍪
             </p>
             <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.6 }}>
-              Weboldalunk sütiket használ a jobb élmény érdekében.{" "}
+              A „Elfogadom" gombbal külső szolgáltatások (MiniCRM kapcsolatfelvételi űrlap, Google Térkép) töltődnek be, amelyek sütiket helyezhetnek el. „Csak szükséges" esetén ezek nem töltődnek be. Döntését később bármikor módosíthatja a lábléc „Süti beállítások" linkjével.{" "}
               <a href="/suti-szabalyzat" style={{ color: "hsl(43 98% 62%)", textDecoration: "underline" }}>
                 Süti szabályzat
               </a>
