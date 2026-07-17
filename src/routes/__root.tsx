@@ -11,6 +11,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { getConsent, setConsent, onConsentChange, loadMiniCRM } from "../lib/consent";
 
 function NotFoundComponent() {
   return (
@@ -101,9 +102,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
     ],
   }),
-  scripts: () => [
-    { src: "https://r3.minicrm.hu/api/loader.js?70313-10nuqr2j9y1p9ebcfm181w3gk3as7d", async: true },
-  ],
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -129,15 +127,23 @@ function CookieBanner() {
   const [hiding, setHiding] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem("cookie_consent")) {
+    // Only ever load third-party scripts (MiniCRM, etc.) after the visitor has actually accepted —
+    // never on page load, never on "essential only".
+    if (getConsent() === "accepted") loadMiniCRM();
+    if (!getConsent()) {
       const t = setTimeout(() => setVisible(true), 800);
       return () => clearTimeout(t);
     }
   }, []);
 
-  const dismiss = (value: string) => {
+  const dismiss = (value: "accepted" | "declined") => {
     setHiding(true);
-    setTimeout(() => { localStorage.setItem("cookie_consent", value); setVisible(false); setHiding(false); }, 380);
+    setTimeout(() => {
+      setConsent(value);
+      if (value === "accepted") loadMiniCRM();
+      setVisible(false);
+      setHiding(false);
+    }, 380);
   };
 
   if (!visible) return null;

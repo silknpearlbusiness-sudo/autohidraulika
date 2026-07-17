@@ -19,7 +19,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
-import { submitContact } from "@/lib/api/contact.functions";
+import { getConsent, setConsent, onConsentChange, type ConsentValue } from "@/lib/consent";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
@@ -160,7 +160,7 @@ const processSteps = [
   },
   {
     icon: ClipboardCheck, num: "02", title: "Adunk egy pontos árajánlatot a hidraulika javításról és a javítási határidőről!",
-    desc: "Sok olyan jellegű hiba van, amelyekre nem lehet előre pontos árat mondani, csak a bevizsgálást követően. Részletes, árajánlatot adunk — munkához csak az Ön jóváhagyása után fogunk.",
+    desc: "Sok olyan jellegű hiba van, amelyekre nem lehet előre pontos árat mondani, csak a bevizsgálást követően. Részletes árajánlatot adunk, a munkához csak az Ön jóváhagyása után fogunk hozzá.",
   },
   {
     icon: Wrench, num: "03", title: "Ön elfogadja – mi megjavítjuk.",
@@ -198,8 +198,14 @@ function Home() {
   const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navInnerRef = useRef<HTMLDivElement>(null);
   const [openFaq, setOpenFaq] = useState<number|null>(null);
-  const [formState, setFormState] = useState<"idle"|"loading"|"success"|"error">("idle");
   const [activeService, setActiveService] = useState(0);
+  // Starts null (treated as "not consented") so the server-rendered markup never ships
+  // the Google Maps / MiniCRM iframes before the visitor has actually accepted cookies.
+  const [consent, setConsentState] = useState<ConsentValue>(null);
+  useEffect(() => {
+    setConsentState(getConsent());
+    return onConsentChange(setConsentState);
+  }, []);
 
   useEffect(() => {
     let raf = 0;
@@ -618,11 +624,24 @@ function Home() {
               <div>
                 {/* Workshop location map */}
                 <div className="rounded-2xl overflow-hidden mb-5" style={{ border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 48px rgba(0,0,0,0.4)" }}>
-                  <iframe
-                    title="Hidraulika Service TEAM Kft. — 1095 Budapest, Soroksári út 48"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d331.7077152391974!2d19.07320720044053!3d47.47230352293517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741dda277dad9ff%3A0x9d1de55d7f09d840!2sHidraulika%20Service%20Team%20Kft!5e1!3m2!1sen!2shu!4v1783344342140!5m2!1sen!2shu"
-                    width="100%" height="300" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"
-                    style={{ border: 0, display: "block", filter: "saturate(0.85) contrast(1.02)" }} />
+                  {consent === "accepted" ? (
+                    <iframe
+                      title="Hidraulika Service TEAM Kft. — 1095 Budapest, Soroksári út 48"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d331.7077152391974!2d19.07320720044053!3d47.47230352293517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741dda277dad9ff%3A0x9d1de55d7f09d840!2sHidraulika%20Service%20Team%20Kft!5e1!3m2!1sen!2shu!4v1783344342140!5m2!1sen!2shu"
+                      width="100%" height="300" loading="lazy" allowFullScreen referrerPolicy="strict-origin-when-cross-origin"
+                      style={{ border: 0, display: "block", filter: "saturate(0.85) contrast(1.02)" }} />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-center gap-3 px-6"
+                      style={{ height: 300, background: "hsl(158 55% 8%)" }}>
+                      <MapPin size={22} style={{ color: ORANGE }} />
+                      <p className="text-sm font-semibold" style={{ color: "hsl(40 15% 88%)" }}>1095 Budapest, Soroksári út 48.</p>
+                      <button onClick={() => setConsent("accepted")}
+                        className="btn-hover text-xs font-bold uppercase tracking-wide px-4 py-2.5 rounded-full cursor-pointer"
+                        style={{ background: ORANGE, color: "#04140d", border: "none" }}>
+                        Térkép betöltése (sütik elfogadása)
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="rounded-2xl p-6 sm:p-7"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(253,185,39,0.16)" }}>
@@ -655,116 +674,30 @@ function Home() {
             </Reveal>
 
             <Reveal delay={100} className="order-1 lg:order-2">
-              <div className="glass-strong rounded-3xl p-5 sm:p-8 md:p-10"
-                style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
-                {formState === "success" ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center" style={{ animation: "card-in 0.4s ease both" }}>
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6"
-                      style={{ background: "rgba(253,185,39,0.1)", border: "1px solid rgba(253,185,39,0.3)" }}>
-                      <CheckCircle2 size={30} style={{ color: ORANGE }} />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">Köszönjük!</h3>
+              <div className="rounded-3xl overflow-hidden" style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6)" }}>
+                {consent === "accepted" ? (
+                  <iframe
+                    src="https://r3.minicrm.hu/Form-70313-10nuqr2j9y1p9ebcfm181w3gk3as7d"
+                    id="MiniCRMFrame_70313-10nuqr2j9y1p9ebcfm181w3gk3as7d"
+                    title="Kérjen ingyenes visszahívást"
+                    width="100%"
+                    height="735"
+                    loading="lazy"
+                    style={{ border: "none", display: "block" }}
+                  />
+                ) : (
+                  <div className="glass-strong flex flex-col items-center justify-center text-center gap-4 px-8 py-16"
+                    style={{ minHeight: 400 }}>
+                    <h3 className="text-xl font-bold">Kérjen ingyenes visszahívást</h3>
                     <p className="text-sm max-w-xs" style={{ color: "hsl(158 16% 55%)" }}>
-                      Hamarosan felvesszük Önnel a kapcsolatot — általában 24 órán belül.
+                      Az űrlap betöltéséhez el kell fogadnia a sütiket, mivel az űrlapot a CRM rendszerünk szolgáltatja.
                     </p>
-                    <button onClick={() => setFormState("idle")}
-                      className="mt-8 text-xs cursor-pointer underline"
-                      style={{ background: "none", border: "none", color: "hsl(158 16% 50%)" }}>
-                      Új üzenet küldése
+                    <button onClick={() => setConsent("accepted")}
+                      className="btn-hover text-sm font-bold uppercase tracking-wide px-6 py-3 rounded-full cursor-pointer"
+                      style={{ background: ORANGE, color: "#04140d", border: "none" }}>
+                      Sütik elfogadása és űrlap betöltése
                     </button>
                   </div>
-                ) : (
-                  <>
-                    <h3 className="text-xl font-bold mb-1">Kérjen ingyenes visszahívást</h3>
-                    <p className="text-sm mb-7" style={{ color: "hsl(158 16% 55%)" }}>24 órán belül felvesszük Önnel a kapcsolatot.</p>
-                    <form className="space-y-4"
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        setFormState("loading");
-                        const fd = new FormData(e.currentTarget);
-                        try {
-                          await submitContact({
-                            data: {
-                              name: fd.get("name") as string,
-                              phone: fd.get("phone") as string,
-                              email: (fd.get("email") as string) || "",
-                              partType: (fd.get("partType") as string) || "",
-                              description: (fd.get("description") as string) || "",
-                            },
-                          });
-                          setFormState("success");
-                        } catch (err) {
-                          console.error("[contact form]", err);
-                          setFormState("error");
-                        }
-                      }}>
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        {[
-                          { label: "Név",         type: "text", name: "name",  placeholder: "Adja meg nevét",     required: true },
-                          { label: "Telefonszám", type: "tel",  name: "phone", placeholder: "+36 30 000 0000",    required: true },
-                        ].map(({ label, type, name, placeholder, required }) => (
-                          <div key={label}>
-                            <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>{label}</label>
-                            <input type={type} name={name} placeholder={placeholder} required={required}
-                              className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
-                              onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
-                              onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Email (opcionális)</label>
-                        <input type="email" name="email" placeholder="pelda@email.hu"
-                          className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
-                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Alkatrész típusa</label>
-                        <select name="partType" defaultValue=""
-                          className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)", appearance: "none" }}
-                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; }}>
-                          <option value="" disabled style={{ background: "hsl(158 52% 13%)" }}>Válasszon típust...</option>
-                          {["Hidraulikus szivattyú","Hidraulikus motor","Hidraulikus henger","Orbit motor","Vezérlőblokk","Egyéb"].map(o => (
-                            <option key={o} value={o.toLowerCase()} style={{ background: "hsl(158 52% 13%)" }}>{o}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-semibold uppercase tracking-widest mb-2 block" style={{ color: "hsl(158 16% 48%)" }}>Hiba leírása</label>
-                        <textarea name="description" rows={4} placeholder="Röviden írja le a hibát és a gép típusát..."
-                          className="w-full resize-none rounded-xl px-4 py-3 text-sm outline-none transition-[border-color,background-color] duration-200 ease-out"
-                          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "hsl(40 20% 97%)" }}
-                          onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(253,185,39,0.5)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; }}
-                          onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-                        />
-                      </div>
-                      {formState === "error" && (
-                        <p className="text-xs font-semibold rounded-xl px-4 py-3"
-                          style={{ color: "#fca5a5", background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.25)", animation: "reveal-in 0.3s ease both" }}>
-                          Hiba történt a küldés során. Kérjük próbálja újra, vagy hívjon minket: +36 30 911 1474
-                        </p>
-                      )}
-                      <button type="submit" disabled={formState === "loading"}
-                        className="btn-hover w-full rounded-full text-sm font-bold uppercase tracking-wide py-4 cursor-pointer"
-                        style={{
-                          background: ORANGE,
-                          color: "#04140d",
-                          boxShadow: "0 8px 24px rgba(253,185,39,0.2)",
-                          border: "none",
-                          opacity: formState === "loading" ? 0.7 : 1,
-                          transition: "opacity 0.2s ease",
-                        }}>
-                        {formState === "loading" ? "Küldés..." : "Kérek visszahívást"}
-                      </button>
-                    </form>
-                  </>
                 )}
               </div>
             </Reveal>
