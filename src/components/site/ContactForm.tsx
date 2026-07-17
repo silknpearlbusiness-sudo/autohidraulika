@@ -10,8 +10,9 @@ const inputStyle: CSSProperties = {
   background: "rgba(255,255,255,0.045)",
   border: "1px solid rgba(255,255,255,0.1)",
   borderRadius: "0.75rem",
-  padding: "0.8rem 1rem",
-  fontSize: "0.9rem",
+  padding: "0.85rem 1rem",
+  // 16px minimum — anything smaller makes iOS Safari auto-zoom into the field
+  fontSize: "1rem",
   color: "hsl(40 20% 95%)",
   outline: "none",
   transition: "border-color 0.2s, background 0.2s",
