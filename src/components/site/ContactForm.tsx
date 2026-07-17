@@ -1,6 +1,6 @@
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Loader2, Send } from "lucide-react";
+import { ChevronDown, Loader2, Phone, Send } from "lucide-react";
 import { submitContact } from "@/lib/api/contact.functions";
 
 const ORANGE = "#FDB927";
@@ -8,11 +8,11 @@ const ORANGE = "#FDB927";
 const inputStyle: CSSProperties = {
   width: "100%",
   background: "rgba(255,255,255,0.045)",
-  border: "1px solid rgba(255,255,255,0.1)",
+  border: "1px solid rgba(255,255,255,0.14)",
   borderRadius: "0.75rem",
-  padding: "0.85rem 1rem",
-  // 16px minimum — anything smaller makes iOS Safari auto-zoom into the field
-  fontSize: "1rem",
+  padding: "1rem 1.1rem",
+  // 16px+ so iOS Safari never auto-zooms; a bit larger for older eyes
+  fontSize: "1.05rem",
   color: "hsl(40 20% 95%)",
   outline: "none",
   transition: "border-color 0.2s, background 0.2s",
@@ -24,18 +24,22 @@ function focusIn(e: React.FocusEvent<HTMLElement>) {
   e.currentTarget.style.background = "rgba(255,255,255,0.07)";
 }
 function focusOut(e: React.FocusEvent<HTMLElement>) {
-  e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+  e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)";
   e.currentTarget.style.background = "rgba(255,255,255,0.045)";
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) {
+function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
     <label style={{ display: "block" }}>
-      <span
-        className="block mb-1.5 text-[10px] font-bold uppercase tracking-[0.14em]"
-        style={{ color: "hsl(158 16% 55%)" }}
-      >
-        {label} {required && <span style={{ color: ORANGE }}>*</span>}
+      <span className="flex items-baseline gap-2 mb-2">
+        <span className="text-[0.95rem] font-bold" style={{ color: "hsl(40 20% 92%)" }}>
+          {label}
+        </span>
+        {hint && (
+          <span className="text-sm whitespace-nowrap" style={{ color: "hsl(158 16% 50%)" }}>
+            {hint}
+          </span>
+        )}
       </span>
       {children}
     </label>
@@ -49,17 +53,13 @@ export function ContactForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    const fd = new FormData(e.currentTarget);
 
     // Honeypot: real visitors never see or fill this field
     if (fd.get("website")) {
       navigate({ to: "/koszonjuk" });
       return;
     }
-
-    const company = String(fd.get("company") ?? "").trim();
-    const message = String(fd.get("message") ?? "").trim();
 
     setSending(true);
     setFailed(false);
@@ -68,9 +68,8 @@ export function ContactForm() {
         data: {
           name: String(fd.get("name") ?? "").trim(),
           phone: String(fd.get("phone") ?? "").trim(),
-          email: String(fd.get("email") ?? "").trim(),
           partType: String(fd.get("partType") ?? ""),
-          description: [company ? `Cégnév: ${company}` : "", message].filter(Boolean).join("\n"),
+          description: String(fd.get("message") ?? "").trim(),
         },
       });
       if (res.ok) {
@@ -90,14 +89,14 @@ export function ContactForm() {
       className="rounded-3xl p-6 sm:p-8"
       style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(253,185,39,0.16)" }}
     >
-      <h3 className="text-xl sm:text-2xl font-black mb-1" style={{ color: "hsl(40 20% 96%)" }}>
+      <h3 className="text-2xl font-black mb-2" style={{ color: "hsl(40 20% 96%)" }}>
         Kérjen ingyenes visszahívást
       </h3>
-      <p className="text-sm mb-6" style={{ color: "hsl(158 16% 55%)" }}>
-        Töltse ki az űrlapot, kollégánk hamarosan visszahívja.
+      <p className="text-[0.95rem] leading-relaxed mb-7" style={{ color: "hsl(158 14% 60%)" }}>
+        Csak a nevét és a telefonszámát kérjük — kollégánk munkaidőben visszahívja.
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         {/* Honeypot — hidden from real visitors */}
         <input
           type="text"
@@ -108,41 +107,59 @@ export function ContactForm() {
           style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
         />
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          <Field label="Név" required>
-            <input name="name" required autoComplete="name" placeholder="Kovács Péter"
-              style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
-          </Field>
-          <Field label="Telefonszám" required>
-            <input name="phone" type="tel" required autoComplete="tel" placeholder="+36 30 123 4567"
-              style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
-          </Field>
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-4">
-          <Field label="E-mail">
-            <input name="email" type="email" autoComplete="email" placeholder="pelda@email.hu"
-              style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
-          </Field>
-          <Field label="Cégnév">
-            <input name="company" autoComplete="organization" placeholder="Opcionális"
-              style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
-          </Field>
-        </div>
-
-        <Field label="Alkatrész típusa">
-          <select name="partType" defaultValue="" style={{ ...inputStyle, appearance: "none", cursor: "pointer" }}
-            onFocus={focusIn} onBlur={focusOut}>
-            <option value="" style={{ color: "#333" }}>Válasszon…</option>
-            {["Hidraulikus szivattyú", "Hidromotor / orbit motor", "Munkahenger", "Vezérlőblokk / vezérlőtömb", "Egyéb"].map((o) => (
-              <option key={o} value={o} style={{ color: "#333" }}>{o}</option>
-            ))}
-          </select>
+        <Field label="Az Ön neve">
+          <input name="name" required autoComplete="name" placeholder="Kovács Péter"
+            style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
         </Field>
 
-        <Field label="Üzenet">
-          <textarea name="message" rows={4} placeholder="Írja le röviden a hibát vagy a kérdését…"
-            style={{ ...inputStyle, resize: "vertical", minHeight: "6rem" }} onFocus={focusIn} onBlur={focusOut} />
+        <Field label="Telefonszám">
+          <input name="phone" type="tel" required autoComplete="tel" placeholder="+36 30 123 4567"
+            style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
+        </Field>
+
+        <Field label="Milyen alkatrészről van szó?">
+          <span className="relative block">
+            <select
+              name="partType"
+              required
+              defaultValue=""
+              className="pr-12"
+              style={{ ...inputStyle, appearance: "none", cursor: "pointer" }}
+              onFocus={focusIn}
+              onBlur={focusOut}
+            >
+              <option value="" disabled style={{ color: "#333" }}>
+                Kérjük, válasszon…
+              </option>
+              {[
+                "Hidraulikus szivattyú",
+                "Hidromotor / orbit motor",
+                "Munkahenger",
+                "Vezérlőblokk / vezérlőtömb",
+                "Egyéb / nem tudom",
+              ].map((o) => (
+                <option key={o} value={o} style={{ color: "#333" }}>
+                  {o}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              size={20}
+              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+              style={{ color: ORANGE }}
+            />
+          </span>
+        </Field>
+
+        <Field label="Mi a probléma?" hint="nem kötelező">
+          <textarea
+            name="message"
+            rows={3}
+            placeholder="Pl.: a kotrógép gémje nem tartja a terhet…"
+            style={{ ...inputStyle, resize: "vertical", minHeight: "5.5rem" }}
+            onFocus={focusIn}
+            onBlur={focusOut}
+          />
         </Field>
 
         <label className="flex items-start gap-3 cursor-pointer select-none">
@@ -150,23 +167,23 @@ export function ContactForm() {
             type="checkbox"
             name="gdpr"
             required
-            className="mt-0.5 shrink-0 cursor-pointer"
-            style={{ width: 16, height: 16, accentColor: ORANGE }}
+            className="mt-1 shrink-0 cursor-pointer"
+            style={{ width: 20, height: 20, accentColor: ORANGE }}
           />
-          <span className="text-xs leading-relaxed" style={{ color: "hsl(158 16% 55%)" }}>
-            Hozzájárulok, hogy a Hidraulika Service TEAM Kft. a megadott adataimat a megkeresésem
-            megválaszolása céljából kezelje az{" "}
+          <span className="text-sm leading-relaxed" style={{ color: "hsl(158 14% 58%)" }}>
+            Hozzájárulok, hogy a Hidraulika Service TEAM Kft. az adataimat a visszahívás céljából
+            kezelje az{" "}
             <a href="/adatkezeles" target="_blank" rel="noopener" style={{ color: ORANGE, textDecoration: "underline" }}>
               Adatkezelési tájékoztató
             </a>{" "}
-            szerint. <span style={{ color: ORANGE }}>*</span>
+            szerint.
           </span>
         </label>
 
         {failed && (
           <div
-            className="rounded-xl px-4 py-3 text-sm"
-            style={{ background: "rgba(220,60,60,0.12)", border: "1px solid rgba(220,60,60,0.35)", color: "hsl(0 70% 80%)" }}
+            className="rounded-xl px-4 py-3.5 text-[0.95rem] leading-relaxed"
+            style={{ background: "rgba(220,60,60,0.12)", border: "1px solid rgba(220,60,60,0.35)", color: "hsl(0 70% 82%)" }}
           >
             Az üzenet küldése sajnos nem sikerült. Kérjük, hívjon minket közvetlenül:{" "}
             <a href="tel:+36309111474" style={{ color: ORANGE, fontWeight: 700, whiteSpace: "nowrap" }}>
@@ -178,20 +195,36 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={sending}
-          className="btn-hover w-full flex items-center justify-center gap-2 font-bold uppercase tracking-wide rounded-full cursor-pointer"
+          className="btn-hover w-full flex items-center justify-center gap-2.5 font-black rounded-full cursor-pointer"
           style={{
             background: ORANGE,
             color: "#04140d",
             border: "none",
-            height: "3.25rem",
-            fontSize: "0.85rem",
+            height: "3.75rem",
+            fontSize: "1.05rem",
+            letterSpacing: "0.01em",
             opacity: sending ? 0.7 : 1,
             boxShadow: "0 6px 22px rgba(253,185,39,0.25)",
           }}
         >
-          {sending ? <Loader2 size={16} className="animate-spin" /> : <Send size={15} />}
-          {sending ? "Küldés…" : "Visszahívást kérek"}
+          {sending ? <Loader2 size={18} className="animate-spin" /> : <Send size={17} />}
+          {sending ? "Küldés folyamatban…" : "Visszahívást kérek"}
         </button>
+
+        <p className="text-center text-[0.95rem] leading-relaxed" style={{ color: "hsl(158 14% 55%)" }}>
+          Ha egyszerűbb, hívjon minket most:{" "}
+          <a
+            href="tel:+36309111474"
+            className="inline-flex items-center gap-1.5 font-bold no-underline whitespace-nowrap"
+            style={{ color: ORANGE }}
+          >
+            <Phone size={14} /> +36 30 911 1474
+          </a>
+          <br />
+          <span className="text-sm" style={{ color: "hsl(158 16% 45%)" }}>
+            Hétfő–péntek, 8:00–15:30
+          </span>
+        </p>
       </form>
     </div>
   );
