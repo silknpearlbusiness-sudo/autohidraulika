@@ -7,6 +7,163 @@
   "overrides": {},
   "routes": [
     {
+      "src": "^/cookies$",
+      "headers": {
+        "Location": "/suti-szabalyzat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/cookies/$",
+      "headers": {
+        "Location": "/suti-szabalyzat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/hidraulika_szivattyu_hidromotor_hidraulikus_munkahenger$",
+      "headers": {
+        "Location": "/hidraulika-szivattyu-hidromotor-munkahenger"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/hidraulika_szivattyu_hidromotor_hidraulikus_munkahenger/$",
+      "headers": {
+        "Location": "/hidraulika-szivattyu-hidromotor-munkahenger"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/hidraulika-szivattyu-hiba_hidromotor-hiba_hidraulikus-munkahenger-hiba$",
+      "headers": {
+        "Location": "/hidraulika-hiba"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/hidraulika-szivattyu-hiba_hidromotor-hiba_hidraulikus-munkahenger-hiba/$",
+      "headers": {
+        "Location": "/hidraulika-hiba"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/hely$",
+      "headers": {
+        "Location": "/#kapcsolat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/hely/$",
+      "headers": {
+        "Location": "/#kapcsolat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/kapcsolat$",
+      "headers": {
+        "Location": "/#kapcsolat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/kapcsolat/$",
+      "headers": {
+        "Location": "/#kapcsolat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/mivel-foglalkozunk$",
+      "headers": {
+        "Location": "/#szolgaltatasok"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/mivel-foglalkozunk/$",
+      "headers": {
+        "Location": "/#szolgaltatasok"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/futarrendeles$",
+      "headers": {
+        "Location": "/#folyamat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/futarrendeles/$",
+      "headers": {
+        "Location": "/#folyamat"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/ingyenes-tanacsadas$",
+      "headers": {
+        "Location": "/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/ingyenes-tanacsadas/$",
+      "headers": {
+        "Location": "/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/kezdolap$",
+      "headers": {
+        "Location": "/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/kezdolap/$",
+      "headers": {
+        "Location": "/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/home$",
+      "headers": {
+        "Location": "/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/home/$",
+      "headers": {
+        "Location": "/"
+      },
+      "status": 308
+    },
+    {
+      "src": "^/(.*)$",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Frame-Options": "SAMEORIGIN",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; frame-src https://www.google.com https://maps.google.com; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests"
+      },
+      "continue": true
+    },
+    {
+      "src": "^/.well-known/security.txt$",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8"
+      },
+      "continue": true
+    },
+    {
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
       },

@@ -1,4 +1,35 @@
-import { existsSync, writeFileSync, readdirSync } from "fs";
+import { existsSync, writeFileSync, readdirSync, readFileSync } from "fs";
+
+// ── Merge vercel.json headers + redirects into the Build Output config ────────
+// With `vercel deploy --prebuilt`, Vercel routes ONLY from
+// .vercel/output/config.json — vercel.json headers/redirects are ignored.
+// Nitro doesn't emit them, so without this merge the site ships with no
+// security headers and no legacy-URL redirects.
+const configPath = ".vercel/output/config.json";
+if (existsSync(configPath)) {
+  const config = JSON.parse(readFileSync(configPath, "utf8"));
+  const vercelJson = JSON.parse(readFileSync("vercel.json", "utf8"));
+  const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const redirectRoutes = (vercelJson.redirects ?? []).map((r) => ({
+    src: `^${escape(r.source)}$`,
+    headers: { Location: r.destination },
+    status: r.permanent ? 308 : 307,
+  }));
+
+  const headerRoutes = (vercelJson.headers ?? []).map((h) => ({
+    // header sources in vercel.json are already regex-like ("/(.*)")
+    src: `^${h.source}$`,
+    headers: Object.fromEntries(h.headers.map(({ key, value }) => [key, value])),
+    continue: true,
+  }));
+
+  config.routes = [...redirectRoutes, ...headerRoutes, ...(config.routes ?? [])];
+  writeFileSync(configPath, JSON.stringify(config, null, 2));
+  console.log(
+    `vercel-patch: merged ${redirectRoutes.length} redirects + ${headerRoutes.length} header rules into config.json`,
+  );
+}
 
 const dir = ".vercel/output/functions/__server.func";
 
