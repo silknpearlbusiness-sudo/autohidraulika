@@ -19,6 +19,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
+import { ContactForm } from "@/components/site/ContactForm";
 import { getConsent, setConsent, resetConsent, onConsentChange, type ConsentValue } from "@/lib/consent";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -674,31 +675,8 @@ function Home() {
             </Reveal>
 
             <Reveal delay={100} className="order-1 lg:order-2">
-              <div className="rounded-3xl overflow-hidden" style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6)" }}>
-                {consent === "accepted" ? (
-                  <iframe
-                    src="https://r3.minicrm.hu/Form-70313-10nuqr2j9y1p9ebcfm181w3gk3as7d"
-                    id="MiniCRMFrame_70313-10nuqr2j9y1p9ebcfm181w3gk3as7d"
-                    title="Kérjen ingyenes visszahívást"
-                    width="100%"
-                    height="735"
-                    loading="lazy"
-                    style={{ border: "none", display: "block" }}
-                  />
-                ) : (
-                  <div className="glass-strong flex flex-col items-center justify-center text-center gap-4 px-8 py-16"
-                    style={{ minHeight: 400 }}>
-                    <h3 className="text-xl font-bold">Kérjen ingyenes visszahívást</h3>
-                    <p className="text-sm max-w-xs" style={{ color: "hsl(158 16% 55%)" }}>
-                      Az űrlap betöltéséhez el kell fogadnia a sütiket, mivel az űrlapot a CRM rendszerünk szolgáltatja.
-                    </p>
-                    <button onClick={() => setConsent("accepted")}
-                      className="btn-hover text-sm font-bold uppercase tracking-wide px-6 py-3 rounded-full cursor-pointer"
-                      style={{ background: ORANGE, color: "#04140d", border: "none" }}>
-                      Sütik elfogadása és űrlap betöltése
-                    </button>
-                  </div>
-                )}
+              <div style={{ boxShadow: "0 40px 80px -24px rgba(0,0,0,0.6)", borderRadius: "1.5rem" }}>
+                <ContactForm />
               </div>
             </Reveal>
           </div>

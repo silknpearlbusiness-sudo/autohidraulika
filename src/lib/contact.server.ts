@@ -17,8 +17,9 @@ export async function pushToMiniCrm(payload: ContactPayload): Promise<void> {
   const categoryId = process.env.MINICRM_CATEGORY_ID;
 
   if (!systemId || !apiKey || !categoryId) {
-    console.warn("[MiniCRM] Missing env vars — skipping CRM push.");
-    return;
+    // Lead capture is the whole point of the form — fail loudly so the UI can
+    // show the phone-number fallback instead of pretending the send worked.
+    throw new Error("[MiniCRM] Missing env vars (MINICRM_SYSTEM_ID / MINICRM_API_KEY / MINICRM_CATEGORY_ID).");
   }
 
   const auth = Buffer.from(`${systemId}@${apiKey}`).toString("base64");
@@ -47,8 +48,7 @@ export async function pushToMiniCrm(payload: ContactPayload): Promise<void> {
   });
 
   if (!contactRes.ok) {
-    console.error("[MiniCRM] Contact PUT failed:", await contactRes.text());
-    return;
+    throw new Error(`[MiniCRM] Contact PUT failed: ${await contactRes.text()}`);
   }
 
   const { Id: contactId } = (await contactRes.json()) as { Id: number };
@@ -67,7 +67,7 @@ export async function pushToMiniCrm(payload: ContactPayload): Promise<void> {
   });
 
   if (!projectRes.ok) {
-    console.error("[MiniCRM] Project PUT failed:", await projectRes.text());
+    throw new Error(`[MiniCRM] Project PUT failed: ${await projectRes.text()}`);
   }
 }
 

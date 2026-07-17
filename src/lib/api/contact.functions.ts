@@ -22,16 +22,20 @@ export const submitContact = createServerFn({ method: "POST" })
       description: data.description || undefined,
     };
 
-    // Fire both in parallel — a failure in one doesn't block the other
-    const results = await Promise.allSettled([
+    // Fire both in parallel. The CRM push is the lead capture — if it fails,
+    // report failure so the visitor is told to call instead. The confirmation
+    // email is best-effort.
+    const [crm, email] = await Promise.allSettled([
       pushToMiniCrm(payload),
       sendConfirmationEmail(payload),
     ]);
 
-    for (const r of results) {
-      if (r.status === "rejected") {
-        console.error("[submitContact] partial failure:", r.reason);
-      }
+    if (email.status === "rejected") {
+      console.error("[submitContact] confirmation email failed:", email.reason);
+    }
+    if (crm.status === "rejected") {
+      console.error("[submitContact] CRM push failed:", crm.reason);
+      return { ok: false };
     }
 
     return { ok: true };

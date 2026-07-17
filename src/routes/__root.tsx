@@ -11,7 +11,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { getConsent, setConsent, onConsentChange, loadMiniCRM } from "../lib/consent";
+import { getConsent, setConsent } from "../lib/consent";
 
 function NotFoundComponent() {
   return (
@@ -126,9 +126,8 @@ function CookieBanner() {
   const [hiding, setHiding] = useState(false);
 
   useEffect(() => {
-    // Only ever load third-party scripts (MiniCRM, etc.) after the visitor has actually accepted —
-    // never on page load, never on "essential only".
-    if (getConsent() === "accepted") loadMiniCRM();
+    // No third-party script ever loads from the banner. Consent only gates the
+    // Google Maps embed, which mounts where it's used once consent is "accepted".
     if (!getConsent()) {
       const t = setTimeout(() => setVisible(true), 800);
       return () => clearTimeout(t);
@@ -139,7 +138,6 @@ function CookieBanner() {
     setHiding(true);
     setTimeout(() => {
       setConsent(value);
-      if (value === "accepted") loadMiniCRM();
       setVisible(false);
       setHiding(false);
     }, 380);
@@ -178,7 +176,7 @@ function CookieBanner() {
               Süti beállítások 🍪
             </p>
             <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.6 }}>
-              A „Elfogadom" gombbal külső szolgáltatások (MiniCRM kapcsolatfelvételi űrlap, Google Térkép) töltődnek be, amelyek sütiket helyezhetnek el. „Csak szükséges" esetén ezek nem töltődnek be. Döntését később bármikor módosíthatja a lábléc „Süti beállítások" linkjével.{" "}
+              Az „Elfogadom" gombbal a beágyazott Google Térkép töltődik be, amely sütiket helyezhet el. „Csak szükséges" esetén külső szolgáltatás nem töltődik be. Döntését bármikor módosíthatja a lábléc „Süti beállítások" linkjével.{" "}
               <a href="/suti-szabalyzat" style={{ color: "hsl(43 98% 62%)", textDecoration: "underline" }}>
                 Süti szabályzat
               </a>
