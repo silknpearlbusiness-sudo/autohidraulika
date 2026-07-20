@@ -1263,15 +1263,11 @@ function Home() {
 
       {/* ── Scroll to top ─── */}
       <style>{`
-        @keyframes scrolltop-nudge {
-          0%, 100% { transform: rotate(0deg); }
-          15% { transform: rotate(-9deg); }
-          30% { transform: rotate(8deg); }
-          45% { transform: rotate(-6deg); }
-          60% { transform: rotate(4deg); }
-          75% { transform: rotate(-2deg); }
+        @keyframes scrolltop-pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
         }
-        .scrolltop-dock-btn { animation: scrolltop-nudge 0.7s ease-in-out 0.35s 2; }
+        .scrolltop-ring { animation: pulse-ring 1.6s var(--ease-out) infinite; }
         @media (max-width: 767px) {
           .scrolltop-fab.at-bottom { opacity: 0 !important; pointer-events: none !important; }
         }
@@ -1323,13 +1319,23 @@ function Home() {
               style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(253,185,39,0.35)", height: 54, borderRadius: 3 }}>
               Árajánlat <ArrowUpRight size={14} style={{ color: ORANGE }} />
             </a>
-            {atBottom && (
-              <button onClick={scrollToTop} aria-label="Vissza a tetejére"
-                className="scrolltop-dock-btn btn-hover flex items-center justify-center shrink-0"
-                style={{ width: 54, height: 54, background: "rgba(255,255,255,0.07)", border: "1px solid rgba(253,185,39,0.35)", borderRadius: 3, color: ORANGE }}>
-                <ArrowUp size={18} />
-              </button>
-            )}
+            <button onClick={scrollToTop} aria-label="Vissza a tetejére" tabIndex={atBottom ? 0 : -1}
+              className="scrolltop-dock-btn btn-hover relative flex items-center justify-center shrink-0"
+              style={{
+                width: atBottom ? 54 : 0,
+                height: 54,
+                marginLeft: atBottom ? 0 : -8,
+                opacity: atBottom ? 1 : 0,
+                transform: atBottom ? "scale(1)" : "scale(0.5)",
+                transition: "width 0.45s cubic-bezier(0.22,1,0.36,1), margin-left 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1)",
+                animation: atBottom ? "scrolltop-pulse 1.6s cubic-bezier(0.45,0,0.55,1) 0.5s infinite" : "none",
+                overflow: atBottom ? "visible" : "hidden",
+                background: "rgba(255,255,255,0.07)", border: "1px solid rgba(253,185,39,0.35)", borderRadius: 3, color: ORANGE,
+                pointerEvents: atBottom ? "auto" : "none",
+              }}>
+              {atBottom && <span className="scrolltop-ring" style={{ position: "absolute", inset: -1, borderRadius: 3, border: `1.5px solid ${ORANGE}` }} />}
+              <ArrowUp size={18} style={{ position: "relative" }} />
+            </button>
           </div>
         </div>
 
