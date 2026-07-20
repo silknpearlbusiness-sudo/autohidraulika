@@ -28,12 +28,9 @@ const sections: LegalSection[] = [
   {
     heading: "A tárhelyet biztosító szolgáltató",
     paragraphs: [
-      "Cweb Hosting Kft",
-      "1173 Budapest, Borsó utca 12-32",
-      "Tel: +36-70-282-7206",
-      "Cégjegyzékszám: Cg.01-09-405273",
-      "Adószám: 32069473-1-42",
-      "Közösségi adószám: HU32069473",
+      "Vercel Inc.",
+      "440 N Barranca Ave #4133, Covina, CA 91723, Amerikai Egyesült Államok",
+      "Web: https://vercel.com",
     ],
   },
 ];
