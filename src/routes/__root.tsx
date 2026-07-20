@@ -157,50 +157,50 @@ function CookieBanner() {
       `}</style>
       <div style={{
         position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 9999,
-        padding: "1rem",
+        padding: "0.75rem",
+        paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))",
         display: "flex", justifyContent: "center",
         animation: `${hiding ? "cookie-out" : "cookie-in"} 0.38s cubic-bezier(0.22,1,0.36,1) forwards`,
       }}>
-        <div style={{
+        <div className="flex flex-col sm:flex-row sm:items-center" style={{
           background: "hsl(158 65% 5%)",
           border: "1px solid rgba(253,185,39,0.25)",
-          borderRadius: "1rem",
+          borderRadius: "1.1rem",
           boxShadow: "0 -4px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
-          padding: "1.25rem 1.5rem",
-          maxWidth: 680,
+          padding: "1.1rem 1.25rem",
+          maxWidth: 560,
           width: "100%",
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
           gap: "1rem",
           backdropFilter: "blur(12px)",
         }}>
-          <div style={{ flex: 1, minWidth: 200 }}>
-            <p style={{ margin: "0 0 0.25rem", fontSize: "0.875rem", fontWeight: 600, color: "hsl(40 20% 95%)" }}>
+          <div>
+            <p style={{ margin: "0 0 0.3rem", fontSize: "0.875rem", fontWeight: 700, color: "hsl(40 20% 95%)" }}>
               Süti beállítások 🍪
             </p>
-            <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.6 }}>
-              Az „Elfogadom" gombbal a beágyazott Google Térkép töltődik be, amely sütiket helyezhet el. „Csak szükséges" esetén külső szolgáltatás nem töltődik be. Döntését bármikor módosíthatja a lábléc „Süti beállítások" linkjével.{" "}
+            <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.55 }}>
+              Csak a beágyazott Google Térkép használ sütiket, és csak akkor, ha elfogadja.{" "}
               <a href="/suti-szabalyzat" style={{ color: "hsl(43 98% 62%)", textDecoration: "underline" }}>
                 Süti szabályzat
               </a>
             </p>
           </div>
-          <div style={{ display: "flex", gap: "0.625rem", flexShrink: 0 }}>
-            <button onClick={() => dismiss("declined")} style={{
-              height: "2.5rem", padding: "0 1.25rem", borderRadius: "2rem",
+          <div className="flex sm:shrink-0" style={{ gap: "0.625rem" }}>
+            <button onClick={() => dismiss("declined")} className="flex-1 sm:flex-none" style={{
+              height: "2.6rem", padding: "0 1.1rem", borderRadius: "2rem",
               border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)",
               color: "hsl(158 16% 55%)", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer",
+              whiteSpace: "nowrap",
               transition: "border-color 0.2s, color 0.2s",
             }}
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)"; e.currentTarget.style.color = "hsl(40 20% 90%)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "hsl(158 16% 55%)"; }}>
               Csak szükséges
             </button>
-            <button onClick={() => dismiss("accepted")} style={{
-              height: "2.5rem", padding: "0 1.25rem", borderRadius: "2rem",
+            <button onClick={() => dismiss("accepted")} className="flex-1 sm:flex-none" style={{
+              height: "2.6rem", padding: "0 1.25rem", borderRadius: "2rem",
               border: "none", background: "hsl(43 98% 54%)",
               color: "#04140d", fontSize: "0.8rem", fontWeight: 700, cursor: "pointer",
+              whiteSpace: "nowrap",
               transition: "filter 0.2s",
             }}
               onMouseEnter={(e) => { e.currentTarget.style.filter = "brightness(1.12)"; }}
