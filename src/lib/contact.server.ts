@@ -106,63 +106,73 @@ function confirmationHtml(p: ContactPayload): string {
   return `<!DOCTYPE html>
 <html lang="hu">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#0a1f14;font-family:system-ui,sans-serif;color:#e8e0d0;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:40px auto;">
-    <tr><td>
-      <!-- Header -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="background:#06170e;border-radius:16px 16px 0 0;border-bottom:1px solid rgba(255,255,255,0.07);">
-        <tr><td style="padding:24px 32px;">
-          <span style="font-size:18px;font-weight:900;color:#e8e0d0;">
-            hidraulika<span style="color:#FDB927;">javitas.com</span>
-          </span>
+<body style="margin:0;padding:0;background:#050f0b;font-family:system-ui,-apple-system,sans-serif;color:#e8e0d0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
+    <tr><td style="padding:48px 16px;">
+
+      <!-- Card -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#0d201a;border:1px solid rgba(255,255,255,0.08);border-radius:20px;">
+
+        <!-- Logo -->
+        <tr><td align="center" style="padding:40px 32px 8px;">
+          <img src="https://www.hidraulikajavitas.com/images/logo-dark.png" width="180" alt="Hidraulikajavítás.com" style="display:block;width:180px;max-width:55%;height:auto;">
         </td></tr>
-      </table>
-      <!-- Body -->
-      <table width="100%" cellpadding="0" cellspacing="0" style="background:#0d201a;border-radius:0 0 16px 16px;border:1px solid rgba(255,255,255,0.06);border-top:none;">
-        <tr><td style="padding:32px;">
-          <p style="margin:0 0 8px;font-size:22px;font-weight:900;color:#e8e0d0;">Köszönjük, ${p.name}!</p>
-          <p style="margin:0 0 24px;font-size:14px;color:#7a9e8a;line-height:1.6;">
+
+        <!-- Headline -->
+        <tr><td align="center" style="padding:28px 40px 0;">
+          <p style="margin:0 0 12px;font-size:26px;font-weight:900;color:#f5f1e8;text-align:center;letter-spacing:-.01em;">Köszönjük, ${p.name}!</p>
+          <p style="margin:0 0 8px;font-size:15px;color:#94b8a6;line-height:1.7;text-align:center;max-width:380px;">
             Megkaptuk az üzenetét. Kollégáink hamarosan felvesszük Önnel a kapcsolatot a megadott
             telefonszámon${p.email ? " vagy e-mail-en" : ""}.
           </p>
-          <!-- Summary box -->
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-bottom:24px;">
-            <tr><td style="padding:20px 24px;">
-              <p style="margin:0 0 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#FDB927;">Az Ön megkeresése</p>
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;">
-                ${row("Név", p.name)}
-                ${row("Telefonszám", p.phone)}
-                ${p.email ? row("E-mail", p.email) : ""}
-                ${p.partType ? row("Alkatrész", p.partType) : ""}
-                ${p.description ? row("Leírás", p.description) : ""}
-              </table>
+        </td></tr>
+
+        <!-- Summary -->
+        <tr><td style="padding:32px 40px 8px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.03);border-radius:14px;">
+            <tr><td style="padding:28px 32px;">
+              ${row("Név", p.name)}
+              ${row("Telefonszám", p.phone)}
+              ${row("E-mail", p.email)}
+              ${row("Alkatrész", p.partType)}
+              ${row("Leírás", p.description)}
             </td></tr>
           </table>
-          <p style="margin:0 0 20px;font-size:13px;color:#7a9e8a;line-height:1.6;">
+        </td></tr>
+
+        <!-- CTA -->
+        <tr><td align="center" style="padding:28px 40px 40px;">
+          <p style="margin:0 0 16px;font-size:13.5px;color:#94b8a6;line-height:1.6;text-align:center;">
             Ha sürgős, hívjon minket közvetlenül:
           </p>
           <a href="tel:+36309111474"
-            style="display:inline-block;background:#FDB927;color:#0a1f14;font-weight:700;font-size:14px;padding:12px 28px;border-radius:99px;text-decoration:none;">
-            +36 30 911 1474
+            style="display:inline-block;background:#FDB927;color:#0a1f14;font-weight:800;font-size:15px;padding:14px 38px;border-radius:99px;text-decoration:none;">
+            📞 +36 30 911 1474
           </a>
         </td></tr>
-        <!-- Footer -->
-        <tr><td style="padding:20px 32px;border-top:1px solid rgba(255,255,255,0.06);">
-          <p style="margin:0;font-size:11px;color:#3d5c4a;">
-            Hidraulika Service TEAM Kft. · 1095 Budapest, Soroksári út 48. ·
-            <a href="https://www.hidraulikajavitas.com" style="color:#3d5c4a;">hidraulikajavitas.com</a>
+
+      </table>
+
+      <!-- Footer -->
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr><td align="center" style="padding:28px 20px 0;">
+          <p style="margin:0;font-size:11.5px;color:#4a6d5a;text-align:center;line-height:1.8;">
+            Hidraulika Service TEAM Kft. · 1095 Budapest, Soroksári út 48.<br>
+            <a href="https://www.hidraulikajavitas.com" style="color:#6b9280;">hidraulikajavitas.com</a>
           </p>
         </td></tr>
       </table>
+
     </td></tr>
   </table>
 </body>
 </html>`;
 }
 
-function row(label: string, value: string): string {
-  return `<tr>
-    <td style="padding:4px 0;font-size:12px;color:#3d5c4a;width:110px;vertical-align:top;">${label}</td>
-    <td style="padding:4px 0;font-size:12px;color:#c8bfaf;">${value}</td>
-  </tr>`;
+function row(label: string, value: string | undefined): string {
+  if (!value) return "";
+  return `<table width="100%" cellpadding="0" cellspacing="0"><tr>
+    <td width="106" style="vertical-align:top;padding:12px 0;font-size:12px;font-weight:600;color:#5c8570;border-top:1px solid rgba(255,255,255,0.06);">${label}</td>
+    <td style="vertical-align:top;padding:12px 0;font-size:14.5px;color:#eae3d4;line-height:1.55;border-top:1px solid rgba(255,255,255,0.06);">${value}</td>
+  </tr></table>`;
 }
