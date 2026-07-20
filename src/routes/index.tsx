@@ -216,7 +216,9 @@ function Home() {
       // setState bails out when the boolean is unchanged → these flip once, not per frame.
       setScrolled(y > 12);
       setShowScrollTop(y > 500);
-      setShowMobileCTA(y > 300);
+      // Waits until the visitor has scrolled roughly a full screen past the
+      // hero before fading in — arriving already visible read as pushy.
+      setShowMobileCTA(y > window.innerHeight * 0.9);
       // The nav "squish" is driven straight on the DOM so scrolling never re-renders the page.
       const el = navInnerRef.current;
       if (el) {
@@ -1264,8 +1266,9 @@ function Home() {
         style={{
           left: 12, right: 12,
           bottom: "max(12px, env(safe-area-inset-bottom))",
-          transform: showMobileCTA ? "translateY(0)" : "translateY(140%)",
-          transition: "transform 0.35s cubic-bezier(0.22,1,0.36,1)",
+          opacity: showMobileCTA ? 1 : 0,
+          transform: showMobileCTA ? "translateY(0)" : "translateY(18px)",
+          transition: "opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1)",
           pointerEvents: showMobileCTA ? "auto" : "none",
           background: "rgba(3,16,11,0.94)",
           backdropFilter: "blur(16px) saturate(1.6)",
