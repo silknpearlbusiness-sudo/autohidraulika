@@ -196,6 +196,7 @@ function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showMobileCTA, setShowMobileCTA] = useState(false);
+  const [atBottom, setAtBottom] = useState(false);
   const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navInnerRef = useRef<HTMLDivElement>(null);
   const [openFaq, setOpenFaq] = useState<number|null>(null);
@@ -219,6 +220,10 @@ function Home() {
       // Waits until the visitor has scrolled roughly a full screen past the
       // hero before fading in — arriving already visible read as pushy.
       setShowMobileCTA(y > window.innerHeight * 0.9);
+      // Near the very end of the page the floating scroll-top circle sits on
+      // top of the footer links, so once the footer is in view it tucks into
+      // the CTA dock instead, next to Árajánlat.
+      setAtBottom(y + window.innerHeight > document.documentElement.scrollHeight - 360);
       // The nav "squish" is driven straight on the DOM so scrolling never re-renders the page.
       const el = navInnerRef.current;
       if (el) {
@@ -244,6 +249,17 @@ function Home() {
   const BG = "hsl(158 62% 7%)";
   const BG2 = "hsl(158 62% 6%)";
   const ORANGE = "#FDB927";
+
+  const scrollToTop = () => {
+    // Override CSS scroll-behavior:smooth which can make this take 5+ seconds on long pages
+    document.documentElement.style.scrollBehavior = "auto";
+    document.body.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => {
+      document.documentElement.style.scrollBehavior = "";
+      document.body.style.scrollBehavior = "";
+    });
+  };
 
   return (
     <div id="top" className="min-h-screen overflow-x-hidden" style={{ background: BG, color: "hsl(40 20% 97%)" }}>
@@ -1246,17 +1262,22 @@ function Home() {
       </section>
 
       {/* ── Scroll to top ─── */}
-      <button onClick={() => {
-          // Override CSS scroll-behavior:smooth which can make this take 5+ seconds on long pages
-          document.documentElement.style.scrollBehavior = "auto";
-          document.body.style.scrollBehavior = "auto";
-          window.scrollTo(0, 0);
-          requestAnimationFrame(() => {
-            document.documentElement.style.scrollBehavior = "";
-            document.body.style.scrollBehavior = "";
-          });
-        }} aria-label="Vissza a tetejére" tabIndex={showScrollTop ? 0 : -1}
-        className="fixed right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer"
+      <style>{`
+        @keyframes scrolltop-nudge {
+          0%, 100% { transform: rotate(0deg); }
+          15% { transform: rotate(-9deg); }
+          30% { transform: rotate(8deg); }
+          45% { transform: rotate(-6deg); }
+          60% { transform: rotate(4deg); }
+          75% { transform: rotate(-2deg); }
+        }
+        .scrolltop-dock-btn { animation: scrolltop-nudge 0.7s ease-in-out 0.35s 2; }
+        @media (max-width: 767px) {
+          .scrolltop-fab.at-bottom { opacity: 0 !important; pointer-events: none !important; }
+        }
+      `}</style>
+      <button onClick={scrollToTop} aria-label="Vissza a tetejére" tabIndex={showScrollTop ? 0 : -1}
+        className={`scrolltop-fab fixed right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer${atBottom ? " at-bottom" : ""}`}
         style={{
           bottom: showMobileCTA ? 98 : 24,
           background: ORANGE, boxShadow: "0 4px 28px rgba(253,185,39,0.45)", border: "none", color: "white",
@@ -1302,6 +1323,13 @@ function Home() {
               style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(253,185,39,0.35)", height: 54, borderRadius: 3 }}>
               Árajánlat <ArrowUpRight size={14} style={{ color: ORANGE }} />
             </a>
+            {atBottom && (
+              <button onClick={scrollToTop} aria-label="Vissza a tetejére"
+                className="scrolltop-dock-btn btn-hover flex items-center justify-center shrink-0"
+                style={{ width: 54, height: 54, background: "rgba(255,255,255,0.07)", border: "1px solid rgba(253,185,39,0.35)", borderRadius: 3, color: ORANGE }}>
+                <ArrowUp size={18} />
+              </button>
+            )}
           </div>
         </div>
 
