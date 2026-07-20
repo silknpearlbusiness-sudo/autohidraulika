@@ -479,7 +479,14 @@ function Home() {
       <section className="relative min-h-screen overflow-hidden">
         {/* Full-bleed background photo */}
         <div className="absolute inset-0 z-0">
-          <img src="/images/Hidraulika_javitas-scaled.jpg" alt="" aria-hidden="true"
+          <img
+            src="/images/hero-2400.jpg"
+            srcSet="/images/hero-800.jpg 800w, /images/hero-1600.jpg 1600w, /images/hero-2400.jpg 2400w"
+            sizes="100vw"
+            width={2400} height={1345}
+            fetchPriority="high"
+            decoding="async"
+            alt="" aria-hidden="true"
             className="w-full h-full object-cover"
             style={{ filter: "saturate(0.85) brightness(0.6)", objectPosition: "50% 40%" }} />
           {/* Bottom-heavy dark wash — text lives at the bottom, photo visible at the top */}
@@ -796,7 +803,7 @@ function Home() {
       <section id="folyamat" className="py-16 md:py-28 relative overflow-hidden" style={{ background: BG2 }}>
         {/* Photo bleed — courier picking up a part, faded into the section color on the left */}
         <div className="hidden lg:block absolute top-0 right-0 h-full pointer-events-none" style={{ width: "38%" }}>
-          <img src="/images/courier.jpg" alt="" aria-hidden="true" className="w-full h-full object-cover"
+          <img src="/images/courier.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" className="w-full h-full object-cover"
             style={{ filter: "saturate(0.55) contrast(1.05) brightness(0.6)" }} />
           <div className="absolute inset-0" style={{ background: `linear-gradient(90deg, ${BG2} 0%, transparent 45%)` }} />
           <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${BG2}, transparent 35%)` }} />
@@ -1064,7 +1071,7 @@ function Home() {
 
         {/* Faint workshop photo texture — barely-there, keeps the section from reading as flat color */}
         <div className="absolute inset-0 pointer-events-none">
-          <img src="/images/backgroundphoto.jpg" alt="" aria-hidden="true" className="w-full h-full object-cover"
+          <img src="/images/backgroundphoto.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" className="w-full h-full object-cover"
             style={{ filter: "saturate(0.45) contrast(1.1) brightness(0.16)", objectPosition: "50% 35%" }} />
         </div>
         {/* Ambient glow */}
