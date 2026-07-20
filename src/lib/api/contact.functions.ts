@@ -9,11 +9,19 @@ const schema = z.object({
   email: z.string().email().optional().or(z.literal("")),
   partType: z.string().optional(),
   description: z.string().optional(),
+  website: z.string().optional(), // honeypot — must stay empty
 });
 
 export const submitContact = createServerFn({ method: "POST" })
   .inputValidator(schema)
   .handler(async ({ data }) => {
+    // Honeypot: bots that skip the browser and POST straight to this
+    // endpoint often fill every field they find, including hidden ones.
+    // Pretend success so they don't learn to avoid the field.
+    if (data.website) {
+      return { ok: true };
+    }
+
     const payload = {
       name: data.name,
       phone: data.phone,

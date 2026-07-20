@@ -1,5 +1,5 @@
 import process from "node:process";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 export interface ContactPayload {
   name: string;
@@ -71,26 +71,32 @@ export async function pushToMiniCrm(payload: ContactPayload): Promise<void> {
   }
 }
 
-// ── Resend ─────────────────────────────────────────────────────────────────────
+// ── Confirmation e-mail (via Rackhost mailbox) ──────────────────────────────────
+
+const MAIL_FROM = "web@hidraulikajavitas.com";
 
 export async function sendConfirmationEmail(
   payload: ContactPayload,
 ): Promise<void> {
   if (!payload.email) return;
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.FROM_EMAIL ?? "noreply@hidraulikajavitas.com";
+  const pass = process.env.RACKHOST_EMAIL_PASSWORD;
 
-  if (!apiKey || apiKey === "re_REPLACE_ME") {
-    console.warn("[Resend] Missing API key — skipping confirmation email.");
+  if (!pass) {
+    console.warn("[Mail] Missing RACKHOST_EMAIL_PASSWORD — skipping confirmation email.");
     return;
   }
 
-  const resend = new Resend(apiKey);
+  const transporter = nodemailer.createTransport({
+    host: "smtp.rackhost.hu",
+    port: 465,
+    secure: true,
+    auth: { user: MAIL_FROM, pass },
+  });
 
-  await resend.emails.send({
-    from: `Hidraulika Service TEAM Kft. <${from}>`,
-    to: [payload.email],
+  await transporter.sendMail({
+    from: `Hidraulika Service TEAM Kft. <${MAIL_FROM}>`,
+    to: payload.email,
     subject: "Köszönjük megkeresését — Hidraulika Service TEAM Kft.",
     html: confirmationHtml(payload),
   });
