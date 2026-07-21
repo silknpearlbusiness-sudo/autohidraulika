@@ -45,22 +45,50 @@ export async function sendLeadNotification(payload: ContactPayload): Promise<voi
 }
 
 function leadNotificationHtml(p: ContactPayload): string {
-  const line = (label: string, value: string | undefined) =>
-    value ? `<tr><td style="padding:6px 12px 6px 0;color:#666;white-space:nowrap;vertical-align:top;">${label}</td><td style="padding:6px 0;color:#111;">${value}</td></tr>` : "";
+  const row = (label: string, value: string | undefined) =>
+    value ? `<tr><td style="padding:14px 0;border-top:1px solid #ececec;width:100px;vertical-align:top;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#8a8a8a;">${label}</td><td style="padding:14px 0;border-top:1px solid #ececec;vertical-align:top;font-size:15px;color:#161616;line-height:1.5;">${value}</td></tr>` : "";
+  const now = new Date().toLocaleString("hu-HU", { dateStyle: "medium", timeStyle: "short" });
+
   return `<!DOCTYPE html>
 <html lang="hu">
-<head><meta charset="utf-8"></head>
-<body style="margin:0;padding:24px;background:#f4f4f4;font-family:system-ui,-apple-system,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;background:#fff;border-radius:10px;border:1px solid #e2e2e2;">
-    <tr><td style="padding:24px 28px;">
-      <p style="margin:0 0 18px;font-size:15px;font-weight:700;color:#111;">Új megkeresés érkezett a weboldalról</p>
-      <table cellpadding="0" cellspacing="0" style="font-size:14px;line-height:1.5;">
-        ${line("Név", p.name)}
-        ${line("Telefonszám", p.phone)}
-        ${line("E-mail", p.email)}
-        ${line("Alkatrész", p.partType)}
-        ${line("Leírás", p.description)}
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#eef1ef;font-family:system-ui,-apple-system,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;">
+    <tr><td style="padding:32px 16px;">
+
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+
+        <!-- Header -->
+        <tr><td style="background:#06170e;padding:18px 26px;">
+          <table width="100%" cellpadding="0" cellspacing="0"><tr>
+            <td style="font-size:13px;font-weight:800;color:#f5f1e8;">hidraulika<span style="color:#FDB927;">javitas.com</span></td>
+            <td style="text-align:right;font-size:11px;color:#8fb3a0;">${now}</td>
+          </tr></table>
+        </td></tr>
+        <tr><td style="height:3px;font-size:0;line-height:0;background:#FDB927;">&nbsp;</td></tr>
+
+        <!-- Body -->
+        <tr><td style="padding:26px 28px 8px;">
+          <p style="margin:0 0 4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#e07a1f;">Új megkeresés</p>
+          <p style="margin:0 0 20px;font-size:19px;font-weight:800;color:#161616;">${p.name}</p>
+
+          <table width="100%" cellpadding="0" cellspacing="0">
+            ${row("Telefon", `<a href="tel:${p.phone.replace(/\s+/g, "")}" style="color:#0a1f14;font-weight:700;text-decoration:none;">${p.phone}</a>`)}
+            ${row("E-mail", p.email ? `<a href="mailto:${p.email}" style="color:#161616;text-decoration:none;">${p.email}</a>` : undefined)}
+            ${row("Alkatrész", p.partType)}
+            ${row("Leírás", p.description)}
+          </table>
+        </td></tr>
+
+        ${p.email ? `<!-- Footer note -->
+        <tr><td style="padding:20px 28px 26px;">
+          <p style="margin:0;font-size:12.5px;color:#8a8a8a;line-height:1.6;">
+            A Válasz gombra kattintva közvetlenül <strong style="color:#555;">${p.email}</strong> címre írhat.
+          </p>
+        </td></tr>` : `<tr><td style="height:6px;font-size:0;line-height:0;">&nbsp;</td></tr>`}
+
       </table>
+
     </td></tr>
   </table>
 </body>
