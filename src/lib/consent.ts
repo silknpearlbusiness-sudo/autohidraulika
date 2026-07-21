@@ -16,7 +16,7 @@ export function setConsent(value: "accepted" | "declined") {
 
 // GDPR: withdrawing consent must be as easy as giving it. Clearing the stored
 // choice and reloading is the only way to actually unload already-running
-// third-party scripts (MiniCRM); the banner reappears on the fresh page load.
+// third-party scripts (Google Maps); the banner reappears on the fresh page load.
 export function resetConsent() {
   if (typeof window === "undefined") return;
   localStorage.removeItem(STORAGE_KEY);

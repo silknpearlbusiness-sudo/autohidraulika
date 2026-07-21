@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { pushToMiniCrm, sendConfirmationEmail } from "../contact.server";
+import { sendLeadNotification, sendConfirmationEmail } from "../contact.server";
 
 const schema = z.object({
   name: z.string().min(1),
@@ -30,19 +30,19 @@ export const submitContact = createServerFn({ method: "POST" })
       description: data.description || undefined,
     };
 
-    // Fire both in parallel. The CRM push is the lead capture — if it fails,
-    // report failure so the visitor is told to call instead. The confirmation
-    // email is best-effort.
-    const [crm, email] = await Promise.allSettled([
-      pushToMiniCrm(payload),
+    // Fire both in parallel. The lead notification to the business inbox is
+    // what actually matters — if it fails, report failure so the visitor is
+    // told to call instead. The customer confirmation email is best-effort.
+    const [lead, email] = await Promise.allSettled([
+      sendLeadNotification(payload),
       sendConfirmationEmail(payload),
     ]);
 
     if (email.status === "rejected") {
       console.error("[submitContact] confirmation email failed:", email.reason);
     }
-    if (crm.status === "rejected") {
-      console.error("[submitContact] CRM push failed:", crm.reason);
+    if (lead.status === "rejected") {
+      console.error("[submitContact] lead notification failed:", lead.reason);
       return { ok: false };
     }
 

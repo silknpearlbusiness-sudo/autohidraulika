@@ -9,90 +9,76 @@ export interface ContactPayload {
   description?: string;
 }
 
-// ── MiniCRM ────────────────────────────────────────────────────────────────────
-
-export async function pushToMiniCrm(payload: ContactPayload): Promise<void> {
-  const systemId = process.env.MINICRM_SYSTEM_ID;
-  const apiKey = process.env.MINICRM_API_KEY;
-  const categoryId = process.env.MINICRM_CATEGORY_ID;
-
-  if (!systemId || !apiKey || !categoryId) {
-    // Lead capture is the whole point of the form — fail loudly so the UI can
-    // show the phone-number fallback instead of pretending the send worked.
-    throw new Error("[MiniCRM] Missing env vars (MINICRM_SYSTEM_ID / MINICRM_API_KEY / MINICRM_CATEGORY_ID).");
-  }
-
-  const auth = Buffer.from(`${systemId}@${apiKey}`).toString("base64");
-  const headers: HeadersInit = {
-    Authorization: `Basic ${auth}`,
-    "Content-Type": "application/json",
-  };
-  const base = "https://api.minicrm.hu/1";
-
-  // Split name into first/last (MiniCRM wants them separate)
-  const parts = payload.name.trim().split(/\s+/);
-  const lastName = parts[0] ?? payload.name;
-  const firstName = parts.slice(1).join(" ") || "";
-
-  // 1. Create / update contact
-  const contactRes = await fetch(`${base}/Contact/0`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({
-      LastName: lastName,
-      FirstName: firstName,
-      Phone: payload.phone,
-      ...(payload.email ? { Email: payload.email } : {}),
-      Type: "Contact",
-    }),
-  });
-
-  if (!contactRes.ok) {
-    throw new Error(`[MiniCRM] Contact PUT failed: ${await contactRes.text()}`);
-  }
-
-  const { Id: contactId } = (await contactRes.json()) as { Id: number };
-
-  // 2. Create project (lead) linked to the contact
-  const projectRes = await fetch(`${base}/Project/0`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({
-      CategoryId: Number(categoryId),
-      Name: `Weboldal megkeresés — ${payload.name}`,
-      ContactId: contactId,
-      ...(payload.description ? { Description: payload.description } : {}),
-      ...(payload.partType ? { AlkatreszTipus: payload.partType } : {}),
-    }),
-  });
-
-  if (!projectRes.ok) {
-    throw new Error(`[MiniCRM] Project PUT failed: ${await projectRes.text()}`);
-  }
-}
-
-// ── Confirmation e-mail (via Rackhost mailbox) ──────────────────────────────────
+// ── Shared transporter (Rackhost mailbox) ───────────────────────────────────────
 
 const MAIL_FROM = "web@hidraulikajavitas.com";
+const LEAD_TO = "info@hidraulikajavitas.com";
+
+function getTransporter() {
+  const pass = process.env.RACKHOST_EMAIL_PASSWORD;
+  if (!pass) return null;
+  return nodemailer.createTransport({
+    host: "smtp.rackhost.hu",
+    port: 465,
+    secure: true,
+    auth: { user: MAIL_FROM, pass },
+  });
+}
+
+// ── Lead notification (to the business inbox) ───────────────────────────────────
+
+export async function sendLeadNotification(payload: ContactPayload): Promise<void> {
+  const transporter = getTransporter();
+  if (!transporter) {
+    // Lead capture is the whole point of the form — fail loudly so the UI can
+    // show the phone-number fallback instead of pretending the send worked.
+    throw new Error("[Mail] Missing RACKHOST_EMAIL_PASSWORD — cannot notify of new lead.");
+  }
+
+  await transporter.sendMail({
+    from: `Weboldal űrlap <${MAIL_FROM}>`,
+    to: LEAD_TO,
+    replyTo: payload.email,
+    subject: `Új megkeresés — ${payload.name}`,
+    html: leadNotificationHtml(payload),
+  });
+}
+
+function leadNotificationHtml(p: ContactPayload): string {
+  const line = (label: string, value: string | undefined) =>
+    value ? `<tr><td style="padding:6px 12px 6px 0;color:#666;white-space:nowrap;vertical-align:top;">${label}</td><td style="padding:6px 0;color:#111;">${value}</td></tr>` : "";
+  return `<!DOCTYPE html>
+<html lang="hu">
+<head><meta charset="utf-8"></head>
+<body style="margin:0;padding:24px;background:#f4f4f4;font-family:system-ui,-apple-system,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;background:#fff;border-radius:10px;border:1px solid #e2e2e2;">
+    <tr><td style="padding:24px 28px;">
+      <p style="margin:0 0 18px;font-size:15px;font-weight:700;color:#111;">Új megkeresés érkezett a weboldalról</p>
+      <table cellpadding="0" cellspacing="0" style="font-size:14px;line-height:1.5;">
+        ${line("Név", p.name)}
+        ${line("Telefonszám", p.phone)}
+        ${line("E-mail", p.email)}
+        ${line("Alkatrész", p.partType)}
+        ${line("Leírás", p.description)}
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+// ── Confirmation e-mail (to the customer) ────────────────────────────────────────
 
 export async function sendConfirmationEmail(
   payload: ContactPayload,
 ): Promise<void> {
   if (!payload.email) return;
 
-  const pass = process.env.RACKHOST_EMAIL_PASSWORD;
-
-  if (!pass) {
+  const transporter = getTransporter();
+  if (!transporter) {
     console.warn("[Mail] Missing RACKHOST_EMAIL_PASSWORD — skipping confirmation email.");
     return;
   }
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.rackhost.hu",
-    port: 465,
-    secure: true,
-    auth: { user: MAIL_FROM, pass },
-  });
 
   await transporter.sendMail({
     from: `Hidraulika Service TEAM Kft. <${MAIL_FROM}>`,

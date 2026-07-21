@@ -202,7 +202,7 @@ function Home() {
   const [openFaq, setOpenFaq] = useState<number|null>(null);
   const [activeService, setActiveService] = useState(0);
   // Starts null (treated as "not consented") so the server-rendered markup never ships
-  // the Google Maps / MiniCRM iframes before the visitor has actually accepted cookies.
+  // the Google Maps iframe before the visitor has actually accepted cookies.
   const [consent, setConsentState] = useState<ConsentValue>(null);
   useEffect(() => {
     setConsentState(getConsent());

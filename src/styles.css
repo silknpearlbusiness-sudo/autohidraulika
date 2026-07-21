@@ -395,10 +395,3 @@
     animation: none !important;
   }
 }
-
-/* MiniCRM's embed script resizes its iframe to a tiny 40px via inline JS style —
-   force a real height with !important, which beats their non-!important inline style. */
-iframe[id^="MiniCRMFrame"] {
-  height: 760px !important;
-  min-height: 760px !important;
-}
