@@ -1,6 +1,5 @@
 import { useState, type CSSProperties, type ReactNode } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { ChevronDown, Loader2, Phone, Send } from "lucide-react";
+import { CheckCircle, ChevronDown, Loader2, Phone, Send } from "lucide-react";
 import { submitContact } from "@/lib/api/contact.functions";
 
 const ORANGE = "#FDB927";
@@ -47,9 +46,9 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
 }
 
 export function ContactForm() {
-  const navigate = useNavigate();
   const [sending, setSending] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -57,7 +56,7 @@ export function ContactForm() {
 
     // Honeypot: real visitors never see or fill this field
     if (fd.get("website")) {
-      navigate({ to: "/koszonjuk" });
+      setSubmitted(true);
       return;
     }
 
@@ -68,13 +67,14 @@ export function ContactForm() {
         data: {
           name: String(fd.get("name") ?? "").trim(),
           phone: String(fd.get("phone") ?? "").trim(),
+          email: String(fd.get("email") ?? "").trim(),
           partType: String(fd.get("partType") ?? ""),
           description: String(fd.get("message") ?? "").trim(),
           website: String(fd.get("website") ?? ""),
         },
       });
       if (res.ok) {
-        navigate({ to: "/koszonjuk" });
+        setSubmitted(true);
       } else {
         setFailed(true);
       }
@@ -83,6 +83,36 @@ export function ContactForm() {
     } finally {
       setSending(false);
     }
+  }
+
+  if (submitted) {
+    return (
+      <div
+        className="rounded-3xl p-6 sm:p-8 text-center"
+        style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(253,185,39,0.16)" }}
+      >
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+          style={{ background: "rgba(253,185,39,0.12)", border: "1.5px solid rgba(253,185,39,0.3)" }}
+        >
+          <CheckCircle size={32} style={{ color: ORANGE }} />
+        </div>
+        <h3 className="text-2xl font-black mb-3" style={{ color: "hsl(40 20% 96%)" }}>
+          Köszönjük megkeresését!
+        </h3>
+        <p className="text-[0.95rem] leading-relaxed mb-2" style={{ color: "hsl(158 14% 60%)" }}>
+          Kollégánk hamarosan felkeresi Önt az elérhetőségei valamelyikén.
+          Ha sürgős a kérdés, hívjon minket közvetlenül!
+        </p>
+        <a
+          href="tel:+36309111474"
+          className="btn-hover mt-6 inline-flex items-center justify-center gap-2.5 font-bold no-underline rounded-full"
+          style={{ background: ORANGE, color: "#04140d", height: "3.25rem", padding: "0 2rem", fontSize: "1rem" }}
+        >
+          <Phone size={16} /> +36 30 911 1474
+        </a>
+      </div>
+    );
   }
 
   return (
@@ -115,6 +145,11 @@ export function ContactForm() {
 
         <Field label="Telefonszám">
           <input name="phone" type="tel" required autoComplete="tel" placeholder="+36 30 123 4567"
+            style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
+        </Field>
+
+        <Field label="E-mail cím" hint="nem kötelező">
+          <input name="email" type="email" autoComplete="email" placeholder="nev@pelda.hu"
             style={inputStyle} onFocus={focusIn} onBlur={focusOut} />
         </Field>
 
