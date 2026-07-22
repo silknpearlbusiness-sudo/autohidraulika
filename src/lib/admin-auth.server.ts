@@ -55,21 +55,23 @@ function bumpAttempts(key: string): { count: number; resetAt: number } {
 
 export function checkLogin(password: string, rateLimitKey: string): { ok: true; token: string } | { ok: false; error: string } {
   const ADMIN_PW = process.env.ADMIN_PASSWORD;
-  if (!ADMIN_PW) return { ok: false, error: "Admin not configured." };
+  if (!ADMIN_PW) return { ok: false, error: "Az adminisztrációs felület nincs beállítva." };
 
   const rec = bumpAttempts(rateLimitKey);
-  if (rec.count >= MAX_ATTEMPTS) return { ok: false, error: "Too many attempts, try again later." };
+  if (rec.count >= MAX_ATTEMPTS) {
+    return { ok: false, error: "Túl sok sikertelen próbálkozás történt. Kérjük, próbálja újra később." };
+  }
   rec.count++;
 
   const a = Buffer.from(password || "");
   const b = Buffer.from(ADMIN_PW);
   const match = a.length === b.length && crypto.timingSafeEqual(a, b);
-  if (!match) return { ok: false, error: "Invalid password." };
+  if (!match) return { ok: false, error: "Hibás jelszó." };
 
   authAttempts.delete(rateLimitKey);
   const now = Date.now();
   const token = signJwt({ admin: true, iat: now, exp: now + TOKEN_TTL });
-  if (!token) return { ok: false, error: "Admin not configured." };
+  if (!token) return { ok: false, error: "Az adminisztrációs felület nincs beállítva." };
   return { ok: true, token };
 }
 

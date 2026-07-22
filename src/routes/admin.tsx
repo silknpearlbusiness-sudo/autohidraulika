@@ -65,27 +65,27 @@ interface Lead {
 }
 
 function AdminPage() {
-  // undefined = "haven't checked localStorage yet", null = "checked, no token"
+  // undefined = "haven't checked sessionStorage yet", null = "checked, no token"
   const [token, setToken] = useState<string | null | undefined>(undefined);
 
   useEffect(() => {
-    setToken(localStorage.getItem(TOKEN_STORAGE_KEY));
+    setToken(sessionStorage.getItem(TOKEN_STORAGE_KEY));
   }, []);
 
-  if (token === undefined) return null; // avoid a login-form flash before localStorage is read
+  if (token === undefined) return null; // avoid a login-form flash before sessionStorage is read
 
   return token ? (
     <AdminShell
       token={token}
       onLogout={() => {
-        localStorage.removeItem(TOKEN_STORAGE_KEY);
+        sessionStorage.removeItem(TOKEN_STORAGE_KEY);
         setToken(null);
       }}
     />
   ) : (
     <LoginForm
       onSuccess={(t) => {
-        localStorage.setItem(TOKEN_STORAGE_KEY, t);
+        sessionStorage.setItem(TOKEN_STORAGE_KEY, t);
         setToken(t);
       }}
     />
@@ -106,7 +106,7 @@ function LoginForm({ onSuccess }: { onSuccess: (token: string) => void }) {
       if (result.ok) onSuccess(result.token);
       else setError(result.error);
     } catch {
-      setError("Hiba történt, próbálja újra.");
+      setError("Váratlan hiba történt. Kérjük, próbálja újra.");
     } finally {
       setLoading(false);
     }
@@ -275,7 +275,7 @@ function Sidebar({
           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft size={15} />
-          Vissza az oldalra
+          Vissza a weboldalra
         </a>
       </div>
     </aside>
@@ -356,7 +356,7 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
           </CardHeader>
           <CardContent className="pl-0">
             {leads.length === 0 ? (
-              <p className="text-sm text-muted-foreground px-6 py-10">Még nincs elég adat.</p>
+              <p className="text-sm text-muted-foreground px-6 py-10">Nincs elegendő adat a megjelenítéshez.</p>
             ) : (
               <ChartContainer config={trendConfig} className="aspect-auto h-56 w-full">
                 <AreaChart data={trendData} margin={{ left: 4, right: 12, top: 8 }}>
@@ -394,7 +394,7 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
           </CardHeader>
           <CardContent>
             {partTypeData.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-10">Még nincs elég adat.</p>
+              <p className="text-sm text-muted-foreground py-10">Nincs elegendő adat a megjelenítéshez.</p>
             ) : (
               <div className="flex items-center gap-4">
                 <ChartContainer config={{}} className="aspect-square h-36 w-36 shrink-0">
@@ -435,7 +435,7 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
         </CardHeader>
         <CardContent className="flex flex-col gap-1">
           {recent.length === 0 ? (
-            <p className="text-sm text-muted-foreground py-6">Nincs még megkeresés.</p>
+            <p className="text-sm text-muted-foreground py-6">Még nem érkezett megkeresés.</p>
           ) : (
             recent.map((lead) => (
               <a
@@ -473,7 +473,7 @@ function LeadsTable({ leads, onDelete }: { leads: Lead[]; onDelete: (id: string)
   }
 
   if (leads.length === 0) {
-    return <p className="text-muted-foreground text-sm">Nincs még megkeresés.</p>;
+    return <p className="text-muted-foreground text-sm">Még nem érkezett megkeresés.</p>;
   }
 
   return (

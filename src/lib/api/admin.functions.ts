@@ -1,17 +1,18 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestIP } from "@tanstack/react-start/server";
 import { z } from "zod";
 
 import { checkLogin, requireAdmin } from "../admin-auth.server";
 import { deleteLead, listLeads } from "../leads.server";
 
-// Single shared rate-limit bucket — this is a one-admin panel, so a global
-// bucket is simpler than per-IP tracking and just as effective here.
-const LOGIN_RATE_LIMIT_KEY = "admin-login";
-
 export const adminLogin = createServerFn({ method: "POST" })
   .inputValidator(z.object({ password: z.string() }))
   .handler(async ({ data }) => {
-    const result = checkLogin(data.password, LOGIN_RATE_LIMIT_KEY);
+    // Keyed per-IP so one attacker guessing wrong passwords can only lock
+    // themselves out, not the real admin (a shared/global key would let
+    // anyone trigger a lockout for everyone).
+    const ip = getRequestIP({ xForwardedFor: true }) || "unknown";
+    const result = checkLogin(data.password, `admin-login:${ip}`);
     if (!result.ok) return { ok: false as const, error: result.error };
     return { ok: true as const, token: result.token };
   });
