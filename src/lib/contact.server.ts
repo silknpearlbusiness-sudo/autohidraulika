@@ -49,6 +49,13 @@ function leadNotificationHtml(p: ContactPayload): string {
     value ? `<tr><td style="padding:14px 0;border-top:1px solid #ececec;width:100px;vertical-align:top;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#8a8a8a;">${label}</td><td style="padding:14px 0;border-top:1px solid #ececec;vertical-align:top;font-size:15px;color:#161616;line-height:1.5;">${value}</td></tr>` : "";
   const now = new Date().toLocaleString("hu-HU", { dateStyle: "medium", timeStyle: "short" });
 
+  const name = escapeHtml(p.name);
+  const phone = escapeHtml(p.phone);
+  const email = p.email ? escapeHtml(p.email) : undefined;
+  const partType = p.partType ? escapeHtml(p.partType) : undefined;
+  const description = p.description ? escapeHtml(p.description) : undefined;
+  const phoneDigits = p.phone.replace(/\s+/g, "").replace(/[^\d+]/g, "");
+
   return `<!DOCTYPE html>
 <html lang="hu">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -70,20 +77,20 @@ function leadNotificationHtml(p: ContactPayload): string {
         <!-- Body -->
         <tr><td style="padding:26px 28px 8px;">
           <p style="margin:0 0 4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#e07a1f;">Új megkeresés</p>
-          <p style="margin:0 0 20px;font-size:19px;font-weight:800;color:#161616;">${p.name}</p>
+          <p style="margin:0 0 20px;font-size:19px;font-weight:800;color:#161616;">${name}</p>
 
           <table width="100%" cellpadding="0" cellspacing="0">
-            ${row("Telefon", `<a href="tel:${p.phone.replace(/\s+/g, "")}" style="color:#0a1f14;font-weight:700;text-decoration:none;">${p.phone}</a>`)}
-            ${row("E-mail", p.email ? `<a href="mailto:${p.email}" style="color:#161616;text-decoration:none;">${p.email}</a>` : undefined)}
-            ${row("Alkatrész", p.partType)}
-            ${row("Leírás", p.description)}
+            ${row("Telefon", `<a href="tel:${phoneDigits}" style="color:#0a1f14;font-weight:700;text-decoration:none;">${phone}</a>`)}
+            ${row("E-mail", email ? `<a href="mailto:${email}" style="color:#161616;text-decoration:none;">${email}</a>` : undefined)}
+            ${row("Alkatrész", partType)}
+            ${row("Leírás", description)}
           </table>
         </td></tr>
 
-        ${p.email ? `<!-- Footer note -->
+        ${email ? `<!-- Footer note -->
         <tr><td style="padding:20px 28px 26px;">
           <p style="margin:0;font-size:12.5px;color:#8a8a8a;line-height:1.6;">
-            A Válasz gombra kattintva közvetlenül <strong style="color:#555;">${p.email}</strong> címre írhat.
+            A Válasz gombra kattintva közvetlenül <strong style="color:#555;">${email}</strong> címre írhat.
           </p>
         </td></tr>` : `<tr><td style="height:6px;font-size:0;line-height:0;">&nbsp;</td></tr>`}
 
@@ -117,6 +124,12 @@ export async function sendConfirmationEmail(
 }
 
 function confirmationHtml(p: ContactPayload): string {
+  const name = escapeHtml(p.name);
+  const phone = escapeHtml(p.phone);
+  const email = p.email ? escapeHtml(p.email) : undefined;
+  const partType = p.partType ? escapeHtml(p.partType) : undefined;
+  const description = p.description ? escapeHtml(p.description) : undefined;
+
   return `<!DOCTYPE html>
 <html lang="hu">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -134,7 +147,7 @@ function confirmationHtml(p: ContactPayload): string {
 
         <!-- Headline -->
         <tr><td align="center" style="padding:28px 40px 0;">
-          <p style="margin:0 0 12px;font-size:26px;font-weight:900;color:#f5f1e8;text-align:center;letter-spacing:-.01em;">Köszönjük, ${p.name}!</p>
+          <p style="margin:0 0 12px;font-size:26px;font-weight:900;color:#f5f1e8;text-align:center;letter-spacing:-.01em;">Köszönjük, ${name}!</p>
           <p style="margin:0 0 8px;font-size:15px;color:#94b8a6;line-height:1.7;text-align:center;max-width:380px;">
             Megkaptuk az üzenetét. Kollégáink hamarosan felvesszük Önnel a kapcsolatot a megadott
             telefonszámon${p.email ? " vagy e-mail-en" : ""}.
@@ -145,11 +158,11 @@ function confirmationHtml(p: ContactPayload): string {
         <tr><td style="padding:32px 40px 8px;">
           <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.03);border-radius:14px;">
             <tr><td style="padding:28px 32px;">
-              ${row("Név", p.name)}
-              ${row("Telefonszám", p.phone)}
-              ${row("E-mail", p.email)}
-              ${row("Alkatrész", p.partType)}
-              ${row("Leírás", p.description)}
+              ${row("Név", name)}
+              ${row("Telefonszám", phone)}
+              ${row("E-mail", email)}
+              ${row("Alkatrész", partType)}
+              ${row("Leírás", description)}
             </td></tr>
           </table>
         </td></tr>
@@ -181,6 +194,18 @@ function confirmationHtml(p: ContactPayload): string {
   </table>
 </body>
 </html>`;
+}
+
+// User-submitted fields are interpolated into HTML email bodies below —
+// escape them so a submitter can't inject markup/links into emails sent
+// to the business inbox or (via the confirmation mail) to a third party.
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function row(label: string, value: string | undefined): string {

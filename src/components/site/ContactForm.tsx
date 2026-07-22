@@ -1,5 +1,6 @@
 import { useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { CheckCircle, ChevronDown, Loader2, Phone, Send, X } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { ChevronDown, Loader2, Phone, Send } from "lucide-react";
 import { submitContact } from "@/lib/api/contact.functions";
 
 const ORANGE = "#FDB927";
@@ -45,125 +46,12 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
   );
 }
 
-function SuccessModal({ onClose }: { onClose: () => void }) {
-  return (
-    <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-5"
-      style={{
-        background: "rgba(4,15,10,0.72)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
-        animation: "success-overlay-in 0.3s ease forwards",
-      }}
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Megkeresés elküldve"
-    >
-      <style>{`
-        @keyframes success-overlay-in { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes success-card-in {
-          0%   { opacity: 0; transform: scale(0.8) translateY(16px); }
-          60%  { opacity: 1; transform: scale(1.03) translateY(0); }
-          100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        @keyframes badge-pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-        }
-        @keyframes badge-ring {
-          0%        { transform: scale(1);    opacity: 0.5; }
-          70%,100%  { transform: scale(1.35); opacity: 0; }
-        }
-      `}</style>
-
-      <div
-        className="relative w-full max-w-sm rounded-3xl text-center"
-        style={{
-          background: "hsl(158 60% 8%)",
-          border: "1px solid rgba(253,185,39,0.25)",
-          boxShadow: "0 30px 80px rgba(0,0,0,0.55)",
-          padding: "2.5rem 2rem 2.25rem",
-          animation: "success-card-in 0.5s cubic-bezier(0.22,1.4,0.36,1) forwards",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={onClose}
-          aria-label="Bezárás"
-          className="absolute top-4 right-4 flex items-center justify-center cursor-pointer"
-          style={{
-            width: 32, height: 32, borderRadius: "50%",
-            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
-            color: "hsl(158 16% 65%)",
-          }}
-        >
-          <X size={15} />
-        </button>
-
-        <img
-          src="/images/logo-dark.png"
-          alt="Hidraulikajavítás.com"
-          className="h-7 w-auto mx-auto mb-7"
-        />
-
-        <div
-          className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
-          style={{ background: "rgba(253,185,39,0.12)", border: "1.5px solid rgba(253,185,39,0.3)" }}
-        >
-          <CheckCircle size={32} style={{ color: ORANGE }} />
-        </div>
-
-        <h3 className="text-2xl font-black mb-2.5" style={{ color: "hsl(40 20% 96%)" }}>
-          Köszönjük megkeresését!
-        </h3>
-        <p className="text-[0.95rem] leading-relaxed mb-7" style={{ color: "hsl(158 14% 60%)" }}>
-          Kollégánk hamarosan felkeresi Önt az elérhetőségei valamelyikén.
-        </p>
-
-        <div className="relative inline-flex items-center justify-center mb-7">
-          <span
-            className="absolute inset-0 rounded-full"
-            style={{ border: `2px solid ${ORANGE}`, animation: "badge-ring 1.8s var(--ease-out,ease-out) infinite" }}
-          />
-          <div
-            className="relative inline-block font-black rounded-full"
-            style={{
-              background: ORANGE,
-              color: "#04140d",
-              padding: "0.85rem 1.75rem",
-              fontSize: "0.95rem",
-              letterSpacing: "0.01em",
-              boxShadow: "0 6px 22px rgba(253,185,39,0.35)",
-              animation: "badge-pulse 1.8s ease-in-out infinite",
-            }}
-          >
-            <span style={{ fontSize: "1.15rem", fontWeight: 900 }}>24h</span>-n belül visszahívjuk
-          </div>
-        </div>
-
-        <p className="text-sm mb-5" style={{ color: "hsl(158 14% 55%)" }}>
-          Ha sürgős, hívjon minket közvetlenül:
-        </p>
-        <a
-          href="tel:+36309111474"
-          className="btn-hover inline-flex items-center justify-center gap-2.5 font-bold no-underline rounded-full"
-          style={{
-            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(253,185,39,0.3)",
-            color: "hsl(40 20% 92%)", height: "3rem", padding: "0 1.75rem", fontSize: "0.95rem",
-          }}
-        >
-          <Phone size={15} style={{ color: ORANGE }} /> +36 30 911 1474
-        </a>
-      </div>
-    </div>
-  );
-}
+const DEFAULT_ERROR = "Az üzenet küldése sajnos nem sikerült. Kérjük, hívjon minket közvetlenül.";
 
 export function ContactForm() {
+  const navigate = useNavigate();
   const [sending, setSending] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -172,12 +60,12 @@ export function ContactForm() {
 
     // Honeypot: real visitors never see or fill this field
     if (fd.get("website")) {
-      setSubmitted(true);
+      navigate({ to: "/koszonjuk" });
       return;
     }
 
     setSending(true);
-    setFailed(false);
+    setError(null);
     try {
       const res = await submitContact({
         data: {
@@ -190,14 +78,13 @@ export function ContactForm() {
         },
       });
       if (res.ok) {
-        new Audio("/sounds/click.mp3").play().catch(() => {});
-        setSubmitted(true);
         formRef.current?.reset();
+        navigate({ to: "/koszonjuk" });
       } else {
-        setFailed(true);
+        setError(res.error ?? DEFAULT_ERROR);
       }
     } catch {
-      setFailed(true);
+      setError(DEFAULT_ERROR);
     } finally {
       setSending(false);
     }
@@ -208,8 +95,6 @@ export function ContactForm() {
       className="rounded-3xl p-6 sm:p-8"
       style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(253,185,39,0.16)" }}
     >
-      {submitted && <SuccessModal onClose={() => setSubmitted(false)} />}
-
       <h3 className="text-2xl font-black mb-2" style={{ color: "hsl(40 20% 96%)" }}>
         Kérjen ingyenes visszahívást
       </h3>
@@ -306,15 +191,12 @@ export function ContactForm() {
           </span>
         </label>
 
-        {failed && (
+        {error && (
           <div
             className="rounded-xl px-4 py-3.5 text-[0.95rem] leading-relaxed"
             style={{ background: "rgba(220,60,60,0.12)", border: "1px solid rgba(220,60,60,0.35)", color: "hsl(0 70% 82%)" }}
           >
-            Az üzenet küldése sajnos nem sikerült. Kérjük, hívjon minket közvetlenül:{" "}
-            <a href="tel:+36309111474" style={{ color: ORANGE, fontWeight: 700, whiteSpace: "nowrap" }}>
-              +36 30 911 1474
-            </a>
+            {error}
           </div>
         )}
 

@@ -1,8 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestIP } from "@tanstack/react-start/server";
 import { z } from "zod";
 
 import { sendLeadNotification, sendConfirmationEmail } from "../contact.server";
+import { isDisposableEmail, isPlausiblePhone } from "../contact-validation.server";
 import { appendLead } from "../leads.server";
+import { checkRateLimit } from "../rate-limit.server";
+
+const CONTACT_MAX_PER_HOUR = 5;
+const CONTACT_WINDOW_MS = 60 * 60 * 1000;
 
 const schema = z.object({
   name: z.string().min(1),
@@ -21,6 +27,27 @@ export const submitContact = createServerFn({ method: "POST" })
     // Pretend success so they don't learn to avoid the field.
     if (data.website) {
       return { ok: true };
+    }
+
+    if (!isPlausiblePhone(data.phone)) {
+      return { ok: false as const, error: "Kérjük, adjon meg egy érvényes telefonszámot." };
+    }
+    if (data.email && isDisposableEmail(data.email)) {
+      return {
+        ok: false as const,
+        error: "Kérjük, adjon meg egy valós e-mail címet, vagy hagyja üresen a mezőt.",
+      };
+    }
+
+    // Per-IP so a script hammering this endpoint can't flood the inbox or
+    // fill Redis with junk leads; a real visitor never needs more than a
+    // couple of submissions per hour.
+    const ip = getRequestIP({ xForwardedFor: true }) || "unknown";
+    if (!checkRateLimit(`contact:${ip}`, CONTACT_MAX_PER_HOUR, CONTACT_WINDOW_MS)) {
+      return {
+        ok: false as const,
+        error: "Túl sok próbálkozás történt. Kérjük, próbálja újra később, vagy hívjon minket közvetlenül.",
+      };
     }
 
     const payload = {
@@ -49,7 +76,10 @@ export const submitContact = createServerFn({ method: "POST" })
     }
     if (lead.status === "rejected") {
       console.error("[submitContact] lead notification failed:", lead.reason);
-      return { ok: false };
+      return {
+        ok: false as const,
+        error: "Az üzenet küldése sajnos nem sikerült. Kérjük, hívjon minket közvetlenül.",
+      };
     }
 
     return { ok: true };
