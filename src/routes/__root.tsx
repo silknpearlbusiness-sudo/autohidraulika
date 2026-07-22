@@ -12,7 +12,8 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { getConsent, setConsent } from "../lib/consent";
+import { getConsent, setConsent, onConsentChange } from "../lib/consent";
+import { isGoogleAdsConfigured, loadGoogleAdsTag } from "../lib/google-ads";
 
 function NotFoundComponent() {
   return (
@@ -179,7 +180,9 @@ function CookieBanner() {
               Süti beállítások 🍪
             </p>
             <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.55 }}>
-              Csak a beágyazott Google Térkép használ sütiket, és csak akkor, ha elfogadja.{" "}
+              {isGoogleAdsConfigured()
+                ? "A beágyazott Google Térkép és a hirdetéseink méréséhez használt Google Ads csak akkor használ sütiket, ha elfogadja."
+                : "Csak a beágyazott Google Térkép használ sütiket, és csak akkor, ha elfogadja."}{" "}
               <a href="/suti-szabalyzat" style={{ color: "hsl(43 98% 62%)", textDecoration: "underline" }}>
                 Süti szabályzat
               </a>
@@ -215,6 +218,20 @@ function CookieBanner() {
   );
 }
 
+// Inert until VITE_GOOGLE_ADS_CONVERSION_ID is set — loads the tag only
+// once consent has been given, same gate as the Google Maps embed.
+function GoogleAdsLoader() {
+  useEffect(() => {
+    if (!isGoogleAdsConfigured()) return;
+    if (getConsent() === "accepted") loadGoogleAdsTag();
+    return onConsentChange((value) => {
+      if (value === "accepted") loadGoogleAdsTag();
+    });
+  }, []);
+
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const isAdmin = useRouterState({ select: (s) => s.location.pathname.startsWith("/admin") });
@@ -223,6 +240,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       {!isAdmin && <CookieBanner />}
+      {!isAdmin && <GoogleAdsLoader />}
     </QueryClientProvider>
   );
 }
