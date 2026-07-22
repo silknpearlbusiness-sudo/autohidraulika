@@ -15,6 +15,7 @@ import { Route as ImpresszumRouteImport } from './routes/impresszum'
 import { Route as HidraulikaSzivattyuHidromotorMunkahengerRouteImport } from './routes/hidraulika-szivattyu-hidromotor-munkahenger'
 import { Route as HidraulikaHibaRouteImport } from './routes/hidraulika-hiba'
 import { Route as AszfRouteImport } from './routes/aszf'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AdatkezelesRouteImport } from './routes/adatkezeles'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -49,6 +50,11 @@ const AszfRoute = AszfRouteImport.update({
   path: '/aszf',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdatkezelesRoute = AdatkezelesRouteImport.update({
   id: '/adatkezeles',
   path: '/adatkezeles',
@@ -63,6 +69,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/adatkezeles': typeof AdatkezelesRoute
+  '/admin': typeof AdminRoute
   '/aszf': typeof AszfRoute
   '/hidraulika-hiba': typeof HidraulikaHibaRoute
   '/hidraulika-szivattyu-hidromotor-munkahenger': typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/adatkezeles': typeof AdatkezelesRoute
+  '/admin': typeof AdminRoute
   '/aszf': typeof AszfRoute
   '/hidraulika-hiba': typeof HidraulikaHibaRoute
   '/hidraulika-szivattyu-hidromotor-munkahenger': typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/adatkezeles': typeof AdatkezelesRoute
+  '/admin': typeof AdminRoute
   '/aszf': typeof AszfRoute
   '/hidraulika-hiba': typeof HidraulikaHibaRoute
   '/hidraulika-szivattyu-hidromotor-munkahenger': typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/adatkezeles'
+    | '/admin'
     | '/aszf'
     | '/hidraulika-hiba'
     | '/hidraulika-szivattyu-hidromotor-munkahenger'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/adatkezeles'
+    | '/admin'
     | '/aszf'
     | '/hidraulika-hiba'
     | '/hidraulika-szivattyu-hidromotor-munkahenger'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/adatkezeles'
+    | '/admin'
     | '/aszf'
     | '/hidraulika-hiba'
     | '/hidraulika-szivattyu-hidromotor-munkahenger'
@@ -127,6 +139,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdatkezelesRoute: typeof AdatkezelesRoute
+  AdminRoute: typeof AdminRoute
   AszfRoute: typeof AszfRoute
   HidraulikaHibaRoute: typeof HidraulikaHibaRoute
   HidraulikaSzivattyuHidromotorMunkahengerRoute: typeof HidraulikaSzivattyuHidromotorMunkahengerRoute
@@ -179,6 +192,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AszfRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/adatkezeles': {
       id: '/adatkezeles'
       path: '/adatkezeles'
@@ -199,6 +219,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdatkezelesRoute: AdatkezelesRoute,
+  AdminRoute: AdminRoute,
   AszfRoute: AszfRoute,
   HidraulikaHibaRoute: HidraulikaHibaRoute,
   HidraulikaSzivattyuHidromotorMunkahengerRoute:

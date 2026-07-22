@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { sendLeadNotification, sendConfirmationEmail } from "../contact.server";
+import { appendLead } from "../leads.server";
 
 const schema = z.object({
   name: z.string().min(1),
@@ -30,16 +31,21 @@ export const submitContact = createServerFn({ method: "POST" })
       description: data.description || undefined,
     };
 
-    // Fire both in parallel. The lead notification to the business inbox is
+    // Fire all in parallel. The lead notification to the business inbox is
     // what actually matters — if it fails, report failure so the visitor is
-    // told to call instead. The customer confirmation email is best-effort.
-    const [lead, email] = await Promise.allSettled([
+    // told to call instead. The confirmation email and admin-panel persistence
+    // are best-effort.
+    const [lead, email, stored] = await Promise.allSettled([
       sendLeadNotification(payload),
       sendConfirmationEmail(payload),
+      appendLead(payload),
     ]);
 
     if (email.status === "rejected") {
       console.error("[submitContact] confirmation email failed:", email.reason);
+    }
+    if (stored.status === "rejected") {
+      console.error("[submitContact] lead persistence failed:", stored.reason);
     }
     if (lead.status === "rejected") {
       console.error("[submitContact] lead notification failed:", lead.reason);
