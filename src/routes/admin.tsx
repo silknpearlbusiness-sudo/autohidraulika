@@ -18,6 +18,8 @@ import {
   Phone,
   RefreshCw,
   Trash2,
+  TrendingDown,
+  TrendingUp,
   Wrench,
 } from "lucide-react";
 import {
@@ -424,12 +426,45 @@ function Sidebar({
   );
 }
 
-function StatCard({ label, value, icon: Icon }: { label: string; value: string | number; icon: typeof Inbox }) {
+type StatTone = "neutral" | "info" | "warning" | "success";
+
+const STAT_TONE_CLASS: Record<StatTone, string> = {
+  neutral: "bg-muted text-foreground/70",
+  info: "bg-blue-500/15 text-blue-400",
+  warning: "bg-amber-500/15 text-amber-400",
+  success: "bg-emerald-500/15 text-emerald-400",
+};
+
+function StatCard({
+  label,
+  value,
+  icon: Icon,
+  tone = "neutral",
+  delta,
+}: {
+  label: string;
+  value: string | number;
+  icon: typeof Inbox;
+  tone?: StatTone;
+  delta?: { value: number; goodDirection: "up" | "down" };
+}) {
   return (
     <Card>
       <CardContent className="p-5">
-        <div className="w-9 h-9 rounded-lg flex items-center justify-center bg-muted text-foreground/70 mb-4">
-          <Icon size={16} />
+        <div className="flex items-start justify-between mb-4">
+          <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${STAT_TONE_CLASS[tone]}`}>
+            <Icon size={16} />
+          </div>
+          {delta && delta.value !== 0 && (
+            <span
+              className={`flex items-center gap-0.5 text-xs font-semibold ${
+                (delta.value > 0) === (delta.goodDirection === "up") ? "text-emerald-400" : "text-red-400"
+              }`}
+            >
+              {delta.value > 0 ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
+              {Math.abs(delta.value)}%
+            </span>
+          )}
         </div>
         <p className="text-2xl font-semibold tracking-tight">{value}</p>
         <p className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase mt-1">{label}</p>
@@ -479,14 +514,22 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
   today.setHours(0, 0, 0, 0);
   const sevenDaysAgo = new Date(today);
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+  const fourteenDaysAgo = new Date(today);
+  fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 13);
 
   const openCount = leads.filter((l) => (l.status ?? "new") !== "done").length;
   const doneCount = leads.filter((l) => l.status === "done").length;
+  const thisWeekCount = leads.filter((l) => new Date(l.createdAt) >= sevenDaysAgo).length;
+  const prevWeekCount = leads.filter((l) => {
+    const d = new Date(l.createdAt);
+    return d >= fourteenDaysAgo && d < sevenDaysAgo;
+  }).length;
 
   const stats = {
     total: leads.length,
     today: leads.filter((l) => new Date(l.createdAt) >= today).length,
-    week: leads.filter((l) => new Date(l.createdAt) >= sevenDaysAgo).length,
+    week: thisWeekCount,
+    weekDelta: prevWeekCount > 0 ? Math.round(((thisWeekCount - prevWeekCount) / prevWeekCount) * 100) : 0,
     withEmail: leads.filter((l) => l.email).length,
     open: openCount,
     doneRate: leads.length > 0 ? Math.round((doneCount / leads.length) * 100) : 0,
@@ -500,12 +543,17 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-        <StatCard label="Összes megkeresés" value={stats.total} icon={Inbox} />
+        <StatCard label="Összes megkeresés" value={stats.total} icon={Inbox} tone="info" />
         <StatCard label="Mai megkeresések" value={stats.today} icon={LayoutDashboard} />
-        <StatCard label="Elmúlt 7 napban" value={stats.week} icon={RefreshCw} />
+        <StatCard
+          label="Elmúlt 7 napban"
+          value={stats.week}
+          icon={RefreshCw}
+          delta={{ value: stats.weekDelta, goodDirection: "up" }}
+        />
         <StatCard label="E-mail címmel" value={stats.withEmail} icon={Phone} />
-        <StatCard label="Nyitott ügyek" value={stats.open} icon={AlertCircle} />
-        <StatCard label="Lezárási arány" value={`${stats.doneRate}%`} icon={CheckCircle2} />
+        <StatCard label="Nyitott ügyek" value={stats.open} icon={AlertCircle} tone="warning" />
+        <StatCard label="Lezárási arány" value={`${stats.doneRate}%`} icon={CheckCircle2} tone="success" />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-4">
