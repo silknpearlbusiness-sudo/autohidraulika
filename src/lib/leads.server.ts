@@ -18,6 +18,11 @@ export interface Lead {
 
 const LEADS_KEY = "leads";
 
+// Matches the retention period promised in the adatkezelési tájékoztató
+// ("Visszahívás kérése a weboldalon" section): leads are kept for 1 year
+// from submission, then deleted.
+const RETENTION_MS = 365 * 24 * 60 * 60 * 1000;
+
 // Dev-only fallback so `/admin` has something to show when KV isn't configured
 // locally. Never used in production — there KV_REST_API_URL is always set.
 let devLeads: Lead[] = [];
@@ -48,7 +53,17 @@ export async function appendLead(payload: Omit<Lead, "id" | "createdAt">): Promi
 }
 
 export async function listLeads(): Promise<Lead[]> {
-  return readLeads();
+  const leads = await readLeads();
+  const cutoff = Date.now() - RETENTION_MS;
+  const fresh = leads.filter((l) => new Date(l.createdAt).getTime() >= cutoff);
+
+  if (fresh.length !== leads.length) {
+    const redis = getRedis();
+    if (redis) await redis.set(LEADS_KEY, fresh);
+    else devLeads = fresh;
+  }
+
+  return fresh;
 }
 
 export async function deleteLead(id: string): Promise<void> {
