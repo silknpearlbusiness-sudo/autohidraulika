@@ -6,6 +6,7 @@ import { sendLeadNotification, sendConfirmationEmail } from "../contact.server";
 import { isDisposableEmail, isPlausiblePhone } from "../contact-validation.server";
 import { appendLead } from "../leads.server";
 import { checkRateLimit } from "../rate-limit.server";
+import { isTurnstileConfigured, verifyTurnstileToken } from "../turnstile.server";
 
 const CONTACT_MAX_PER_HOUR = 5;
 const CONTACT_WINDOW_MS = 60 * 60 * 1000;
@@ -17,6 +18,7 @@ const schema = z.object({
   partType: z.string().optional(),
   description: z.string().optional(),
   website: z.string().optional(), // honeypot — must stay empty
+  turnstileToken: z.string().optional().default(""),
 });
 
 export const submitContact = createServerFn({ method: "POST" })
@@ -47,6 +49,15 @@ export const submitContact = createServerFn({ method: "POST" })
       return {
         ok: false as const,
         error: "Túl sok próbálkozás történt. Kérjük, próbálja újra később, vagy hívjon minket közvetlenül.",
+      };
+    }
+
+    // Real bot-blocking layer — the honeypot only catches unsophisticated
+    // scripts. No-ops if TURNSTILE_SECRET_KEY isn't configured yet.
+    if (isTurnstileConfigured() && !(await verifyTurnstileToken(data.turnstileToken, ip))) {
+      return {
+        ok: false as const,
+        error: "A robot-ellenőrzés sikertelen volt. Kérjük, próbálja újra.",
       };
     }
 

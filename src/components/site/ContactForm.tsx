@@ -1,7 +1,8 @@
-import { useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { ChevronDown, Loader2, Phone, Send } from "lucide-react";
 import { submitContact } from "@/lib/api/contact.functions";
+import { TURNSTILE_SITE_KEY, isTurnstileEnabled, loadTurnstileScript } from "@/lib/turnstile";
 
 const ORANGE = "#FDB927";
 
@@ -54,6 +55,10 @@ export function ContactForm() {
   const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
+  useEffect(() => {
+    loadTurnstileScript();
+  }, []);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
@@ -75,6 +80,7 @@ export function ContactForm() {
           partType: String(fd.get("partType") ?? ""),
           description: String(fd.get("message") ?? "").trim(),
           website: String(fd.get("website") ?? ""),
+          turnstileToken: String(fd.get("cf-turnstile-response") ?? ""),
         },
       });
       if (res.ok) {
@@ -190,6 +196,10 @@ export function ContactForm() {
             szerint.
           </span>
         </label>
+
+        {isTurnstileEnabled() && (
+          <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="dark" />
+        )}
 
         {error && (
           <div
