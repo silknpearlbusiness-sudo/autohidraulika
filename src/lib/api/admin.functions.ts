@@ -3,7 +3,7 @@ import { getRequestIP } from "@tanstack/react-start/server";
 import { z } from "zod";
 
 import { checkLogin, requireAdmin } from "../admin-auth.server";
-import { deleteLead, listLeads } from "../leads.server";
+import { deleteLead, listLeads, updateLead } from "../leads.server";
 
 export const adminLogin = createServerFn({ method: "POST" })
   .inputValidator(z.object({ password: z.string() }))
@@ -29,5 +29,20 @@ export const deleteLeadFn = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     if (!requireAdmin(data.token)) throw new Error("Unauthorized");
     await deleteLead(data.id);
+    return { ok: true };
+  });
+
+export const updateLeadFn = createServerFn({ method: "POST" })
+  .inputValidator(
+    z.object({
+      token: z.string(),
+      id: z.string(),
+      notes: z.string().optional(),
+      status: z.enum(["new", "in_progress", "done"]).optional(),
+    }),
+  )
+  .handler(async ({ data }) => {
+    if (!requireAdmin(data.token)) throw new Error("Unauthorized");
+    await updateLead(data.id, { notes: data.notes, status: data.status });
     return { ok: true };
   });

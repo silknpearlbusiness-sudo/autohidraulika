@@ -2,6 +2,8 @@ import process from "node:process";
 import { randomUUID } from "node:crypto";
 import { Redis } from "@upstash/redis";
 
+export type LeadStatus = "new" | "in_progress" | "done";
+
 export interface Lead {
   id: string;
   name: string;
@@ -10,6 +12,8 @@ export interface Lead {
   partType?: string;
   description?: string;
   createdAt: string;
+  status?: LeadStatus;
+  notes?: string;
 }
 
 const LEADS_KEY = "leads";
@@ -55,6 +59,20 @@ export async function deleteLead(id: string): Promise<void> {
   }
   const leads = await readLeads();
   await redis.set(LEADS_KEY, leads.filter((l) => l.id !== id));
+}
+
+export async function updateLead(
+  id: string,
+  patch: { notes?: string; status?: LeadStatus },
+): Promise<void> {
+  const redis = getRedis();
+  if (!redis) {
+    devLeads = devLeads.map((l) => (l.id === id ? { ...l, ...patch } : l));
+    return;
+  }
+  const leads = await readLeads();
+  const updated = leads.map((l) => (l.id === id ? { ...l, ...patch } : l));
+  await redis.set(LEADS_KEY, updated);
 }
 
 async function readLeads(): Promise<Lead[]> {
