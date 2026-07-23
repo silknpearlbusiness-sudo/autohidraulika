@@ -530,7 +530,6 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
     today: leads.filter((l) => new Date(l.createdAt) >= today).length,
     week: thisWeekCount,
     weekDelta: prevWeekCount > 0 ? Math.round(((thisWeekCount - prevWeekCount) / prevWeekCount) * 100) : 0,
-    withEmail: leads.filter((l) => l.email).length,
     open: openCount,
     doneRate: leads.length > 0 ? Math.round((doneCount / leads.length) * 100) : 0,
   };
@@ -542,7 +541,7 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard label="Összes megkeresés" value={stats.total} icon={Inbox} tone="info" />
         <StatCard label="Mai megkeresések" value={stats.today} icon={LayoutDashboard} />
         <StatCard
@@ -551,7 +550,6 @@ function DashboardView({ leads, onViewAll }: { leads: Lead[]; onViewAll: () => v
           icon={RefreshCw}
           delta={{ value: stats.weekDelta, goodDirection: "up" }}
         />
-        <StatCard label="E-mail címmel" value={stats.withEmail} icon={Phone} />
         <StatCard label="Nyitott ügyek" value={stats.open} icon={AlertCircle} tone="warning" />
         <StatCard label="Lezárási arány" value={`${stats.doneRate}%`} icon={CheckCircle2} tone="success" />
       </div>
