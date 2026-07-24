@@ -64,7 +64,10 @@ function KoszonjukPage() {
           <CheckCircle size={32} style={{ color: ORANGE }} />
         </div>
 
-        <h1 className="text-2xl font-black mb-2.5" style={{ color: "hsl(40 20% 96%)" }}>
+        {/* id matches the GTM "koszonjuk_megkereseset_popup" Element Visibility
+            trigger's configured Element ID — don't rename without updating that
+            trigger too, or its Google Ads/GA4 conversion tags stop firing. */}
+        <h1 id="Köszönjük megkeresését!" className="text-2xl font-black mb-2.5" style={{ color: "hsl(40 20% 96%)" }}>
           Köszönjük megkeresését!
         </h1>
         <p className="text-[0.95rem] leading-relaxed mb-7" style={{ color: "hsl(158 14% 60%)" }}>
