@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle, Phone } from "lucide-react";
-import { fireGoogleAdsConversion } from "@/lib/google-ads";
 
 const BG = "hsl(158 62% 7%)";
 const ORANGE = "#FDB927";
@@ -19,7 +18,6 @@ export const Route = createFileRoute("/koszonjuk")({
 function KoszonjukPage() {
   useEffect(() => {
     new Audio("/sounds/click.mp3").play().catch(() => {});
-    fireGoogleAdsConversion();
   }, []);
 
   return (

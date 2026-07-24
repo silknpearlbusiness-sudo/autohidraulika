@@ -12,8 +12,38 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { getConsent, setConsent, onConsentChange } from "../lib/consent";
-import { isGoogleAdsConfigured, loadGoogleAdsTag } from "../lib/google-ads";
+import { getConsent, setConsent } from "../lib/consent";
+import { GTM_CONTAINER_ID, CONSENT_STORAGE_KEY, updateConsent } from "../lib/gtm";
+
+// Runs before gtm.js loads (see the `scripts` head entries below) so Consent
+// Mode's default state is in place the instant GTM initializes. Reads
+// localStorage directly (can't import consent.ts — this executes before any
+// app module does) so a returning visitor who already accepted doesn't get
+// briefly defaulted to denied.
+const CONSENT_DEFAULT_SCRIPT = `(function(){
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+  var consent;
+  try { consent = localStorage.getItem('${CONSENT_STORAGE_KEY}'); } catch (e) { consent = null; }
+  var state = consent === 'accepted' ? 'granted' : 'denied';
+  gtag('consent', 'default', {
+    ad_storage: state,
+    analytics_storage: state,
+    ad_user_data: state,
+    ad_personalization: state,
+    wait_for_update: 500
+  });
+})();`;
+
+// Standard GTM install snippet — loads unconditionally on every page, same
+// as Google's own instructions. Consent Mode (above) is what actually keeps
+// this GDPR-compliant, not gating the script itself.
+const GTM_SNIPPET = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');`;
 
 function NotFoundComponent() {
   return (
@@ -106,6 +136,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", sizes: "48x48", href: "/favicon-48.png" },
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
     ],
+    // Order matters: Consent Mode's default must run before gtm.js so GTM
+    // picks it up on initialization.
+    scripts: [
+      { children: CONSENT_DEFAULT_SCRIPT },
+      { children: GTM_SNIPPET },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -120,6 +156,15 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="gtm"
+          />
+        </noscript>
         {children}
         <Scripts />
       </body>
@@ -144,6 +189,7 @@ function CookieBanner() {
     setHiding(true);
     setTimeout(() => {
       setConsent(value);
+      updateConsent(value === "accepted" ? "granted" : "denied");
       setVisible(false);
       setHiding(false);
     }, 380);
@@ -180,9 +226,7 @@ function CookieBanner() {
               Süti beállítások 🍪
             </p>
             <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.55 }}>
-              {isGoogleAdsConfigured()
-                ? "A beágyazott Google Térkép és a hirdetéseink méréséhez használt Google Ads csak akkor használ sütiket, ha elfogadja."
-                : "Csak a beágyazott Google Térkép használ sütiket, és csak akkor, ha elfogadja."}{" "}
+              A beágyazott Google Térkép és a Google Tag Manager (Google Analytics, Google Ads) csak akkor tölt be sütiket, ha elfogadja.{" "}
               <a href="/suti-szabalyzat" style={{ color: "hsl(43 98% 62%)", textDecoration: "underline" }}>
                 Süti szabályzat
               </a>
@@ -218,20 +262,6 @@ function CookieBanner() {
   );
 }
 
-// Inert until VITE_GOOGLE_ADS_CONVERSION_ID is set — loads the tag only
-// once consent has been given, same gate as the Google Maps embed.
-function GoogleAdsLoader() {
-  useEffect(() => {
-    if (!isGoogleAdsConfigured()) return;
-    if (getConsent() === "accepted") loadGoogleAdsTag();
-    return onConsentChange((value) => {
-      if (value === "accepted") loadGoogleAdsTag();
-    });
-  }, []);
-
-  return null;
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const isAdmin = useRouterState({ select: (s) => s.location.pathname.startsWith("/admin") });
@@ -240,7 +270,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       {!isAdmin && <CookieBanner />}
-      {!isAdmin && <GoogleAdsLoader />}
     </QueryClientProvider>
   );
 }
