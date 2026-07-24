@@ -20,7 +20,8 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/site/Reveal";
 import { ContactForm } from "@/components/site/ContactForm";
-import { getConsent, setConsent, resetConsent, onConsentChange, type ConsentValue } from "@/lib/consent";
+import { getConsent, setConsent, resetConsent, onConsentChange, type ConsentChoice } from "@/lib/consent";
+import { updateConsent } from "@/lib/gtm";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
@@ -203,7 +204,7 @@ function Home() {
   const [activeService, setActiveService] = useState(0);
   // Starts null (treated as "not consented") so the server-rendered markup never ships
   // the Google Maps iframe before the visitor has actually accepted cookies.
-  const [consent, setConsentState] = useState<ConsentValue>(null);
+  const [consent, setConsentState] = useState<ConsentChoice | null>(null);
   useEffect(() => {
     setConsentState(getConsent());
     return onConsentChange(setConsentState);
@@ -650,7 +651,7 @@ function Home() {
               <div>
                 {/* Workshop location map */}
                 <div className="rounded-2xl overflow-hidden mb-5" style={{ border: "1px solid rgba(255,255,255,0.08)", boxShadow: "0 20px 48px rgba(0,0,0,0.4)" }}>
-                  {consent === "accepted" ? (
+                  {consent?.functional ? (
                     <iframe
                       title="Hidraulika Service TEAM Kft. — 1095 Budapest, Soroksári út 48"
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d331.7077152391974!2d19.07320720044053!3d47.47230352293517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741dda277dad9ff%3A0x9d1de55d7f09d840!2sHidraulika%20Service%20Team%20Kft!5e1!3m2!1sen!2shu!4v1783344342140!5m2!1sen!2shu"
@@ -661,7 +662,11 @@ function Home() {
                       style={{ height: 300, background: "hsl(158 55% 8%)" }}>
                       <MapPin size={22} style={{ color: ORANGE }} />
                       <p className="text-sm font-semibold" style={{ color: "hsl(40 15% 88%)" }}>1095 Budapest, Soroksári út 48.</p>
-                      <button onClick={() => setConsent("accepted")}
+                      <button onClick={() => {
+                        const next: ConsentChoice = { ...(getConsent() ?? { functional: false, analytics: false, marketing: false }), functional: true };
+                        setConsent(next);
+                        updateConsent(next);
+                      }}
                         className="btn-hover text-xs font-bold uppercase tracking-wide px-4 py-2.5 rounded-full cursor-pointer"
                         style={{ background: ORANGE, color: "#04140d", border: "none" }}>
                         Térkép betöltése (sütik elfogadása)

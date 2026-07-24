@@ -12,26 +12,35 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { getConsent, setConsent } from "../lib/consent";
+import { getConsent, setConsent, type ConsentChoice } from "../lib/consent";
 import { GTM_CONTAINER_ID, CONSENT_STORAGE_KEY, updateConsent } from "../lib/gtm";
 
 // Runs before gtm.js loads (see the `scripts` head entries below) so Consent
 // Mode's default state is in place the instant GTM initializes. Reads
 // localStorage directly (can't import consent.ts — this executes before any
-// app module does) so a returning visitor who already accepted doesn't get
-// briefly defaulted to denied.
+// app module does) so a returning visitor who already made per-category
+// choices doesn't get briefly defaulted to denied.
 const CONSENT_DEFAULT_SCRIPT = `(function(){
   window.dataLayer = window.dataLayer || [];
   function gtag(){ window.dataLayer.push(arguments); }
   window.gtag = gtag;
-  var consent;
-  try { consent = localStorage.getItem('${CONSENT_STORAGE_KEY}'); } catch (e) { consent = null; }
-  var state = consent === 'accepted' ? 'granted' : 'denied';
+  var analyticsState = 'denied';
+  var marketingState = 'denied';
+  try {
+    var raw = localStorage.getItem('${CONSENT_STORAGE_KEY}');
+    if (raw) {
+      var parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        analyticsState = parsed.analytics ? 'granted' : 'denied';
+        marketingState = parsed.marketing ? 'granted' : 'denied';
+      }
+    }
+  } catch (e) {}
   gtag('consent', 'default', {
-    ad_storage: state,
-    analytics_storage: state,
-    ad_user_data: state,
-    ad_personalization: state,
+    ad_storage: marketingState,
+    analytics_storage: analyticsState,
+    ad_user_data: marketingState,
+    ad_personalization: marketingState,
     wait_for_update: 500
   });
 })();`;
@@ -172,24 +181,51 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+const COOKIE_ORANGE = "#FDB927";
+
+function ConsentToggle({
+  label, hint, checked, onChange, disabled,
+}: { label: string; hint: string; checked: boolean; onChange?: (v: boolean) => void; disabled?: boolean }) {
+  return (
+    <label style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem",
+      padding: "0.55rem 0", cursor: disabled ? "default" : "pointer",
+    }}>
+      <span>
+        <span style={{ display: "block", fontSize: "0.8rem", fontWeight: 700, color: "hsl(40 20% 92%)" }}>{label}</span>
+        <span style={{ display: "block", fontSize: "0.72rem", color: "hsl(158 16% 50%)", marginTop: "0.1rem" }}>{hint}</span>
+      </span>
+      <input
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        onChange={(e) => onChange?.(e.target.checked)}
+        style={{ width: 20, height: 20, flexShrink: 0, accentColor: COOKIE_ORANGE, cursor: disabled ? "default" : "pointer", opacity: disabled ? 0.55 : 1 }}
+      />
+    </label>
+  );
+}
+
 function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [hiding, setHiding] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [functional, setFunctional] = useState(false);
+  const [analytics, setAnalytics] = useState(false);
+  const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
-    // No third-party script ever loads from the banner. Consent only gates the
-    // Google Maps embed, which mounts where it's used once consent is "accepted".
     if (!getConsent()) {
       const t = setTimeout(() => setVisible(true), 800);
       return () => clearTimeout(t);
     }
   }, []);
 
-  const dismiss = (value: "accepted" | "declined") => {
+  const save = (choice: ConsentChoice) => {
     setHiding(true);
     setTimeout(() => {
-      setConsent(value);
-      updateConsent(value === "accepted" ? "granted" : "denied");
+      setConsent(choice);
+      updateConsent(choice);
       setVisible(false);
       setHiding(false);
     }, 380);
@@ -210,30 +246,37 @@ function CookieBanner() {
         display: "flex", justifyContent: "center",
         animation: `${hiding ? "cookie-out" : "cookie-in"} 0.38s cubic-bezier(0.22,1,0.36,1) forwards`,
       }}>
-        <div className="flex flex-col sm:flex-row sm:items-center" style={{
+        <div style={{
           background: "hsl(158 65% 5%)",
           border: "1px solid rgba(253,185,39,0.25)",
           borderRadius: "1.1rem",
           boxShadow: "0 -4px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
           padding: "1.1rem 1.25rem",
-          maxWidth: 560,
+          maxWidth: 460,
           width: "100%",
-          gap: "1rem",
           backdropFilter: "blur(12px)",
         }}>
-          <div>
-            <p style={{ margin: "0 0 0.3rem", fontSize: "0.875rem", fontWeight: 700, color: "hsl(40 20% 95%)" }}>
-              Süti beállítások 🍪
-            </p>
-            <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.55 }}>
-              A beágyazott Google Térkép és a Google Tag Manager (Google Analytics, Google Ads) csak akkor tölt be sütiket, ha elfogadja.{" "}
-              <a href="/suti-szabalyzat" style={{ color: "hsl(43 98% 62%)", textDecoration: "underline" }}>
-                Süti szabályzat
-              </a>
-            </p>
-          </div>
-          <div className="flex sm:shrink-0" style={{ gap: "0.625rem" }}>
-            <button onClick={() => dismiss("declined")} className="flex-1 sm:flex-none" style={{
+          <p style={{ margin: "0 0 0.3rem", fontSize: "0.875rem", fontWeight: 700, color: "hsl(40 20% 95%)" }}>
+            Süti beállítások 🍪
+          </p>
+          <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(158 16% 55%)", lineHeight: 1.55 }}>
+            A Google Térkép, a Google Analytics és a Google Ads csak az Ön hozzájárulásával helyeznek el sütiket, kategóriánként választhat.{" "}
+            <a href="/suti-szabalyzat" style={{ color: "hsl(43 98% 62%)", textDecoration: "underline" }}>
+              Süti szabályzat
+            </a>
+          </p>
+
+          {expanded && (
+            <div style={{ marginTop: "0.75rem", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+              <ConsentToggle label="Szükséges" hint="Munkamenet és a süti-hozzájárulási döntés tárolása. Mindig aktív." checked disabled />
+              <ConsentToggle label="Funkcionális" hint="Beágyazott Google Térkép." checked={functional} onChange={setFunctional} />
+              <ConsentToggle label="Analitikai" hint="Google Analytics — látogatottságmérés." checked={analytics} onChange={setAnalytics} />
+              <ConsentToggle label="Marketing" hint="Google Ads — hirdetéseink hatékonyságának mérése." checked={marketing} onChange={setMarketing} />
+            </div>
+          )}
+
+          <div className="flex flex-wrap" style={{ gap: "0.625rem", marginTop: "1rem" }}>
+            <button onClick={() => save({ functional: false, analytics: false, marketing: false })} className="flex-1" style={{
               height: "2.6rem", padding: "0 1.1rem", borderRadius: "2rem",
               border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)",
               color: "hsl(158 16% 55%)", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer",
@@ -244,7 +287,32 @@ function CookieBanner() {
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "hsl(158 16% 55%)"; }}>
               Csak szükséges
             </button>
-            <button onClick={() => dismiss("accepted")} className="flex-1 sm:flex-none" style={{
+            {!expanded ? (
+              <button onClick={() => setExpanded(true)} className="flex-1" style={{
+                height: "2.6rem", padding: "0 1.1rem", borderRadius: "2rem",
+                border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)",
+                color: "hsl(158 16% 55%)", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer",
+                whiteSpace: "nowrap",
+                transition: "border-color 0.2s, color 0.2s",
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)"; e.currentTarget.style.color = "hsl(40 20% 90%)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "hsl(158 16% 55%)"; }}>
+                Testreszabás
+              </button>
+            ) : (
+              <button onClick={() => save({ functional, analytics, marketing })} className="flex-1" style={{
+                height: "2.6rem", padding: "0 1.1rem", borderRadius: "2rem",
+                border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)",
+                color: "hsl(158 16% 55%)", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer",
+                whiteSpace: "nowrap",
+                transition: "border-color 0.2s, color 0.2s",
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)"; e.currentTarget.style.color = "hsl(40 20% 90%)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "hsl(158 16% 55%)"; }}>
+                Kiválasztás mentése
+              </button>
+            )}
+            <button onClick={() => save({ functional: true, analytics: true, marketing: true })} className="flex-1" style={{
               height: "2.6rem", padding: "0 1.25rem", borderRadius: "2rem",
               border: "none", background: "hsl(43 98% 54%)",
               color: "#04140d", fontSize: "0.8rem", fontWeight: 700, cursor: "pointer",
@@ -253,7 +321,7 @@ function CookieBanner() {
             }}
               onMouseEnter={(e) => { e.currentTarget.style.filter = "brightness(1.12)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.filter = "brightness(1)"; }}>
-              Elfogadom
+              Összes elfogadása
             </button>
           </div>
         </div>

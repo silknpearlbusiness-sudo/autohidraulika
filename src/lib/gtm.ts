@@ -24,17 +24,18 @@ declare global {
   }
 }
 
-export type ConsentState = "granted" | "denied";
-
-// Called when the visitor accepts/declines the cookie banner. Updates
-// Consent Mode so GTM's tags start (or stop) actually writing cookies —
-// no-ops if gtag hasn't been defined yet for some reason.
-export function updateConsent(state: ConsentState) {
+// Called when the visitor saves their cookie category choices. Maps the
+// banner's Analitikai/Marketing categories onto Consent Mode's signals so
+// GTM's GA4/Ads tags start (or stop) actually writing cookies — no-ops if
+// gtag hasn't been defined yet for some reason.
+export function updateConsent(choice: { analytics: boolean; marketing: boolean }) {
   if (typeof window === "undefined" || !window.gtag) return;
+  const analyticsState = choice.analytics ? "granted" : "denied";
+  const marketingState = choice.marketing ? "granted" : "denied";
   window.gtag("consent", "update", {
-    ad_storage: state,
-    analytics_storage: state,
-    ad_user_data: state,
-    ad_personalization: state,
+    analytics_storage: analyticsState,
+    ad_storage: marketingState,
+    ad_user_data: marketingState,
+    ad_personalization: marketingState,
   });
 }
